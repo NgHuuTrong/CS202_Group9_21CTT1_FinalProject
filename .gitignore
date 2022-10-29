@@ -1,0 +1,8 @@
+Game.sln
+Game.vcxproj
+Game.vcxproj.filters
+Game.vcxproj.user
+.vs
+vcpkg
+vcpkg_installed
+x64

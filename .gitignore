@@ -7,3 +7,9 @@ vcpkg.json
 vcpkg
 vcpkg_installed
 x64
+.gitignore
+.vscode
+Makefile
+/include
+/lib
+*.exe

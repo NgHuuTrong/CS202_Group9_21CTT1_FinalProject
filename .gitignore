@@ -3,6 +3,7 @@ Game.vcxproj
 Game.vcxproj.filters
 Game.vcxproj.user
 .vs
+vcpkg.json
 vcpkg
 vcpkg_installed
 x64

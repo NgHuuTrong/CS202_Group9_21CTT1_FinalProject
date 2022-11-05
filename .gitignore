@@ -13,3 +13,5 @@ Makefile
 /include
 /lib
 *.exe
+*.txt
+raylib.h

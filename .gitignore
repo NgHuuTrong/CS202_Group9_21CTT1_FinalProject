@@ -14,4 +14,3 @@ Makefile
 /lib
 *.exe
 *.txt
-raylib.h

@@ -1,13 +1,14 @@
 #pragma once
-#include "home.h"
+#include "Home.h"
 
 class Game
 {
 private:
-	Font font;
-	Home home;
+	Texture2D roadSide, road;
+	bool backButton;
 public:
 	Game();
+	Screen update();
+	void draw();
 	~Game();
-	void run();
 };

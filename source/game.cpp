@@ -1,25 +1,29 @@
-#define _CRT_SECURE_NO_WARNINGS
-#define RAYGUI_IMPLEMENTATION
-#include "../header/game.h"
+#include "../header/Game.h"
+#include "../header/raygui.h"
 
 
 Game::Game()
 {
-	GuiLoadStyle("data/style.rgs");
-	font = LoadFont("data/font.ttf");
-	GuiSetStyle(BUTTON, BORDER_WIDTH, 5);
-	GuiSetFont(font);
+	roadSide = LoadTexture("data/roadSide.png");
+	road = LoadTexture("data/road.png");
+	backButton = false;
+}
+
+Screen Game::update()
+{
+	
+}
+
+void Game::draw()
+{
+	DrawTexture(roadSide, 50, 100, WHITE);
+	DrawTexture(road, 50, 300, WHITE);
+	if (GuiLabelButton({ 1150, 100, 100, 50 }, "BACK"))
+		backButton = true;
 }
 
 Game::~Game()
 {
-	UnloadFont(font);
-}
-
-void Game::run()
-{
-	BeginDrawing();
-	ClearBackground(RAYWHITE);
-	home.draw();
-	EndDrawing();
+	UnloadTexture(roadSide);
+	UnloadTexture(road);
 }

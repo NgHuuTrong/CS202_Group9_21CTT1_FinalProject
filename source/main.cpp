@@ -1,13 +1,13 @@
-#include "../header/game.h"
+#include "../header/Program.h"
 
 int main()
 {
 	InitWindow(1280, 720, "Game");
 	SetTargetFPS(60);
-	Game game;
+	Program program;
 	while (!WindowShouldClose())
 	{
-		game.run();
+		program.run();
 	}
 	CloseWindow();
 	return 0;

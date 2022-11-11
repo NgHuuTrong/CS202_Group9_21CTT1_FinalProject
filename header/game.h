@@ -4,7 +4,7 @@
 class Game
 {
 private:
-	Texture2D roadSide, road;
+	Texture2D pavement, road;
 	bool backButton;
 public:
 	Game();

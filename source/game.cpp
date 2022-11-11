@@ -4,7 +4,7 @@
 
 Game::Game()
 {
-	roadSide = LoadTexture("data/roadSide.png");
+	pavement = LoadTexture("data/pavement.png");
 	road = LoadTexture("data/road.png");
 	backButton = false;
 }
@@ -21,7 +21,7 @@ Screen Game::update()
 
 void Game::draw()
 {
-	DrawTexture(roadSide, 50, 100, WHITE);
+	DrawTexture(pavement, 50, 100, WHITE);
 	DrawTexture(road, 50, 300, WHITE);
 	if (GuiLabelButton({ 1150, 100, 100, 50 }, "BACK"))
 		backButton = true;
@@ -29,6 +29,6 @@ void Game::draw()
 
 Game::~Game()
 {
-	UnloadTexture(roadSide);
+	UnloadTexture(pavement);
 	UnloadTexture(road);
 }

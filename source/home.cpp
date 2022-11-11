@@ -9,7 +9,13 @@ Home::Home()
 
 Screen Home::update()
 {
-	
+	if (mode)
+	{
+		int tmp = mode;
+		mode = 0;
+		return static_cast<Screen> (tmp);
+	}
+	else return HOME;
 }
 
 void Home::draw()

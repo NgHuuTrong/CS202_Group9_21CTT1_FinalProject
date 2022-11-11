@@ -11,7 +11,12 @@ Game::Game()
 
 Screen Game::update()
 {
-	
+	if (backButton)
+	{
+		backButton = false;
+		return HOME;
+	}
+	else return GAME;
 }
 
 void Game::draw()

@@ -22,7 +22,7 @@ Player::~Player()
 {
 }
 // calculate highscore
-float calHighScore()
+float Player::calHighScore()
 {
     return 0.0f;
 }

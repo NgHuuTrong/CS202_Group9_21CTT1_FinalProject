@@ -87,12 +87,12 @@ void Player::storeState()
     if (name == "")
     {
         std::cerr << "Invalid name" << std::endl;
-        throw std::exception("Invalid name");
+        throw std::runtime_error("Invalid name");
     }
     else if (level == 0)
     {
         std::cerr << "Checkpoint not reached" << std::endl;
-        throw std::exception("Checkpoint not reached");
+        throw std::runtime_error("Checkpoint not reached");
     }
     std::ofstream fout;
     fout.open("../resource/state/" + name + ".txt");
@@ -109,7 +109,7 @@ void Player::loadState()
     {
         fin.open("../resource/state/" + name + ".txt");
         if (fin.fail())
-            throw std::exception("Error file name");   
+            throw std::runtime_error("Error file name");   
     }
     catch (const std::exception& e)
     {

@@ -7,7 +7,7 @@
 #include <random>
 #include <assert.h>
 #include <iostream>
-// #include "Obstacles.h"
+// #include "../header/Obstacle.h"
 enum LaneType{PAVEMENT, ROAD}; // PAVEMENT: no obstacles, ROAD: has obstacles
 enum TypeOfObstacles{NONE, CAR, TRUCK};
 

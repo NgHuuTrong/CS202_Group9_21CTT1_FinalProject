@@ -1,9 +1,11 @@
+#pragma once
 #include "GameObject.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <exception>
 
 class Player: public GameObject
 {

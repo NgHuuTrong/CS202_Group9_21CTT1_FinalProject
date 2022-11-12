@@ -15,8 +15,11 @@ mt19937 rd(chrono::steady_clock::now().time_since_epoch().count());
 typedef long long LL;
 long long Rand(long long l, long long h) {
     assert(l <= h);
-    return abs(l + rd() * 1LL * rd() % (h - l + 1));
+    // return abs(l + rd() * 1LL * rd() % (h - l + 1));
+    return (rd() % (h - l + 1)) + l;
 }
+
+
 
 Lane::Lane(int level, int laneType)
 {   

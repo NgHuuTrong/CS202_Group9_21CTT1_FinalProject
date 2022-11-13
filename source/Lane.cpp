@@ -42,18 +42,10 @@ Lane::Lane(int level, int laneType)
         if (level >= 1 && level <= 3)
         {
             _numsOfObstacles = Rand(1, 4);
-            while (_numsOfObstacles == 0)
-            {
-                _numsOfObstacles = Rand(1, 4);
-            }
         }
         else if (level <= 6)
         {
             _numsOfObstacles = Rand(2, 5);
-            while (_numsOfObstacles == 0)
-            {
-                _numsOfObstacles = Rand(2, 5);
-            }
         }
         else if (level <= 9)
         {
@@ -90,7 +82,7 @@ Lane::Lane(int level, int laneType)
 
 std::vector<Lane> random(int level)
 {
-    assert(level > 0 && level <= 20);
+    //assert(level > 0 && level <= 20);
     int numsOfLanes;
     vector<Lane> lanes;
     if (level >= 1 && level <= 3) {
@@ -108,13 +100,14 @@ std::vector<Lane> random(int level)
         lanes.push_back(Lane(level, 0));
         while ((int)lanes.size() < numsOfLanes - 1)
         {   
-            int to_add = Rand(1, 4);
-            while (to_add + (int)lanes.size() > numsOfLanes - 1 || to_add == 0)
+            int to_add;
+            if (level <= 8) to_add = Rand(1, 4);
+            else if (level <= 14) to_add = Rand(2, 4);
+            else if (level <= 20) to_add = Rand(2, 5);
+            else to_add = Rand(2, 6);
+            while (to_add + (int)lanes.size() > numsOfLanes - 1)
             {
-                if (level <= 8) to_add = Rand(1, 4);
-                else if (level <= 14) to_add = Rand(2, 4);
-                else if (level <= 20) to_add = Rand(2, 5);
-                else to_add = Rand(2, 6);
+                to_add = Rand(1, 4);
             }
             for (int i = 0; i < to_add; i++)
             {

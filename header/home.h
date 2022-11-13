@@ -2,6 +2,7 @@
 #include <iostream>
 #include <raylib.h>
 #include "screen.h"
+#include "Lane.h"
 
 class Home
 {

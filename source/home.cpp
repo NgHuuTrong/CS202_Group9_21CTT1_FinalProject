@@ -13,6 +13,11 @@ Screen Home::update()
 	{
 		int tmp = mode;
 		mode = 0;
+		if (tmp == 1)
+		{
+			allLane.clear();
+			allLane = random(15);
+		}
 		return static_cast<Screen> (tmp);
 	}
 	else return HOME;

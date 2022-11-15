@@ -31,7 +31,6 @@ Lane::Lane(int level, int laneType)
         _srcRec = { 0, 0, 960, 90 };
         _screenPos = { 0, 0 };
         _numsOfObstacles = 0;
-        _typeOfObstacles = NONE;
         _istraffic = false;
     }
     else if(laneType == 1) // ROAD
@@ -43,40 +42,24 @@ Lane::Lane(int level, int laneType)
         {
             _numsOfObstacles = Rand(1, 4);
         }
-        else if (level <= 6)
+        else if (level <= 5)
         {
-            _numsOfObstacles = Rand(2, 5);
-        }
-        else if (level <= 9)
-        {
-            _numsOfObstacles = Rand(3, 5);
-        }
-        else if (level <= 12)
-        {
-            _numsOfObstacles = Rand(4, 5);
+            _numsOfObstacles = Rand(2, 4);
         }
         else if (level <= 15)
         {
-            _numsOfObstacles = Rand(4, 6);
+            _numsOfObstacles = Rand(3, 4);
         }
-        else if (level <= 18)
+        else if (level <= 25)
         {
-            _numsOfObstacles = Rand(5, 7);
+            _numsOfObstacles = Rand(4, 5);
         }
-        else
+        else 
         {
-            _numsOfObstacles = Rand(7, 8);
+            _numsOfObstacles = Rand(4, 7);
         }
         _istraffic = Rand(0, 1);
-        int ChooseObsType = Rand(1, 2);
-        if(ChooseObsType == 1)
-        {
-            _typeOfObstacles = CAR;
-        }
-        else if(ChooseObsType == 2)
-        {
-            _typeOfObstacles = TRUCK;
-        }
+        _direction = Rand(0, 1);
     }
 }
 
@@ -123,7 +106,40 @@ std::vector<Lane> random(int level)
     for (int i = 0; i < (int)lanes.size(); ++i) {
         lanes[i]._screenPos.x = 0;
         lanes[i]._screenPos.y = i * lanes[i]._srcRec.height;
+        if (lanes[i]._laneType == PAVEMENT) continue;
+        for (int j = 0; j < lanes[i]._numsOfObstacles; j++)
+        {
+            int ChooseObsType = Rand(1, 3);
+            if (ChooseObsType == 1)
+                lanes[i]._obstacles.push_back(Obstacle(i, REDCAR));
+            if (ChooseObsType == 2)
+                lanes[i]._obstacles.push_back(Obstacle(i, BLUECAR));
+            if (ChooseObsType == 3)
+                lanes[i]._obstacles.push_back(Obstacle(i, AMBULANCE));
+        }
+        for (int j = 0; j < lanes[i]._numsOfObstacles; j++)
+        {
+            int tmp = Rand(0, 23);
+            bool check = true, flag = false;
+            while (check)
+            {
+                flag = false;
+                for (int k = 0; k < j; k++)
+                {
+                    if (abs(tmp * 40 - lanes[i]._obstacles[k].posX) < 80 || abs(tmp * 40 - lanes[i]._obstacles[k].posX) >= 920)
+                    {
+                        std::cerr << abs(tmp * 40 - lanes[i]._obstacles[k].posX) << std::endl;
+                        tmp = Rand(0, 23);
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag) check = false;
+            }
+            lanes[i]._obstacles[j].posX = tmp * 40;
+        }
     }
+    std::cerr << "finish random" << std::endl;
     return lanes;
 }
 
@@ -135,8 +151,8 @@ void displayTest(vector<Lane> lanes)
 }
 
 void Lane::displayLane() {
-    printf("[Y: %f,\n NumsOfObs: %i,\n Is traffic: %i,\n Lane Velocity: %i,\n Lane Type: %i,\n ObsType: %i]\n",
-    _screenPos.y, _numsOfObstacles, _istraffic, _laneVelocity, _laneType, _typeOfObstacles);
+    printf("[Y: %f,\n NumsOfObs: %i,\n Is traffic: %i,\n Lane Velocity: %i,\n Lane Type: %i,\n]\n",
+    _screenPos.y, _numsOfObstacles, _istraffic, _laneVelocity, _laneType);
 }
 
 std::vector<Lane> allLane;

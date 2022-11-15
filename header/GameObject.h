@@ -4,9 +4,12 @@
 class GameObject
 {
 public:
-    Rectangle srcRec;
-    Rectangle screenRec;
+    int inLane;
+    int posX;
+    GameObject()
+    {
 
-    bool inWindow();
-    bool collision(const GameObject& other);
+    }
+    GameObject(int inLane);
+
 };

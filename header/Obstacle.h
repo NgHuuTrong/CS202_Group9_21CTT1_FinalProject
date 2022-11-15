@@ -2,13 +2,15 @@
 #include "GameObject.h"
 #include <string>
 
-enum Ob_type { Vehicle, Animal };
+enum Ob_type { REDCAR, BLUECAR, AMBULANCE };
 
 class Obstacle: public GameObject
 {
 public:
-    Ob_type type;
-    float velocity;
-    Obstacle(Rectangle srcRec, Rectangle screenRec, float velocity, Ob_type type);
+    Obstacle(int inLane, Ob_type type);
     ~Obstacle();
+
+    Ob_type type;
+
 };
+

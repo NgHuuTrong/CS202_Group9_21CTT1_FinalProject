@@ -1,7 +1,7 @@
-#include "Player.h"
+#include "../header/Player.h"
 
 // create new player, name update when close
-Player::Player(): name(""), playtime(0), level(0) {}
+//Player::Player(): name(""), playtime(0), level(0) {}
 
 // load player with name
 Player::Player(std::string name)

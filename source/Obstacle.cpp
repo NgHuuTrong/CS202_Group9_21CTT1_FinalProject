@@ -1,12 +1,8 @@
-#include "Obstacle.h"
+#include "../header/Obstacle.h"
 
-Obstacle::Obstacle(Rectangle srcRec, Rectangle screenRec, float velocity, Ob_type type)
+Obstacle::Obstacle(int inLane, Ob_type type) : GameObject(inLane)
 {
-    this->srcRec = srcRec;
-    this->screenRec = screenRec;
-    this->velocity = velocity;
     this->type = type;
-    
 }
 
 Obstacle::~Obstacle()

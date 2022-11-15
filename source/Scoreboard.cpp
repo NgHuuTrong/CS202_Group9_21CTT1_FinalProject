@@ -8,6 +8,7 @@ Scoreboard::Scoreboard()
 }
 Scoreboard::~Scoreboard() {
 	UnloadTexture(rankBackground);
+	UnloadTexture(rankImage);
 }
 Screen Scoreboard::update() {
 	if (backButton) {

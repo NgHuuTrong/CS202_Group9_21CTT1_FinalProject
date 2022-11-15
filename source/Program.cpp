@@ -28,6 +28,9 @@ void Program::run()
 	case GAME:
 		screen = game.update();
 		break;
+	case HIGHSCORE:
+		screen = scoreboard.update();
+		break;
 	}
 	BeginDrawing();
 	ClearBackground(RAYWHITE);
@@ -38,6 +41,9 @@ void Program::run()
 		break;
 	case GAME:
 		game.draw();
+		break;
+	case HIGHSCORE:
+		scoreboard.draw();
 		break;
 	}
 	EndDrawing();

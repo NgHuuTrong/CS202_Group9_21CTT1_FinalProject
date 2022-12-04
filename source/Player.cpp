@@ -24,7 +24,9 @@ Player::~Player()
 // calculate highscore
 float Player::calHighScore()
 {
-    return 0.0f;
+    if (this->playtime == 0)
+        throw std::runtime_error("playtime is zero");
+    return this->level * 100000 + (1 / this->playtime) * 1000000;
 }
 // return if player can be in the scoreboard top 5
 bool Player::checkHighScoreBoard()

@@ -143,16 +143,4 @@ std::vector<Lane> random(int level)
     return lanes;
 }
 
-void displayTest(vector<Lane> lanes)
-{
-    for (int i = 0; i < (int)lanes.size(); ++i) {
-        lanes[i].displayLane();
-    }
-}
-
-void Lane::displayLane() {
-    printf("[Y: %f,\n NumsOfObs: %i,\n Is traffic: %i,\n Lane Velocity: %i,\n Lane Type: %i,\n]\n",
-    _screenPos.y, _numsOfObstacles, _istraffic, _laneVelocity, _laneType);
-}
-
 std::vector<Lane> allLane;

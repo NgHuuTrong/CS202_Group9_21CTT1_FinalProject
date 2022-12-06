@@ -1,9 +1,9 @@
 #include "../header/Game.h"
 #include "../header/raygui.h"
 
-
 Game::Game()
 {
+	player = Player("Test Name");
 	pavement = LoadTexture("data/pavement.png");
 	road = LoadTexture("data/road.png");
 	dog = LoadTexture("data/character.png");
@@ -35,37 +35,48 @@ Screen Game::update()
 	if (!allLane.size())
 	{
 		allLane = random(1);
-		dogPos.y = 0;
+		player.posX = 426;
+		player.posY = 0;
+		player.inLane = 0;
+	}
+	for (int i = 0; i < (int)allLane[player.posY]._obstacles.size(); i++)
+	{
+		if (player.checkCollision(allLane[player.posY]._obstacles[i], allLane[player.posY]._direction))
+		{
+			std::cout << "Collision" << std::endl;
+		}
 	}
 	if (GetKeyPressed())
 	{
 		if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN))
 		{
-			if (dogPos.y < allLane.size() - 1) dogPos.y++;
+			if (player.posY < allLane.size() - 1) player.posY++;
+			player.inLane++;
 		}
 		else if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP))
 		{
-			if (dogPos.y > 0) dogPos.y--;
+			if (player.posY > 0) player.posY--;
+			player.inLane--;
 		}
 		else if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT))
 		{
-			if (dogPos.x - 60 > 0) dogPos.x -= 60;
+			if (player.posX - 60 > 0) player.posX -= 60;
 		}
 		else if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT))
 		{
-			if (dogPos.x + 60 < 960) dogPos.x += 60;
+			if (player.posX + 60 < 960) player.posX += 60;
 		}
 	}
 	if (GetMouseWheelMove() == -1 && allLane[allLane.size() - 1]._screenPos.y > 720 - pavement.height)
 	{
-		for (int i = 0; i < allLane.size(); i++)
+		for (int i = 0; i < (int)allLane.size(); i++)
 		{
 			allLane[i]._screenPos.y -= 45;
 		}
 	}
 	if (GetMouseWheelMove() == 1 && allLane[0]._screenPos.y < 0)
 	{
-		for (int i = 0; i < allLane.size(); i++)
+		for (int i = 0; i < (int)allLane.size(); i++)
 		{
 			allLane[i]._screenPos.y += 45;
 		}
@@ -100,7 +111,7 @@ void Game::draw()
 	DrawRectangleLinesEx({ 0, 0, 960, 720 }, 3, BLACK);
 	//DrawText(TextFormat("Level: %i", redcar.width), 1000, 500, 35, BLACK);
 	//DrawText(TextFormat("y: %f", allLane[0]._screenPos.y), 1000, 300, 35, BLACK);
-	DrawTextureRec(dog, { 0, 0, (float)dog.width, (float)dog.height }, { dogPos.x, allLane[dogPos.y]._screenPos.y + 8 }, WHITE);
+	DrawTextureRec(dog, { 0, 0, (float)dog.width, (float)dog.height }, { (float)player.posX, allLane[player.posY]._screenPos.y + 8 }, WHITE);
 	for (int i = 0; i < allLane.size(); i++)
 	{
 		if (!allLane[i]._direction)

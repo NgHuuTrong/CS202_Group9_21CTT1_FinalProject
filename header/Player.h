@@ -17,6 +17,8 @@ public:
     int playtime;
     std::string name;
     int level;
+    // Vector2 playerPos = {426, 0};
+    int posY;
 
     Player();
     Player(std::string name);

@@ -1,15 +1,17 @@
 #pragma once
-#include <raylib.h>
+#include "../header/raylib.h"
 
 class GameObject
 {
 public:
     int inLane;
     int posX;
+    // Rectangle screenRec;
     GameObject()
     {
-
+        
     }
     GameObject(int inLane);
+    bool checkCollision(GameObject& other, bool direction);
 
 };

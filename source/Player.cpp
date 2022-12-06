@@ -3,19 +3,23 @@
 // create new player, name update when close
 //Player::Player(): name(""), playtime(0), level(0) {}
 
+Player::Player() {
+    this->name = "No Name";
+}
+
 // load player with name
 Player::Player(std::string name)
 {
     this->name = name;
-    try
-    {
-        this->loadState();
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-        throw e;
-    }
+    // try
+    // {
+    //     this->loadState();
+    // }
+    // catch(const std::exception& e)
+    // {
+    //     std::cerr << e.what() << '\n';
+    //     throw e;
+    // }
 }
 
 Player::~Player()

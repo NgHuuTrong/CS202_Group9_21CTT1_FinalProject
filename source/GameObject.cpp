@@ -1,4 +1,5 @@
 #include "../header/GameObject.h"
+#include "../header/raylib.h"
 
 // check still in window
 
@@ -9,10 +10,7 @@ GameObject::GameObject(int inLane)
 	this->inLane = inLane;
 }
 
-bool GameObject::checkCollision(GameObject& other, bool direction)
+bool GameObject::checkCollision(GameObject& other)
 {
-	if (this->posX + 80 > other.posX && this->posX < other.posX + 80 && this->inLane == other.inLane) {
-		return true;
-	}
-	return false;
+	return CheckCollisionRecs(this->screenRec, other.screenRec);
 }	

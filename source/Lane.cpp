@@ -107,7 +107,7 @@ std::vector<Lane> random(int level)
         lanes[i]._screenPos.x = 0;
         lanes[i]._screenPos.y = i * lanes[i]._srcRec.height;
         if (lanes[i]._laneType == PAVEMENT) continue;
-        for (int j = 0; j < lanes[i]._numsOfObstacles; j++)
+        for (int j = 0; j < (int)lanes[i]._numsOfObstacles; j++)
         {
             int ChooseObsType = Rand(1, 3);
             if (ChooseObsType == 1)
@@ -117,7 +117,7 @@ std::vector<Lane> random(int level)
             if (ChooseObsType == 3)
                 lanes[i]._obstacles.push_back(Obstacle(i, AMBULANCE));
         }
-        for (int j = 0; j < lanes[i]._numsOfObstacles; j++)
+        for (int j = 0; j < (int)lanes[i]._numsOfObstacles; j++)
         {
             int tmp = Rand(0, 23);
             bool check = true, flag = false;
@@ -126,9 +126,9 @@ std::vector<Lane> random(int level)
                 flag = false;
                 for (int k = 0; k < j; k++)
                 {
-                    if (abs(tmp * 40 - lanes[i]._obstacles[k].posX) < 80 || abs(tmp * 40 - lanes[i]._obstacles[k].posX) >= 920)
+                    if (abs(tmp * 40 - lanes[i]._obstacles[k].screenRec.x) < 80 || abs(tmp * 40 - lanes[i]._obstacles[k].screenRec.x) >= 920)
                     {
-                        std::cerr << abs(tmp * 40 - lanes[i]._obstacles[k].posX) << std::endl;
+                        std::cerr << abs(tmp * 40 - lanes[i]._obstacles[k].screenRec.x) << std::endl;
                         tmp = Rand(0, 23);
                         flag = true;
                         break;
@@ -136,7 +136,7 @@ std::vector<Lane> random(int level)
                 }
                 if (!flag) check = false;
             }
-            lanes[i]._obstacles[j].posX = tmp * 40;
+            lanes[i]._obstacles[j].screenRec.x = tmp * 40;
         }
     }
     std::cerr << "finish random" << std::endl;

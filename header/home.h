@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <string.h>
+#include <string>
 #include "raylib.h"
 #include "screen.h"
 #include "Lane.h"

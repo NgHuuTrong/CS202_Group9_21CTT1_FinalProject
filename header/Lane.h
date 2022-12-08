@@ -26,14 +26,10 @@ public:
     Lane();
     Lane(int level, int laneType);
     ~Lane();
-    void displayLane();
-
-    friend void displayTest(std::vector<Lane> lanes);
     friend std::vector<Lane> random(int level);
 };  
 long long Rand(long long l, long long h);
 
-void displayTest(std::vector<Lane> lanes);
 std::vector<Lane> random(int level);
 
 

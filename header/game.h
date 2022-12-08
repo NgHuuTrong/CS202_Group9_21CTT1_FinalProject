@@ -10,6 +10,7 @@ private:
 	bool backButton, nextButton;
 	// Vector2 dogPos {426, 0};
 	Player player;
+	std::vector<std::vector<Texture2D>> charAnim;
 	//std::vector<std::vector<Vector2>> carPos;
 	int velo = 2;
 public:

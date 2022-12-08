@@ -70,7 +70,7 @@ Screen Game::update()
 			// player.inLane++;
 			player.curDirection = 0;
 			player.isMoving = true;
-			if (player.screenRec.y + 5 < 720) player.screenRec.y += 5;
+			if (player.screenRec.y + 59 < 720) player.screenRec.y += 5;
 			// DrawTextureRec(dog, { 0, 0, (float)dog.width, (float)dog.height }, { player.screenRec.x, player.screenRec.y }, WHITE);
 		}
 		else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
@@ -95,7 +95,7 @@ Screen Game::update()
 			// if (player.posX + 5 < 960) player.posX += 5;
 			player.curDirection = 3;
 			player.isMoving = true;
-			if (player.screenRec.x + 5 < 960) player.screenRec.x += 5;
+			if (player.screenRec.x + 44 < 960) player.screenRec.x += 5;
 			// DrawTextureRec(dog, { 0, 0, 44, 59 }, { player.screenRec.x, player.screenRec.y }, WHITE);
 		}
 	// }
@@ -185,7 +185,9 @@ void Game::draw()
 
 
 void Game::drawPlayerState() {
-    DrawTexture(charAnim[player.curDirection][player.curImage / 4], player.screenRec.x, player.screenRec.y, WHITE);
+    DrawTexturePro(charAnim[player.curDirection][player.curImage / 4], 
+					{0, 0, (float)charAnim[player.curDirection][player.curImage / 4].width, (float)charAnim[player.curDirection][player.curImage / 4].height},
+					{player.screenRec}, {0,0}, 0, WHITE);
 	if (player.isMoving) {
 		player.curImage++;
 		if (player.curImage > 15) player.curImage = 0;

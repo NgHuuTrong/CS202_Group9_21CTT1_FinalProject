@@ -17,6 +17,9 @@ public:
     int playtime;
     std::string name;
     int level;
+    int curDirection;
+    int curImage;
+    bool isMoving;
     // Vector2 playerPos = {426, 0};
     // int posY;
 

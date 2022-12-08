@@ -3,20 +3,13 @@
 
 Game::Game()
 {
-	for (int i = 0; i < 3; i++)
+	std::string path = "data/characterAnimation/";
+	for (int i = 0; i < 4; i++)
 	{
-		std::vector<Texture2D> temp;
-		for (int j = 0; j < 4; j++)
-		{
-			std::string path = "data/characterAnimation/";
-			if (i == 0) path += "Front";
-			else if (i == 1) path += "Left";
-			else if (i == 2) path += "Right";
-			else if (i == 3) path += "Back";
-			path += std::to_string(j + 1) + ".png";
-			temp.push_back(LoadTexture(TextFormat(path.c_str())));
-		}
-		charAnim.push_back(temp);
+		charAnim[0][i] = LoadTexture((path + "Front" + (char)(i + 1 + '0') + ".png").c_str());
+		charAnim[1][i] = LoadTexture((path + "Back" + (char)(i + 1 + '0') + ".png").c_str());
+		charAnim[2][i] = LoadTexture((path + "Left" + (char)(i + 1 + '0') + ".png").c_str());
+		charAnim[3][i] = LoadTexture((path + "Right" + (char)(i + 1 + '0') + ".png").c_str());
 	}
 	player = Player("Test Name");
 	pavement = LoadTexture("data/pavement.png");
@@ -33,9 +26,9 @@ Game::Game()
 
 Game::~Game()
 {
-	for (int i = 0; i < (int)charAnim.size(); i++)
+	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; j < (int)charAnim[i].size(); j++)
+		for (int j = 0; j < 4; j++)
 		{
 			UnloadTexture(charAnim[i][j]);
 		}
@@ -75,6 +68,8 @@ Screen Game::update()
 		{
 			// if (player.posY < allLane.size() - 1) player.posY++;
 			// player.inLane++;
+			player.curDirection = 0;
+			player.isMoving = true;
 			if (player.screenRec.y + 5 < 720) player.screenRec.y += 5;
 			// DrawTextureRec(dog, { 0, 0, (float)dog.width, (float)dog.height }, { player.screenRec.x, player.screenRec.y }, WHITE);
 		}
@@ -82,18 +77,24 @@ Screen Game::update()
 		{
 			// if (player.posY > 0) player.posY--;
 			// player.inLane--;
+			player.curDirection = 1;
+			player.isMoving = true;
 			if (player.screenRec.y - 5 > 0) player.screenRec.y -= 5;
 			// DrawTextureRec(dog, { 0, 0, 44, 59 }, { player.screenRec.x, player.screenRec.y }, WHITE);
 		}
 		else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
 		{
 			// if (player.posX - 5 > 0) player.posX -= 5;
+			player.curDirection = 2;
+			player.isMoving = true;
 			if (player.screenRec.x - 5 > 0) player.screenRec.x -= 5;
 			// DrawTextureRec(dog, { 0, 0, 44, 59 }, { player.screenRec.x, player.screenRec.y }, WHITE);
 		}
 		else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
 		{
 			// if (player.posX + 5 < 960) player.posX += 5;
+			player.curDirection = 3;
+			player.isMoving = true;
 			if (player.screenRec.x + 5 < 960) player.screenRec.x += 5;
 			// DrawTextureRec(dog, { 0, 0, 44, 59 }, { player.screenRec.x, player.screenRec.y }, WHITE);
 		}
@@ -142,7 +143,8 @@ void Game::draw()
 	DrawRectangleLinesEx({ 0, 0, 960, 720 }, 3, BLACK);
 	//DrawText(TextFormat("Level: %i", redcar.width), 1000, 500, 35, BLACK);
 	//DrawText(TextFormat("y: %f", allLane[0]._screenPos.y), 1000, 300, 35, BLACK);
-	DrawTextureRec(dog, { 0, 0, (float)dog.width, (float)dog.height }, { (float)player.screenRec.x, (float)player.screenRec.y }, WHITE);
+	drawPlayerState();
+	// DrawTextureRec(dog, { 0, 0, (float)dog.width, (float)dog.height }, { (float)player.screenRec.x, (float)player.screenRec.y }, WHITE);
 	for (int i = 0; i < allLane.size(); i++)
 	{
 		if (!allLane[i]._direction)
@@ -179,4 +181,17 @@ void Game::draw()
 		nextButton = true;
 	if (GuiLabelButton({ 1050, 100, 100, 50 }, "BACK"))
 		backButton = true;
+}
+
+
+void Game::drawPlayerState() {
+    DrawTexture(charAnim[player.curDirection][player.curImage / 4], player.screenRec.x, player.screenRec.y, WHITE);
+	if (player.isMoving) {
+		player.curImage++;
+		if (player.curImage > 15) player.curImage = 0;
+		player.isMoving = false;
+	}
+	else {
+		player.curImage = 0;
+	}
 }

@@ -3,8 +3,17 @@
 // create new player, name update when close
 //Player::Player(): name(""), playtime(0), level(0) {}
 
+
+// Front = 0; Back = 1; Left = 2; Right = 3;
+// MoveDown => Front
+// MoveUp => Back
+// MoveLeft => Left
+// MoveRight => Right
 Player::Player() {
     this->name = "No Name";
+    this->curDirection = 1;
+    this->curImage = 0;
+    this->isMoving = false;
 }
 
 // load player with name

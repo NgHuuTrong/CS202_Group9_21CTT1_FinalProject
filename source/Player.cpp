@@ -3,7 +3,6 @@
 // create new player, name update when close
 //Player::Player(): name(""), playtime(0), level(0) {}
 
-
 // Front = 0; Back = 1; Left = 2; Right = 3;
 // MoveDown => Front
 // MoveUp => Back
@@ -20,26 +19,16 @@ Player::Player() {
 Player::Player(std::string name)
 {
     this->name = name;
-    // try
-    // {
-    //     this->loadState();
-    // }
-    // catch(const std::exception& e)
-    // {
-    //     std::cerr << e.what() << '\n';
-    //     throw e;
-    // }
 }
-
-Player::~Player()
-{
-}
+Player::~Player() {}
 // calculate highscore
 float Player::calHighScore()
 {
     if (this->playtime == 0)
         throw std::runtime_error("playtime is zero");
-    return this->level * 100000 + (1 / this->playtime) * 1000000;
+    float high = this->level * 100000 + (1 / this->playtime) * 1000000;
+    std::cout << "HighScore Log: " << high << std::endl;
+    return high;
 }
 // return if player can be in the scoreboard top 5
 bool Player::checkHighScoreBoard()
@@ -47,18 +36,12 @@ bool Player::checkHighScoreBoard()
     std::ifstream fin;
     std::string temp_name;
     float temp_highscore;
-    try
-    {
-        fin.open("../resource/highscore/highscore.txt");
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-        throw e;
-    }
+    fin.open("./resource/highscore/highscore.txt");
     for (int i = 0; i < 5; i++)
     {
-        fin >> temp_name >> temp_highscore;
+        fin >> temp_highscore;
+        fin >> temp_name;
+        std::cout << temp_highscore << " " << temp_name << std::endl;
         this->highScoreList.push_back(std::make_pair(temp_highscore, temp_name));
     }
     fin.close();
@@ -71,23 +54,15 @@ void Player::storeHighScore()
     if (!checkHighScoreBoard())
         return;
     highScoreList.push_back(std::make_pair(playerHigh, this->name));
+    std::cout << playerHigh << " " << this->name;
     std::sort(highScoreList.begin(), highScoreList.end());
+    reverse(highScoreList.begin(), highScoreList.end());
     highScoreList.pop_back();
-
-    std::ofstream fout;
-    try
-    {
-        fout.open("../resource/highscore/highscore.txt");
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-        throw e;
-    }
+    std::ofstream fout("./resource/highscore/highscore.txt");
     for (int i = 0; i < 5; i++)
     {
-        fout<< highScoreList[i].first << " " 
-            << highScoreList[i].second << std::endl;
+        fout << highScoreList[i].first << std::endl;
+        fout << highScoreList[i].second << std::endl;
     }
     fout.close();
 }
@@ -110,7 +85,7 @@ void Player::storeState()
         throw std::runtime_error("Checkpoint not reached");
     }
     std::ofstream fout;
-    fout.open("../resource/state/" + name + ".txt");
+    fout.open("./resource/state/" + name + ".txt");
     fout << this->name << std::endl;
     fout << this->level << std::endl;
     fout << this->playtime << std::endl;
@@ -120,16 +95,9 @@ void Player::storeState()
 void Player::loadState()
 {
     std::ifstream fin;
-    try
-    {
-        fin.open("../resource/state/" + name + ".txt");
-        if (fin.fail())
-            throw std::runtime_error("Error file name");   
-    }
-    catch (const std::exception& e)
-    {
-        throw e;
-    }
-    fin >> this->name >> this->level >> this->playtime;
+    fin.open("./resource/state/" + name + ".txt");
+    getline(fin, this->name);
+    fin >> this->level;
+    fin >> this->playtime;
     fin.close();
 }

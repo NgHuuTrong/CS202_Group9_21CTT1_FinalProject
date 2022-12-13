@@ -105,6 +105,7 @@ Screen Game::update()
 		{
 			allLane[i]._screenPos.y -= 45;
 		}
+		player.screenRec.y -= 45;
 	}
 	if (GetMouseWheelMove() == 1 && allLane[0]._screenPos.y < 0)
 	{
@@ -112,6 +113,7 @@ Screen Game::update()
 		{
 			allLane[i]._screenPos.y += 45;
 		}
+		player.screenRec.y += 45;
 	}
 
 	if (backButton)

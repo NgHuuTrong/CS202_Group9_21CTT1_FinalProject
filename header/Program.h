@@ -1,6 +1,8 @@
 #pragma once
 #include "Game.h"
 #include "Scoreboard.h"
+#include "Instruction.h"
+
 class Program
 {
 private:
@@ -9,6 +11,7 @@ private:
 	Screen screen;
 	Game game;
 	Scoreboard scoreboard;
+	Instruction instruction;
 public:
 	Program();
 	~Program();

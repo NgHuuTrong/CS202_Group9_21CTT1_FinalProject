@@ -33,7 +33,8 @@ void Home::draw()
 		mode = 1;
 	if (GuiButton({ 500, 310, 280, 70 }, "HIGHSCORE"))
 		mode = 3;
-	GuiButton({ 500, 390, 280, 70 }, "INSTRUCTION");
+	if (GuiButton({ 500, 390, 280, 70 }, "INSTRUCTION"))
+		mode = 4;
 	GuiButton({ 500, 470, 280, 70 }, "EXIT");
 }
 

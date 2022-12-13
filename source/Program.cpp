@@ -6,6 +6,7 @@
 
 Program::Program()
 {
+	GuiLoadIcons("data/arrow.rgi", true);
 	GuiLoadStyle("data/style.rgs");
 	font = LoadFont("data/font.ttf");
 	GuiSetStyle(BUTTON, BORDER_WIDTH, 6);
@@ -31,6 +32,9 @@ void Program::run()
 	case HIGHSCORE:
 		screen = scoreboard.update();
 		break;
+	case INSTRUCTION:
+		screen = instruction.update();
+		break;
 	}
 	BeginDrawing();
 	ClearBackground(RAYWHITE);
@@ -44,6 +48,9 @@ void Program::run()
 		break;
 	case HIGHSCORE:
 		scoreboard.draw();
+		break;
+	case INSTRUCTION:
+		instruction.draw();
 		break;
 	}
 	EndDrawing();

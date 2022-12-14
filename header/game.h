@@ -6,7 +6,8 @@ class Game
 {
 private:
 	Texture2D pavement, road; // Images of lane
-	Texture2D dog, redcar_left, redcar_right, bluecar_left, bluecar_right, ambulance_left, ambulance_right;
+	Texture2D restart_button, pause_button, music_button ;
+	Texture2D redcar_left, redcar_right, bluecar_left, bluecar_right, ambulance_left, ambulance_right;
 	bool backButton, nextButton;
 	// Vector2 dogPos {426, 0};
 	Player player;

@@ -6,21 +6,23 @@ Game::Game()
 	std::string path = "data/characterAnimation/";
 	for (int i = 0; i < 4; i++)
 	{
-		charAnim[0][i] = LoadTexture((path + "Front" + (char)(i + 1 + '0') + ".png").c_str());
-		charAnim[1][i] = LoadTexture((path + "Back" + (char)(i + 1 + '0') + ".png").c_str());
-		charAnim[2][i] = LoadTexture((path + "Left" + (char)(i + 1 + '0') + ".png").c_str());
-		charAnim[3][i] = LoadTexture((path + "Right" + (char)(i + 1 + '0') + ".png").c_str());
+		charAnim[0][i] = LoadTexture((path + "Front" + std::to_string(i + 1) + ".png").c_str());
+		charAnim[1][i] = LoadTexture((path + "Back" + std::to_string(i + 1) + ".png").c_str());
+		charAnim[2][i] = LoadTexture((path + "Left" + std::to_string(i + 1) + ".png").c_str());
+		charAnim[3][i] = LoadTexture((path + "Right" + std::to_string(i + 1) + ".png").c_str());
 	}
 	player = Player("Test Name");
 	pavement = LoadTexture("data/pavement.png");
 	road = LoadTexture("data/road.png");
-	dog = LoadTexture("data/character.png");
 	redcar_left = LoadTexture("data/redcar_left.png");
 	redcar_right = LoadTexture("data/redcar_right.png");
 	bluecar_left = LoadTexture("data/bluecar_left.png");
 	bluecar_right = LoadTexture("data/bluecar_right.png");
 	ambulance_left = LoadTexture("data/ambulance_left.png");
 	ambulance_right = LoadTexture("data/ambulance_right.png");
+	restart_button = LoadTexture("data/restartButton.png");
+	pause_button = LoadTexture("data/pauseButton.png");
+	music_button = LoadTexture("data/musicButton.png");
 	backButton = nextButton = false;
 }
 
@@ -35,14 +37,13 @@ Game::~Game()
 	}
 	UnloadTexture(pavement);
 	UnloadTexture(road);
-	UnloadTexture(dog);
 	UnloadTexture(redcar_left);
 	UnloadTexture(bluecar_left);
 	UnloadTexture(ambulance_left);
 	UnloadTexture(redcar_right);
 	UnloadTexture(bluecar_right);
 	UnloadTexture(ambulance_right);
-
+	UnloadTexture(restart_button);
 }
 
 Screen Game::update()
@@ -179,17 +180,46 @@ void Game::draw()
 		}
 	}
 	DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
+	
+	Vector2 getMouse = GetMousePosition();
+	int restartX = 1000, restartY = 600, pauseX = 1100, pauseY = 600, musicX = 1200, musicY = 600;
+	if (getMouse.x >= restartX && getMouse.x <= restartX + restart_button.width && getMouse.y >= restartY && getMouse.y <= restartY + restart_button.height) {
+		DrawTexture(restart_button, restartX, restartY, RED);
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+		}
+	}	
+	else {
+		DrawTexture(restart_button, restartX, restartY, RAYWHITE);
+	}
+
+	if (getMouse.x >= pauseX && getMouse.x <= pauseX + pause_button.width && getMouse.y >= pauseY && getMouse.y <= pauseY + pause_button.height) {
+		DrawTexture(pause_button, pauseX, pauseY, RED);
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+		}
+	}
+	else {
+		DrawTexture(pause_button, pauseX, pauseY, RAYWHITE);
+	}
+	
+	if (getMouse.x >= musicX && getMouse.x <= musicX + music_button.width && getMouse.y >= musicY && getMouse.y <= musicY + music_button.height) {
+		DrawTexture(music_button, musicX, musicY, RED);
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+		}
+	}
+	else {
+		DrawTexture(music_button, musicX, musicY, RAYWHITE);
+	}
+
 	if (GuiLabelButton({ 1150, 100, 100, 50 }, "NEXT"))
 		nextButton = true;
 	if (GuiLabelButton({ 1050, 100, 100, 50 }, "BACK"))
 		backButton = true;
 }
 
-
 void Game::drawPlayerState() {
-    DrawTexturePro(charAnim[player.curDirection][player.curImage / 4], 
-					{0, 0, (float)charAnim[player.curDirection][player.curImage / 4].width, (float)charAnim[player.curDirection][player.curImage / 4].height},
-					{player.screenRec}, {0,0}, 0, WHITE);
+	DrawTexturePro(charAnim[player.curDirection][player.curImage / 4],
+		{ 0, 0, (float)charAnim[player.curDirection][player.curImage / 4].width, (float)charAnim[player.curDirection][player.curImage / 4].height },
+		{ player.screenRec }, { 0,0 }, 0, WHITE);
 	if (player.isMoving) {
 		player.curImage++;
 		if (player.curImage > 15) player.curImage = 0;
@@ -199,3 +229,4 @@ void Game::drawPlayerState() {
 		player.curImage = 0;
 	}
 }
+

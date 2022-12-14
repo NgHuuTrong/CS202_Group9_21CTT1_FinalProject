@@ -16,7 +16,7 @@ Player::Player() {
 }
 
 // load player with name
-Player::Player(std::string name)
+Player::Player(std::string name): Player()
 {
     this->name = name;
 }

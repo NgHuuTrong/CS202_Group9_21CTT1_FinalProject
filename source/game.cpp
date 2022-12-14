@@ -65,6 +65,36 @@ Screen Game::update()
 	// }
 	// if (GetKeyPressed())
 	// {
+	for (int i = 0; i < (int)allLane.size(); i++)
+    {
+        for (int j = 0; j < (int)allLane[i]._obstacles.size(); ++j)
+        {
+			Rectangle temp = allLane[i]._obstacles[j].screenRec;
+			temp.y = allLane[allLane[i]._obstacles[j].inLane]._screenPos.y + 15;
+			switch (allLane[i]._obstacles[j].type)
+			{
+				case REDCAR:
+					temp.width = (float)redcar_left.width;
+					temp.height = (float)(redcar_left.height);
+					break;
+				case BLUECAR:
+					temp.width = (float)bluecar_left.width;
+					temp.height = (float)bluecar_left.height;
+					break;
+				case AMBULANCE:
+					temp.width = (float)ambulance_left.width;
+					temp.height = (float)ambulance_right.height;
+					break;
+				default:
+					break;
+			}
+            if (CheckCollisionRecs(this->player.screenRec, temp))
+            {
+                std::cout << "Collision" << std::endl;
+				break;
+            }
+        }
+    }
 		if (IsKeyDown(KEY_S)  || IsKeyDown(KEY_DOWN))
 		{
 			// if (player.posY < allLane.size() - 1) player.posY++;

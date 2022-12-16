@@ -7,26 +7,24 @@
 #include <algorithm>
 #include <exception>
 
-class Player: public GameObject
+class Player : public GameObject
 {
 private:
     std::vector<std::pair<float, std::string>> highScoreList;
     void loadState();
+
 public:
-    // playtime in sec
-    int playtime;
+    int playtime; // playtime in sec
     std::string name;
     int level;
     int curDirection;
     int curImage;
     bool isMoving;
-    // Vector2 playerPos = {426, 0};
-    // int posY;
 
     Player();
     Player(std::string name);
     ~Player();
-    
+
     bool checkHighScoreBoard();
     void storeHighScore();
     float calHighScore();

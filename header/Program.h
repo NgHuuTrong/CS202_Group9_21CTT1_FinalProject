@@ -12,6 +12,7 @@ private:
 	Game game;
 	Scoreboard scoreboard;
 	Instruction instruction;
+
 public:
 	Program();
 	~Program();

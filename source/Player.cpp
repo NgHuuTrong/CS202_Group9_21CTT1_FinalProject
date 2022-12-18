@@ -8,12 +8,8 @@
 // MoveUp => Back
 // MoveLeft => Left
 // MoveRight => Right
-Player::Player() {
-    this->name = "No Name";
-    this->curDirection = 1;
-    this->curImage = 0;
-    this->isMoving = false;
-}
+Player::Player() : GameObject(), name("No Name"), curDirection(1),
+curImage(0), isMoving(false) , time(0), score(0) {}
 
 // load player with name
 Player::Player(std::string name) : Player()

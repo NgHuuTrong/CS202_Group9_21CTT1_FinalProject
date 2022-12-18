@@ -11,7 +11,8 @@ private:
 	bool backButton, nextButton;																	   // Buttons
 	Player player;																					   // Player
 	Texture2D charAnim[4][4];																		   // Player Animation Textures
-	int velo = 2;																					   // Velocity
+	int velo = 2;																				   // Velocity
+	double playTime, startTime;
 public:
 	Game();
 	Screen update();

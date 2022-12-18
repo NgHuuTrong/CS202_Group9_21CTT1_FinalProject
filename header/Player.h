@@ -20,6 +20,8 @@ public:
     int curDirection;
     int curImage;
     bool isMoving;
+    double time; // in second
+    int score;
     // Vector2 playerPos = {426, 0};
     // int posY;
 

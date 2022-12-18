@@ -13,6 +13,8 @@ Player::Player() {
     this->curDirection = 1;
     this->curImage = 0;
     this->isMoving = false;
+    this->time = 0;
+    this->score = 0;
 }
 
 // load player with name

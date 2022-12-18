@@ -13,6 +13,7 @@ private:
 	Texture2D charAnim[4][4];
 	//std::vector<std::vector<Vector2>> carPos;
 	int velo = 2;
+	double startTime, playTime;
 public:
 	Game();
 	Screen update();

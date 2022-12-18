@@ -6,7 +6,6 @@ Instruction::Instruction()
 	instructionBackground1 = LoadTexture("data/Instruction1.png");
 	instructionBackground2 = LoadTexture("data/Instruction2.png");
 	backButton = false;
-	//GuiLoadIcons("data/arrow.rgi", true);
 }
 Instruction::~Instruction() {
 	UnloadTexture(instructionBackground1);
@@ -23,32 +22,29 @@ Screen Instruction::update() {
 void Instruction::draw() {
 	if (mode == 0) {
 		DrawTextureRec(instructionBackground1, { 0,0,1280,720 }, { 0,0 }, WHITE);
-		Vector2 hihi = GetMousePosition();
-		int xPos = 1150;
-		int yPos = 275;
-		if (hihi.x >= 1175 && hihi.x <= 1250 && hihi.y <= 390 && hihi.y >= 275) {
-			GuiDrawIcon(119, xPos, yPos, 8, ORANGE);
+		if (CheckCollisionPointTriangle(GetMousePosition(), { 1200, 300 }, { 1200, 400 }, { 1250, 350 }))
+		{
+			DrawTriangle({ 1200, 300 }, { 1200, 400 }, { 1250, 350 }, RED);
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 				mode = 1;
 			}
 		}
-		else GuiDrawIcon(119, xPos, yPos, 8, BLACK);
+		else 
+			DrawTriangle({ 1200, 300 }, { 1200, 400 }, { 1250, 350 }, BLACK);
 		if (GuiLabelButton({ 15, 15, 100, 50 }, "BACK"))
 			backButton = true;
-		return;
 	}
-	if (mode == 1){
+	if (mode == 1) {
 		DrawTextureRec(instructionBackground2, { 0,0,1280,720 }, { 0,0 }, WHITE);
-		Vector2 hihi = GetMousePosition();
-		int xPos = 1150;
-		int yPos = 275;
-		if (hihi.x >= 1175 && hihi.x <= 1250 && hihi.y <= 390 && hihi.y >= 275) {
-			GuiDrawIcon(119, xPos, yPos, 8, ORANGE);
+		if (CheckCollisionPointTriangle(GetMousePosition(), { 100, 300 }, { 50, 350 }, { 100, 400 }))
+		{
+			DrawTriangle({ 100, 300 }, { 50, 350 }, { 100, 400 }, RED);
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 				mode = 0;
 			}
 		}
-		else GuiDrawIcon(119, xPos, yPos, 8, BLACK);
+		else
+			DrawTriangle({ 100, 300 }, { 50, 350 }, { 100, 400 }, BLACK);
 		if (GuiLabelButton({ 15, 15, 100, 50 }, "BACK"))
 			backButton = true;
 	}

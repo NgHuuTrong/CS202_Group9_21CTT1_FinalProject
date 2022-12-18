@@ -44,6 +44,8 @@ Game::~Game()
 	UnloadTexture(bluecar_right);
 	UnloadTexture(ambulance_right);
 	UnloadTexture(restart_button);
+	UnloadTexture(pause_button);
+	UnloadTexture(music_button);
 }
 
 Screen Game::update()

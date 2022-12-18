@@ -1,7 +1,7 @@
 #include "../header/Player.h"
 
 // create new player, name update when close
-//Player::Player(): name(""), playtime(0), level(0) {}
+// Player::Player(): name(""), playtime(0), level(0) {}
 
 // Front = 0; Back = 1; Left = 2; Right = 3;
 // MoveDown => Front
@@ -13,12 +13,10 @@ Player::Player() {
     this->curDirection = 1;
     this->curImage = 0;
     this->isMoving = false;
-    this->time = 0;
-    this->score = 0;
 }
 
 // load player with name
-Player::Player(std::string name)
+Player::Player(std::string name) : Player()
 {
     this->name = name;
 }
@@ -73,7 +71,7 @@ void Player::storeHighScore()
     name
     level
     playtime
-*/ 
+*/
 void Player::storeState()
 {
     if (name == "")

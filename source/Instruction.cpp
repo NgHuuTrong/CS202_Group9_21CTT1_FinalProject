@@ -7,13 +7,15 @@ Instruction::Instruction()
 	instructionBackground2 = LoadTexture("data/Instruction2.png");
 	backButton = false;
 }
-Instruction::~Instruction() {
+Instruction::~Instruction()
+{
 	UnloadTexture(instructionBackground1);
 	UnloadTexture(instructionBackground2);
-
 }
-Screen Instruction::update() {
-	if (backButton) {
+Screen Instruction::update()
+{
+	if (backButton)
+	{
 		backButton = false;
 		return HOME;
 	}

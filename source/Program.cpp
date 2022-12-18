@@ -3,7 +3,6 @@
 #include "../header/Program.h"
 #include "../header/raygui.h"
 
-
 Program::Program()
 {
 	GuiLoadIcons("data/arrow.rgi", true);

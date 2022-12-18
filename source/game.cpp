@@ -6,10 +6,10 @@ Game::Game()
 	std::string path = "data/characterAnimation/";
 	for (int i = 0; i < 4; i++)
 	{
-		charAnim[0][i] = LoadTexture((path + "Front" + (char)(i + 1 + '0') + ".png").c_str());
-		charAnim[1][i] = LoadTexture((path + "Back" + (char)(i + 1 + '0') + ".png").c_str());
-		charAnim[2][i] = LoadTexture((path + "Left" + (char)(i + 1 + '0') + ".png").c_str());
-		charAnim[3][i] = LoadTexture((path + "Right" + (char)(i + 1 + '0') + ".png").c_str());
+		charAnim[0][i] = LoadTexture((path + "Front" + std::to_string(i + 1) + ".png").c_str());
+		charAnim[1][i] = LoadTexture((path + "Back" + std::to_string(i + 1) + ".png").c_str());
+		charAnim[2][i] = LoadTexture((path + "Left" + std::to_string(i + 1) + ".png").c_str());
+		charAnim[3][i] = LoadTexture((path + "Right" + std::to_string(i + 1) + ".png").c_str());
 	}
 	player = Player("Test Name");
 	pavement = LoadTexture("data/pavement.png");
@@ -22,6 +22,7 @@ Game::Game()
 	ambulance_left = LoadTexture("data/ambulance_left.png");
 	ambulance_right = LoadTexture("data/ambulance_right.png");
 	backButton = nextButton = false;
+	startTime = 0;
 }
 
 Game::~Game()
@@ -54,8 +55,13 @@ Screen Game::update()
 		// player.posY = 0;
 		// player.inLane = 0;
 		player.screenRec = { 426, 0, 44, 59 };
-
+		player.time = 0;
 	}
+	if (startTime == 0)
+	{
+		startTime = GetTime();
+	}
+	playTime = GetTime() - startTime;
 	// {
 	// 	if (player.checkCollision(allLane[player.posY]._obstacles[i], allLane[player.posY]._direction))
 	// 	{
@@ -118,11 +124,15 @@ Screen Game::update()
 
 	if (backButton)
 	{
+		startTime = 0;
+		player.time += playTime;
 		backButton = false;
 		return HOME;
 	}
 	if (nextButton)
 	{
+		startTime = 0;
+		player.time += playTime;
 		nextButton = false;
 		int level = allLane[0].level + 1;
 		allLane.clear();
@@ -143,7 +153,6 @@ void Game::draw()
 		//DrawLineEx(l._screenPos, { 960, l._screenPos.y }, 2, WHITE);
 	}
 	DrawRectangleLinesEx({ 0, 0, 960, 720 }, 3, BLACK);
-	//DrawText(TextFormat("Level: %i", redcar.width), 1000, 500, 35, BLACK);
 	//DrawText(TextFormat("y: %f", allLane[0]._screenPos.y), 1000, 300, 35, BLACK);
 	drawPlayerState();
 	// DrawTextureRec(dog, { 0, 0, (float)dog.width, (float)dog.height }, { (float)player.screenRec.x, (float)player.screenRec.y }, WHITE);
@@ -179,6 +188,7 @@ void Game::draw()
 		}
 	}
 	DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
+	DrawText(TextFormat("Time: %lf", playTime + player.time), 1000, 500, 35, BLACK);
 	if (GuiLabelButton({ 1150, 100, 100, 50 }, "NEXT"))
 		nextButton = true;
 	if (GuiLabelButton({ 1050, 100, 100, 50 }, "BACK"))

@@ -24,6 +24,7 @@ Game::Game()
 	pause_button = LoadTexture("data/pauseButton.png");
 	music_button = LoadTexture("data/musicButton.png"); 
 	resume_button = LoadTexture("data/resumeButton.png");
+	home_button = LoadTexture("data/homeButton.png");
 	blurImage = LoadTexture("data/Blur.png");
 	pauseMenu = LoadTexture("data/pauseMenu.png");
 	backButton = nextButton = false;
@@ -52,6 +53,7 @@ Game::~Game()
 	UnloadTexture(pause_button);
 	UnloadTexture(music_button);
 	UnloadTexture(resume_button);
+	UnloadTexture(home_button);
 	UnloadTexture(blurImage);
 }
 
@@ -267,6 +269,7 @@ void Game::draw()
 		DrawTexture(blurImage, 0, 0, CLITERAL(Color){ 255, 255, 255, 200 });
 		DrawTexture(pauseMenu, pauseMenuX, pauseMenuY, RAYWHITE);
 		DrawTexture(resume_button, pauseMenuX + pauseMenu.width / 4 - resume_button.width / 2, pauseMenuY + 170, RAYWHITE);
+		DrawTexture(home_button, pauseMenuX + 3 * pauseMenu.width / 4 - home_button.width / 2, pauseMenuY + 170, RAYWHITE);
 	}
 }
 

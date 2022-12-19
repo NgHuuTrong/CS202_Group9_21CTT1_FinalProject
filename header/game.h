@@ -6,7 +6,7 @@ class Game
 {
 private:
 	Texture2D pavement, road;																		   // Lane Textures
-	Texture2D restart_button, pause_button, music_button, resume_button;											   // Buttons
+	Texture2D restart_button, pause_button, music_button, resume_button, home_button;											   // Buttons
 	Texture2D redcar_left, redcar_right, bluecar_left, bluecar_right, ambulance_left, ambulance_right; // Obstacles Textures
 	bool backButton, nextButton;																	   // Buttons
 	Player player;																					   // Player

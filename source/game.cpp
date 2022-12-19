@@ -24,6 +24,7 @@ Game::Game()
 	pause_button = LoadTexture("data/pauseButton.png");
 	music_button = LoadTexture("data/musicButton.png"); 
 	blurImage = LoadTexture("data/Blur.png");
+	pauseMenu = LoadTexture("data/pauseMenu.png");
 	backButton = nextButton = false;
 	startTime = 0;
 	pauseState = false;
@@ -232,6 +233,7 @@ void Game::draw()
 		DrawTexture(pause_button, pauseX, pauseY, RED);
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
+			pauseState = true;
 		}
 	}
 	else
@@ -257,8 +259,11 @@ void Game::draw()
 	if (GuiLabelButton({ 1050, 100, 100, 50 }, "BACK"))
 		backButton = true;
 
-	if (pauseState == false) {
+	if (pauseState == true) {
+		float pauseMenuX = 640 - pauseMenu.width / 2;
+		float pauseMenuY = 360 - pauseMenu.height / 2;
 		DrawTexture(blurImage, 0, 0, CLITERAL(Color){ 255, 255, 255, 200 });
+		DrawTexture(pauseMenu, pauseMenuX, pauseMenuY, RAYWHITE);
 	}
 }
 

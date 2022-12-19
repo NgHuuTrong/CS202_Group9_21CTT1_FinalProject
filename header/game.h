@@ -15,6 +15,7 @@ private:
 	double playTime, startTime;
 	bool pauseState;
 	Texture2D blurImage;
+	Texture2D pauseMenu;
 public:
 	Game();
 	Screen update();

@@ -22,9 +22,11 @@ Game::Game()
 	ambulance_right = LoadTexture("data/ambulance_right.png");
 	restart_button = LoadTexture("data/restartButton.png");
 	pause_button = LoadTexture("data/pauseButton.png");
-	music_button = LoadTexture("data/musicButton.png");
+	music_button = LoadTexture("data/musicButton.png"); 
+	blurImage = LoadTexture("data/Blur.png");
 	backButton = nextButton = false;
 	startTime = 0;
+	pauseState = false;
 }
 
 Game::~Game()
@@ -47,6 +49,7 @@ Game::~Game()
 	UnloadTexture(restart_button);
 	UnloadTexture(pause_button);
 	UnloadTexture(music_button);
+	UnloadTexture(blurImage);
 }
 
 Screen Game::update()
@@ -139,6 +142,7 @@ Screen Game::update()
 		}
 		player.screenRec.y += 45;
 	}
+	
 
 	if (backButton)
 	{
@@ -244,12 +248,18 @@ void Game::draw()
 	}
 	else
 		DrawTexture(music_button, musicX, musicY, RAYWHITE);
-	DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
+
+
+	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
 	DrawText(TextFormat("Time: %lf", playTime + player.time), 1000, 500, 35, BLACK);
 	if (GuiLabelButton({ 1150, 100, 100, 50 }, "NEXT"))
 		nextButton = true;
 	if (GuiLabelButton({ 1050, 100, 100, 50 }, "BACK"))
 		backButton = true;
+
+	if (pauseState == false) {
+		DrawTexture(blurImage, 0, 0, CLITERAL(Color){ 255, 255, 255, 200 });
+	}
 }
 
 void Game::drawPlayerState()

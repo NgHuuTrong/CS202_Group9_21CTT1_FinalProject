@@ -1,10 +1,15 @@
 #include "../header/Obstacle.h"
 
-Obstacle::Obstacle(int inLane, Ob_type type) : GameObject(inLane)
+Obstacle::Obstacle(): GameObject() {}
+
+Obstacle::Obstacle(int inLane, Ob_type type): GameObject(inLane)
 {
     this->type = type;
 }
 
-Obstacle::~Obstacle()
+Ob_type Obstacle::getType()
 {
+    return this->type;
 }
+
+Obstacle::~Obstacle() {}

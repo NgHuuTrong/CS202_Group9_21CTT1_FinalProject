@@ -201,7 +201,6 @@ void Game::draw()
 			DrawTextureRec(road, l.getSrcRec(), l.getScreenPos(), WHITE);
 	}
 	DrawRectangleLinesEx({ 0, 0, 960, 720 }, 3, BLACK);
-	//DrawText(TextFormat("y: %f", allLane[0].getScreenPos().y), 1000, 300, 35, BLACK);
 	drawPlayerState();
 	for (int i = 0; i < allLane.size(); i++)
 	{

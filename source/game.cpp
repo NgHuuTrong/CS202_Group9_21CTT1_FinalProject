@@ -56,6 +56,7 @@ Screen Game::update()
 		allLane = random(1);
 		player.screenRec = { 426, 0, 44, 59 };
 		player.time = 0;
+		player.curDirection = 0;
 	}
 	if (startTime == 0)
 	{
@@ -149,6 +150,7 @@ Screen Game::update()
 	}
 	if (nextButton)
 	{
+		player.curDirection = 0;
 		player.screenRec = {426, 0, 44, 59};
 		startTime = 0;
 		player.time += playTime;

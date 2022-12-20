@@ -25,12 +25,14 @@ Game::Game()
 	music_button = LoadTexture("data/musicButton.png"); 
 	resume_button = LoadTexture("data/resumeButton.png");
 	home_button = LoadTexture("data/homeButton.png");
+	next_button = LoadTexture("data/nextLevelButton.png");
 	blurImage = LoadTexture("data/Blur.png");
 	pauseMenu = LoadTexture("data/pauseMenu.png");
 	victoryMenu = LoadTexture("data/victoryMenu.png");
 	backButton = nextButton = false;
 	startTime = 0;
 	pauseState = false;
+	isWin = false;
 }
 
 Game::~Game()
@@ -55,6 +57,7 @@ Game::~Game()
 	UnloadTexture(music_button);
 	UnloadTexture(resume_button);
 	UnloadTexture(home_button);
+	UnloadTexture(next_button);
 	UnloadTexture(blurImage);
 	UnloadTexture(pauseMenu);
 	UnloadTexture(victoryMenu);
@@ -275,6 +278,7 @@ void Game::draw()
 		DrawTexture(music_button, musicX, musicY, RED);
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
+			isWin = true;
 		}
 	}
 	else
@@ -314,6 +318,39 @@ void Game::draw()
 			}
 		}
 		else DrawTexture(home_button, homeButtonX, homeButtonY, RAYWHITE);
+	}
+	if (isWin == true) {
+		float victoryMenuX = 640 - victoryMenu.width / 2;
+		float victoryMenuY = 360 - victoryMenu.height / 2;
+		DrawTexture(blurImage, 0, 0, CLITERAL(Color){ 255, 255, 255, 200 });
+		DrawTexture(victoryMenu, victoryMenuX, victoryMenuY, RAYWHITE);
+		float nextButtonX = victoryMenuX + victoryMenu.width / 4 - next_button.width / 2;
+		float nextButtonY = victoryMenuY + 150;
+		float homeButtonX = victoryMenuX + 3 * victoryMenu.width / 4 - home_button.width / 2;
+		float homeButtonY = victoryMenuY + 150;
+		Vector2 mousePos = GetMousePosition();
+		if (mousePos.x >= nextButtonX && mousePos.x <= nextButtonX + next_button.width && mousePos.y >= nextButtonY && mousePos.y <= nextButtonY + next_button.height) {
+			DrawTexture(next_button, nextButtonX, nextButtonY, RED);
+			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+				isWin = false;
+				nextButton = true;
+				pauseState = false;
+			}
+		}
+		else DrawTexture(next_button, nextButtonX, nextButtonY, RAYWHITE);
+
+		if (mousePos.x >= homeButtonX && mousePos.x <= homeButtonX + home_button.width && mousePos.y >= homeButtonY && mousePos.y <= homeButtonY + home_button.height) {
+			DrawTexture(home_button, homeButtonX, homeButtonY, RED);
+			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+				isWin = false;
+				pauseState = false;
+				backButton = true;
+			}
+		}
+		else DrawTexture(home_button, homeButtonX, homeButtonY, RAYWHITE);
+
+		
+		
 	}
 }
 

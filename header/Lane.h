@@ -37,6 +37,7 @@ public:
     void setScreenPos(Vector2 pos);
     bool getDirection();
     std::vector<Obstacle> getObstacles();
+    void setScreenRecX(float pos, int i);
 
     Lane();
     Lane(int level, int laneType);

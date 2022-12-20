@@ -199,8 +199,10 @@ void Game::draw()
 		{
 			for (int j = 0; j < allLane[i].getNumsOfObstacles(); j++)
 			{
+				// allLane[i].getObstacles()[j].moveScreenRecX(2);
 				// allLane[i].getObstacles()[j].screenRec.x += velo;
-				allLane[i].getObstacles()[j].setScreenRec({ allLane[i].getObstacles()[j].getScreenRec().x + velo, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
+				//allLane[i].getObstacles()[j].setScreenRec({ allLane[i].getObstacles()[j].getScreenRec().x + velo, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
+				allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
 				if (allLane[i].getObstacles()[j].getScreenRec().x >= 960)
 					// allLane[i].getObstacles()[j].getScreenRec().x = -80;
 					allLane[i].getObstacles()[j].setScreenRec({ -80, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
@@ -216,8 +218,10 @@ void Game::draw()
 		{
 			for (int j = 0; j < allLane[i].getNumsOfObstacles(); j++)
 			{
+				// allLane[i].getObstacles()[j].moveScreenRecX(-2);
 				// allLane[i].getObstacles()[j].getScreenRec().x -= velo;
-				allLane[i].getObstacles()[j].setScreenRec({ allLane[i].getObstacles()[j].getScreenRec().x - velo, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
+				// allLane[i].getObstacles()[j].setScreenRec({ allLane[i].getObstacles()[j].getScreenRec().x - velo, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
+				allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
 				if (allLane[i].getObstacles()[j].getScreenRec().x <= -80)
 					// allLane[i].getObstacles()[j].screenRec.x = 960;
 					allLane[i].getObstacles()[j].setScreenRec({ 960, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });

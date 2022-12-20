@@ -203,8 +203,15 @@ std::vector<Lane> random(int level)
     return lanes;
 }
 
-bool Lane::checkCollisionLane() {
-    
+//bool Lane::checkCollisionLane() {
+//    
+//}
+
+
+void Lane::setScreenRecX(float pos, int i)
+{
+    (this->_direction == 1) ? this->_obstacles[i].setScreenRecX(pos, _laneVelocity, 1)
+        : this->_obstacles[i].setScreenRecX(pos, _laneVelocity, -1);
 }
 
 std::vector<Lane> allLane;

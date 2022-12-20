@@ -15,6 +15,7 @@ public:
     void setScreenRec(Rectangle other);
     void moveScreenRecX(float x);
     void moveScreenRecY(float y);
+    void setScreenRecX(float pos, int velo, short type);
 
     int getInLane();
     Rectangle getScreenRec();

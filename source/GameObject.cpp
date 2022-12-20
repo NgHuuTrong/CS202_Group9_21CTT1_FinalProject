@@ -22,6 +22,11 @@ void GameObject::setScreenRec(Rectangle other)
 	this->screenRec = other;
 }
 
+void GameObject::setScreenRecX(float pos, int velo, short type)
+{
+	this->screenRec.x -= (type * velo);
+}
+
 void GameObject::moveScreenRecX(float x)
 {
 	this->screenRec.x += x;

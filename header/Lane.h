@@ -18,7 +18,6 @@ enum LaneType
 class Lane
 {
 private:
-public:
     int _numsOfObstacles;     // range = [1; 5] (random)
     bool _istraffic;          // 0 = no traffic, 1 = traffic
     int _laneVelocity, level; // range = [1; 20] base on level
@@ -27,10 +26,24 @@ public:
     Vector2 _screenPos; // rectangle to draw the image on the screen
     bool _direction;    // 0 = left->right, 1 = right->left;
     std::vector<Obstacle> _obstacles;
+public:
+    int getNumsOfObstacles();
+    bool getIsTraffic();
+    int getLaneVelocity();
+    int getLevel();
+    LaneType getLaneType();
+    Rectangle getSrcRec();
+    Vector2 getScreenPos();
+    void setScreenPos(Vector2 pos);
+    bool getDirection();
+    std::vector<Obstacle> getObstacles();
+    void setScreenRecX(float pos, int i);
 
     Lane();
     Lane(int level, int laneType);
     ~Lane();
+
+    bool checkCollisionLane();
     friend std::vector<Lane> random(int level);
 };
 long long Rand(long long l, long long h);

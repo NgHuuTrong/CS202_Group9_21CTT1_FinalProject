@@ -11,9 +11,12 @@ enum Ob_type
 
 class Obstacle : public GameObject
 {
-public:
-    Obstacle(int inLane, Ob_type type);
-    ~Obstacle();
-
+private:
     Ob_type type;
+public:
+    Obstacle();
+    Obstacle(int inLane, Ob_type type);
+
+    Ob_type getType();
+    ~Obstacle();  
 };

@@ -17,8 +17,9 @@ private:
 	bool pauseState;
 	Texture2D blurImage;
 	Texture2D pauseMenu, victoryMenu;
+	Texture2D pauseMenu;
 
-
+	bool CheckCollision(Player& p, Obstacle  &ob);
 public:
 	Game();
 	Screen update();

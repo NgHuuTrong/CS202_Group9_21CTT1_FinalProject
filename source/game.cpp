@@ -65,8 +65,10 @@ Screen Game::update()
 	if (!allLane.size())
 	{
 		allLane = random(1);
-		player.screenRec = { 426, 0, 44, 59 };
+		// player.screenRec = { 426, 0, 44, 59 };
+		player.setScreenRec({ 426, 0, 44, 59 });
 		player.time = 0;
+		player.curDirection = 0;
 	}
 	if (startTime == 0)
 	{
@@ -75,32 +77,36 @@ Screen Game::update()
 	playTime = GetTime() - startTime;
 	for (int i = 0; i < (int)allLane.size(); i++)
 	{
-		for (int j = 0; j < (int)allLane[i]._obstacles.size(); ++j)
+		for (int j = 0; j < (int)allLane[i].getObstacles().size(); ++j)
 		{
-			Rectangle temp = allLane[i]._obstacles[j].screenRec;
-			temp.y = allLane[allLane[i]._obstacles[j].inLane]._screenPos.y + 15;
-			switch (allLane[i]._obstacles[j].type)
+			if (this->CheckCollision(player, allLane[i].getObstacles()[j]))
 			{
-			case REDCAR:
-				temp.width = (float)redcar_left.width;
-				temp.height = (float)(redcar_left.height);
-				break;
-			case BLUECAR:
-				temp.width = (float)bluecar_left.width;
-				temp.height = (float)bluecar_left.height;
-				break;
-			case AMBULANCE:
-				temp.width = (float)ambulance_left.width;
-				temp.height = (float)ambulance_right.height;
-				break;
-			default:
-				break;
+				std::cerr << "Collision" << std::endl;
 			}
-			if (CheckCollisionRecs(this->player.screenRec, temp))
-			{
-				std::cout << "Collision" << std::endl;
-				break;
-			}
+			// Rectangle temp = allLane[i].getObstacles()[j].getScreenRec();
+			// temp.y = allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15;
+			// switch (allLane[i].getObstacles()[j].getType())
+			// {
+			// case REDCAR:
+			// 	temp.width = (float)redcar_left.width;
+			// 	temp.height = (float)(redcar_left.height);
+			// 	break;
+			// case BLUECAR:
+			// 	temp.width = (float)bluecar_left.width;
+			// 	temp.height = (float)bluecar_left.height;
+			// 	break;
+			// case AMBULANCE:
+			// 	temp.width = (float)ambulance_left.width;
+			// 	temp.height = (float)ambulance_right.height;
+			// 	break;
+			// default:
+			// 	break;
+			// }
+			// if (CheckCollisionRecs(this->player.getScreenRec(), temp))
+			// {
+			// 	std::cout << "Collision" << std::endl;
+			// 	break;
+			// }
 		}
 	}
 	if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
@@ -108,47 +114,59 @@ Screen Game::update()
 
 		player.curDirection = 0;
 		player.isMoving = true;
-		if (player.screenRec.y + 59 < 720)
-			player.screenRec.y += 5;
+		if (player.getScreenRec().y + 65 < 720)
+			player.moveScreenRecY(5);
+			// player.screenRec.y += 5;
+			// player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y + 5, player.getScreenRec().width, player.getScreenRec().height });
 	}
 	else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
 	{
 
 		player.curDirection = 1;
 		player.isMoving = true;
-		if (player.screenRec.y - 5 > 0)
-			player.screenRec.y -= 5;
+		if (player.getScreenRec().y - 5 > 0)
+			player.moveScreenRecY(-5);
+			// player.screenRec.y -= 5;
+			// player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y - 5, player.getScreenRec().width, player.getScreenRec().height });
 	}
 	else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
 	{
 
 		player.curDirection = 2;
 		player.isMoving = true;
-		if (player.screenRec.x - 5 > 0)
-			player.screenRec.x -= 5;
+		if (player.getScreenRec().x - 5 > 0)
+			player.moveScreenRecX(-5);
+			// player.screenRec.x -= 5;
+			// player.setScreenRec({ player.getScreenRec().x - 5, player.getScreenRec().y, player.getScreenRec().width, player.getScreenRec().height });
 	}
 	else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
 	{
 		player.curDirection = 3;
 		player.isMoving = true;
-		if (player.screenRec.x + 44 < 960)
-			player.screenRec.x += 5;
+		if (player.getScreenRec().x + 44 < 960)
+			player.moveScreenRecX(5);
+			// player.screenRec.x += 5;
+			// player.setScreenRec({ player.getScreenRec().x + 5, player.getScreenRec().y, player.getScreenRec().width, player.getScreenRec().height });
 	}
-	if (GetMouseWheelMove() == -1 && allLane[allLane.size() - 1]._screenPos.y > 720 - pavement.height)
+	if (GetMouseWheelMove() == -1 && allLane[allLane.size() - 1].getScreenPos().y > 720 - pavement.height)
 	{
 		for (int i = 0; i < (int)allLane.size(); i++)
 		{
-			allLane[i]._screenPos.y -= 45;
+			allLane[i].setScreenPos({0, -45});
 		}
-		player.screenRec.y -= 45;
+		player.moveScreenRecY(-45);
+		// player.screenRec.y -= 45;
+		// player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y - 45, player.getScreenRec().width, player.getScreenRec().height });
 	}
-	if (GetMouseWheelMove() == 1 && allLane[0]._screenPos.y < 0)
+	if (GetMouseWheelMove() == 1 && allLane[0].getScreenPos().y < 0)
 	{
 		for (int i = 0; i < (int)allLane.size(); i++)
 		{
-			allLane[i]._screenPos.y += 45;
+			allLane[i].setScreenPos({0, 45});
 		}
-		player.screenRec.y += 45;
+		player.moveScreenRecX(45);
+		// player.screenRec.y += 45;
+		// player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y + 45, player.getScreenRec().width, player.getScreenRec().height });
 	}
 	
 
@@ -161,11 +179,13 @@ Screen Game::update()
 	}
 	if (nextButton)
 	{
-		player.screenRec = {426, 0, 44, 59};
+		player.curDirection = 0;
+		// player.screenRec = {426, 0, 44, 59};
+		player.setScreenRec({426, 0, 44, 59});
 		startTime = 0;
 		player.time += playTime;
 		nextButton = false;
-		int level = allLane[0].level + 1;
+		int level = allLane[0].getLevel() + 1;
 		allLane.clear();
 		allLane = random(level);
 	}
@@ -178,44 +198,46 @@ void Game::draw()
 		return;
 	for (Lane l : allLane)
 	{
-		if (l._laneType == PAVEMENT)
-			DrawTextureRec(pavement, l._srcRec, l._screenPos, WHITE);
-		else if (l._laneType == ROAD)
-			DrawTextureRec(road, l._srcRec, l._screenPos, WHITE);
+		if (l.getLaneType() == PAVEMENT)
+			DrawTextureRec(pavement, l.getSrcRec(), l.getScreenPos(), WHITE);
+		else if (l.getLaneType() == ROAD)
+			DrawTextureRec(road, l.getSrcRec(), l.getScreenPos(), WHITE);
 	}
 	DrawRectangleLinesEx({ 0, 0, 960, 720 }, 3, BLACK);
-	//DrawText(TextFormat("y: %f", allLane[0]._screenPos.y), 1000, 300, 35, BLACK);
 	drawPlayerState();
 	for (int i = 0; i < allLane.size(); i++)
 	{
-		if (!allLane[i]._direction)
+		if (!allLane[i].getDirection())
 		{
-			for (int j = 0; j < allLane[i]._numsOfObstacles; j++)
+			for (int j = 0; j < allLane[i].getNumsOfObstacles(); j++)
 			{
-				allLane[i]._obstacles[j].screenRec.x += velo;
-				if (allLane[i]._obstacles[j].screenRec.x >= 960)
-					allLane[i]._obstacles[j].screenRec.x = -80;
-				if (allLane[i]._obstacles[j].type == REDCAR)
-					DrawTextureRec(redcar_left, { 0, 0, (float)redcar_left.width, float(redcar_left.height) }, { (float)allLane[i]._obstacles[j].screenRec.x, allLane[allLane[i]._obstacles[j].inLane]._screenPos.y + 15 }, WHITE);
-				if (allLane[i]._obstacles[j].type == BLUECAR)
-					DrawTextureRec(bluecar_left, { 0, 0, (float)bluecar_left.width, float(bluecar_left.height) }, { (float)allLane[i]._obstacles[j].screenRec.x, allLane[allLane[i]._obstacles[j].inLane]._screenPos.y + 15 }, WHITE);
-				if (allLane[i]._obstacles[j].type == AMBULANCE)
-					DrawTextureRec(ambulance_left, { 0, 0, (float)ambulance_left.width, float(ambulance_left.height) }, { (float)allLane[i]._obstacles[j].screenRec.x, allLane[allLane[i]._obstacles[j].inLane]._screenPos.y + 15 }, WHITE);
+				// allLane[i].getObstacles()[j].moveScreenRecX(2);
+				// allLane[i].getObstacles()[j].screenRec.x += velo;
+				//allLane[i].getObstacles()[j].setScreenRec({ allLane[i].getObstacles()[j].getScreenRec().x + velo, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
+				allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
+				
+				if (allLane[i].getObstacles()[j].getType() == REDCAR)
+					DrawTextureRec(redcar_left, { 0, 0, (float)redcar_left.width, float(redcar_left.height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
+				if (allLane[i].getObstacles()[j].getType() == BLUECAR)
+					DrawTextureRec(bluecar_left, { 0, 0, (float)bluecar_left.width, float(bluecar_left.height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
+				if (allLane[i].getObstacles()[j].getType() == AMBULANCE)
+					DrawTextureRec(ambulance_left, { 0, 0, (float)ambulance_left.width, float(ambulance_left.height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
 			}
 		}
 		else
 		{
-			for (int j = 0; j < allLane[i]._numsOfObstacles; j++)
+			for (int j = 0; j < allLane[i].getNumsOfObstacles(); j++)
 			{
-				allLane[i]._obstacles[j].screenRec.x -= velo;
-				if (allLane[i]._obstacles[j].screenRec.x <= -80)
-					allLane[i]._obstacles[j].screenRec.x = 960;
-				if (allLane[i]._obstacles[j].type == REDCAR)
-					DrawTextureRec(redcar_right, { 0, 0, (float)redcar_right.width, float(redcar_right.height) }, { (float)allLane[i]._obstacles[j].screenRec.x, allLane[allLane[i]._obstacles[j].inLane]._screenPos.y + 15 }, WHITE);
-				if (allLane[i]._obstacles[j].type == BLUECAR)
-					DrawTextureRec(bluecar_right, { 0, 0, (float)bluecar_right.width, float(bluecar_right.height) }, { (float)allLane[i]._obstacles[j].screenRec.x, allLane[allLane[i]._obstacles[j].inLane]._screenPos.y + 15 }, WHITE);
-				if (allLane[i]._obstacles[j].type == AMBULANCE)
-					DrawTextureRec(ambulance_right, { 0, 0, (float)ambulance_right.width, float(ambulance_right.height) }, { (float)allLane[i]._obstacles[j].screenRec.x, allLane[allLane[i]._obstacles[j].inLane]._screenPos.y + 15 }, WHITE);
+				// allLane[i].getObstacles()[j].moveScreenRecX(-2);
+				// allLane[i].getObstacles()[j].getScreenRec().x -= velo;
+				// allLane[i].getObstacles()[j].setScreenRec({ allLane[i].getObstacles()[j].getScreenRec().x - velo, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
+				allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
+				if (allLane[i].getObstacles()[j].getType() == REDCAR)
+					DrawTextureRec(redcar_right, { 0, 0, (float)redcar_right.width, float(redcar_right.height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
+				if (allLane[i].getObstacles()[j].getType() == BLUECAR)
+					DrawTextureRec(bluecar_right, { 0, 0, (float)bluecar_right.width, float(bluecar_right.height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
+				if (allLane[i].getObstacles()[j].getType() == AMBULANCE)
+					DrawTextureRec(ambulance_right, { 0, 0, (float)ambulance_right.width, float(ambulance_right.height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
 			}
 		}
 	}
@@ -299,7 +321,7 @@ void Game::drawPlayerState()
 {
 	DrawTexturePro(charAnim[player.curDirection][player.curImage / 4],
 				   {0, 0, (float)charAnim[player.curDirection][player.curImage / 4].width, (float)charAnim[player.curDirection][player.curImage / 4].height},
-				   {player.screenRec}, {0, 0}, 0, WHITE);
+				   {player.getScreenRec()}, {0, 0}, 0, WHITE);
 	if (player.isMoving)
 	{
 		player.curImage++;
@@ -311,4 +333,37 @@ void Game::drawPlayerState()
 	{
 		player.curImage = 0;
 	}
+}
+
+bool Game::CheckCollision(Player& p, Obstacle  &ob)
+{
+	Rectangle temp1 = ob.getScreenRec();
+	Rectangle temp2 = player.getScreenRec();
+	temp1.y = allLane[ob.getInLane()].getScreenPos().y + 15;
+	temp2.y += temp2.height * 4 / 5;
+	temp2.height /= 5;
+	switch (ob.getType())
+	{
+		case REDCAR:
+			temp1.width = (float)redcar_left.width;
+			temp1.height = (float)(redcar_left.height);
+			break;
+		case BLUECAR:
+			temp1.width = (float)bluecar_left.width;
+			temp1.height = (float)bluecar_left.height;
+			break;
+		case AMBULANCE:
+			temp1.width = (float)ambulance_left.width;
+			temp1.height = (float)ambulance_right.height;
+			break;
+		default:
+			break;
+	}
+	temp1.y += temp1.height * 0.5;
+	temp1.height /= 2;
+	if (CheckCollisionRecs(temp2, temp1))
+	{
+		return true;
+	}
+	return false;
 }

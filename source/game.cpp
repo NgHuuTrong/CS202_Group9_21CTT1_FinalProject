@@ -167,7 +167,7 @@ Screen Game::update()
 		{
 			allLane[i].setScreenPos({0, 45});
 		}
-		player.moveScreenRecX(45);
+		player.moveScreenRecY(45);
 		// player.screenRec.y += 45;
 		// player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y + 45, player.getScreenRec().width, player.getScreenRec().height });
 	}

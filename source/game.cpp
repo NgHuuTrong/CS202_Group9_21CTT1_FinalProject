@@ -1,4 +1,4 @@
-#include "../header/Game.h"
+﻿#include "../header/Game.h"
 #include "../header/raygui.h"
 
 Game::Game()
@@ -349,8 +349,9 @@ void Game::draw()
 		}
 		else DrawTexture(home_button, homeButtonX, homeButtonY, RAYWHITE);
 
-		
-		
+		DrawText("Current Score: ", victoryMenuX + 50, victoryMenuY + 330, 55, DARKGRAY);
+		// Vẽ thử điểm bất kì
+		DrawText("2000", victoryMenuX + 600, victoryMenuY + 333, 55, ORANGE);	
 	}
 }
 

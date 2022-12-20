@@ -9,6 +9,57 @@ Lane::~Lane()
 {
 }
 
+int Lane::getNumsOfObstacles()
+{
+    return _numsOfObstacles;
+}
+
+bool Lane::getIsTraffic()
+{
+    return _istraffic;
+}
+
+int Lane::getLaneVelocity()
+{
+    return _laneVelocity;
+}
+
+int Lane::getLevel()
+{
+    return level;
+}
+
+LaneType Lane::getLaneType()
+{
+    return _laneType;
+}
+
+Rectangle Lane::getSrcRec()
+{
+    return _srcRec;
+}
+
+Vector2 Lane::getScreenPos()
+{
+    return _screenPos;
+}
+
+bool Lane::getDirection()
+{
+    return _direction;
+}   
+
+void Lane::setScreenPos(Vector2 pos)
+{
+    _screenPos.x += pos.x;
+    _screenPos.y += pos.y;
+}
+
+std::vector<Obstacle> Lane::getObstacles()
+{
+    return _obstacles;
+}
+
 mt19937 rd(chrono::steady_clock::now().time_since_epoch().count());
 typedef long long LL;
 long long Rand(long long l, long long h)
@@ -133,9 +184,9 @@ std::vector<Lane> random(int level)
                 flag = false;
                 for (int k = 0; k < j; k++)
                 {
-                    if (abs(tmp * 40 - lanes[i]._obstacles[k].screenRec.x) < 80 || abs(tmp * 40 - lanes[i]._obstacles[k].screenRec.x) >= 920)
+                    if (abs(tmp * 40 - lanes[i]._obstacles[k].getScreenRec().x) < 80 || abs(tmp * 40 - lanes[i]._obstacles[k].getScreenRec().x) >= 920)
                     {
-                        std::cerr << abs(tmp * 40 - lanes[i]._obstacles[k].screenRec.x) << std::endl;
+                        std::cerr << abs(tmp * 40 - lanes[i]._obstacles[k].getScreenRec().x) << std::endl;
                         tmp = Rand(0, 23);
                         flag = true;
                         break;
@@ -144,11 +195,16 @@ std::vector<Lane> random(int level)
                 if (!flag)
                     check = false;
             }
-            lanes[i]._obstacles[j].screenRec.x = tmp * 40;
+            // lanes[i]._obstacles[j].screenRec.x = tmp * 40;
+            lanes[i]._obstacles[j].setScreenRec({(float)(tmp * 40), 0, lanes[i]._obstacles[j].getScreenRec().width, lanes[i]._obstacles[j].getScreenRec().height});
         }
     }
     std::cerr << "finish random" << std::endl;
     return lanes;
+}
+
+bool Lane::checkCollisionLane() {
+    
 }
 
 std::vector<Lane> allLane;

@@ -27,6 +27,7 @@ Game::Game()
 	home_button = LoadTexture("data/homeButton.png");
 	blurImage = LoadTexture("data/Blur.png");
 	pauseMenu = LoadTexture("data/pauseMenu.png");
+	victoryMenu = LoadTexture("data/victoryMenu.png");
 	backButton = nextButton = false;
 	startTime = 0;
 	pauseState = false;
@@ -55,6 +56,8 @@ Game::~Game()
 	UnloadTexture(resume_button);
 	UnloadTexture(home_button);
 	UnloadTexture(blurImage);
+	UnloadTexture(pauseMenu);
+	UnloadTexture(victoryMenu);
 }
 
 Screen Game::update()

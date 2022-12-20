@@ -13,9 +13,12 @@ private:
 	Texture2D charAnim[4][4];																		   // Player Animation Textures
 	int velo = 2;																				   // Velocity
 	double playTime, startTime;
+
 	bool pauseState;
 	Texture2D blurImage;
-	Texture2D pauseMenu;
+	Texture2D pauseMenu, victoryMenu;
+
+
 public:
 	Game();
 	Screen update();

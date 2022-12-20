@@ -203,9 +203,7 @@ void Game::draw()
 				// allLane[i].getObstacles()[j].screenRec.x += velo;
 				//allLane[i].getObstacles()[j].setScreenRec({ allLane[i].getObstacles()[j].getScreenRec().x + velo, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
 				allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
-				if (allLane[i].getObstacles()[j].getScreenRec().x >= 960)
-					// allLane[i].getObstacles()[j].getScreenRec().x = -80;
-					allLane[i].getObstacles()[j].setScreenRec({ -80, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
+				
 				if (allLane[i].getObstacles()[j].getType() == REDCAR)
 					DrawTextureRec(redcar_left, { 0, 0, (float)redcar_left.width, float(redcar_left.height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
 				if (allLane[i].getObstacles()[j].getType() == BLUECAR)
@@ -222,9 +220,6 @@ void Game::draw()
 				// allLane[i].getObstacles()[j].getScreenRec().x -= velo;
 				// allLane[i].getObstacles()[j].setScreenRec({ allLane[i].getObstacles()[j].getScreenRec().x - velo, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
 				allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
-				if (allLane[i].getObstacles()[j].getScreenRec().x <= -80)
-					// allLane[i].getObstacles()[j].screenRec.x = 960;
-					allLane[i].getObstacles()[j].setScreenRec({ 960, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
 				if (allLane[i].getObstacles()[j].getType() == REDCAR)
 					DrawTextureRec(redcar_right, { 0, 0, (float)redcar_right.width, float(redcar_right.height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
 				if (allLane[i].getObstacles()[j].getType() == BLUECAR)

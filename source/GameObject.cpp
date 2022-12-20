@@ -25,6 +25,8 @@ void GameObject::setScreenRec(Rectangle other)
 void GameObject::setScreenRecX(float pos, int velo, short type)
 {
 	this->screenRec.x -= (type * velo);
+	if (this->screenRec.x >= 960) this->screenRec.x = 0;
+	if (this->screenRec.x <= -80) this->screenRec.x = 960;
 }
 
 void GameObject::moveScreenRecX(float x)

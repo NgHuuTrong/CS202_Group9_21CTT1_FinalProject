@@ -76,30 +76,34 @@ Screen Game::update()
 	{
 		for (int j = 0; j < (int)allLane[i].getObstacles().size(); ++j)
 		{
-			Rectangle temp = allLane[i].getObstacles()[j].getScreenRec();
-			temp.y = allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15;
-			switch (allLane[i].getObstacles()[j].getType())
+			if (this->CheckCollision(player, allLane[i].getObstacles()[j]))
 			{
-			case REDCAR:
-				temp.width = (float)redcar_left.width;
-				temp.height = (float)(redcar_left.height);
-				break;
-			case BLUECAR:
-				temp.width = (float)bluecar_left.width;
-				temp.height = (float)bluecar_left.height;
-				break;
-			case AMBULANCE:
-				temp.width = (float)ambulance_left.width;
-				temp.height = (float)ambulance_right.height;
-				break;
-			default:
-				break;
+				std::cerr << "Collision" << std::endl;
 			}
-			if (CheckCollisionRecs(this->player.getScreenRec(), temp))
-			{
-				std::cout << "Collision" << std::endl;
-				break;
-			}
+			// Rectangle temp = allLane[i].getObstacles()[j].getScreenRec();
+			// temp.y = allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15;
+			// switch (allLane[i].getObstacles()[j].getType())
+			// {
+			// case REDCAR:
+			// 	temp.width = (float)redcar_left.width;
+			// 	temp.height = (float)(redcar_left.height);
+			// 	break;
+			// case BLUECAR:
+			// 	temp.width = (float)bluecar_left.width;
+			// 	temp.height = (float)bluecar_left.height;
+			// 	break;
+			// case AMBULANCE:
+			// 	temp.width = (float)ambulance_left.width;
+			// 	temp.height = (float)ambulance_right.height;
+			// 	break;
+			// default:
+			// 	break;
+			// }
+			// if (CheckCollisionRecs(this->player.getScreenRec(), temp))
+			// {
+			// 	std::cout << "Collision" << std::endl;
+			// 	break;
+			// }
 		}
 	}
 	if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
@@ -108,8 +112,9 @@ Screen Game::update()
 		player.curDirection = 0;
 		player.isMoving = true;
 		if (player.getScreenRec().y + 65 < 720)
+			player.moveScreenRecY(5);
 			// player.screenRec.y += 5;
-			player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y + 5, player.getScreenRec().width, player.getScreenRec().height });
+			// player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y + 5, player.getScreenRec().width, player.getScreenRec().height });
 	}
 	else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
 	{
@@ -117,8 +122,9 @@ Screen Game::update()
 		player.curDirection = 1;
 		player.isMoving = true;
 		if (player.getScreenRec().y - 5 > 0)
+			player.moveScreenRecY(-5);
 			// player.screenRec.y -= 5;
-			player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y - 5, player.getScreenRec().width, player.getScreenRec().height });
+			// player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y - 5, player.getScreenRec().width, player.getScreenRec().height });
 	}
 	else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
 	{
@@ -126,16 +132,18 @@ Screen Game::update()
 		player.curDirection = 2;
 		player.isMoving = true;
 		if (player.getScreenRec().x - 5 > 0)
+			player.moveScreenRecX(-5);
 			// player.screenRec.x -= 5;
-			player.setScreenRec({ player.getScreenRec().x - 5, player.getScreenRec().y, player.getScreenRec().width, player.getScreenRec().height });
+			// player.setScreenRec({ player.getScreenRec().x - 5, player.getScreenRec().y, player.getScreenRec().width, player.getScreenRec().height });
 	}
 	else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
 	{
 		player.curDirection = 3;
 		player.isMoving = true;
 		if (player.getScreenRec().x + 44 < 960)
+			player.moveScreenRecX(5);
 			// player.screenRec.x += 5;
-			player.setScreenRec({ player.getScreenRec().x + 5, player.getScreenRec().y, player.getScreenRec().width, player.getScreenRec().height });
+			// player.setScreenRec({ player.getScreenRec().x + 5, player.getScreenRec().y, player.getScreenRec().width, player.getScreenRec().height });
 	}
 	if (GetMouseWheelMove() == -1 && allLane[allLane.size() - 1].getScreenPos().y > 720 - pavement.height)
 	{
@@ -143,8 +151,9 @@ Screen Game::update()
 		{
 			allLane[i].setScreenPos({0, -45});
 		}
+		player.moveScreenRecY(-45);
 		// player.screenRec.y -= 45;
-		player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y - 45, player.getScreenRec().width, player.getScreenRec().height });
+		// player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y - 45, player.getScreenRec().width, player.getScreenRec().height });
 	}
 	if (GetMouseWheelMove() == 1 && allLane[0].getScreenPos().y < 0)
 	{
@@ -152,8 +161,9 @@ Screen Game::update()
 		{
 			allLane[i].setScreenPos({0, 45});
 		}
+		player.moveScreenRecX(45);
 		// player.screenRec.y += 45;
-		player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y + 45, player.getScreenRec().width, player.getScreenRec().height });
+		// player.setScreenRec({ player.getScreenRec().x, player.getScreenRec().y + 45, player.getScreenRec().width, player.getScreenRec().height });
 	}
 	
 
@@ -321,4 +331,37 @@ void Game::drawPlayerState()
 	{
 		player.curImage = 0;
 	}
+}
+
+bool Game::CheckCollision(Player& p, Obstacle  &ob)
+{
+	Rectangle temp1 = ob.getScreenRec();
+	Rectangle temp2 = player.getScreenRec();
+	temp1.y = allLane[ob.getInLane()].getScreenPos().y + 15;
+	temp2.y += temp2.height * 4 / 5;
+	temp2.height /= 5;
+	switch (ob.getType())
+	{
+		case REDCAR:
+			temp1.width = (float)redcar_left.width;
+			temp1.height = (float)(redcar_left.height);
+			break;
+		case BLUECAR:
+			temp1.width = (float)bluecar_left.width;
+			temp1.height = (float)bluecar_left.height;
+			break;
+		case AMBULANCE:
+			temp1.width = (float)ambulance_left.width;
+			temp1.height = (float)ambulance_right.height;
+			break;
+		default:
+			break;
+	}
+	temp1.y += temp1.height * 0.5;
+	temp1.height /= 2;
+	if (CheckCollisionRecs(temp2, temp1))
+	{
+		return true;
+	}
+	return false;
 }

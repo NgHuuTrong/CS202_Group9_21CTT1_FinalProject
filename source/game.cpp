@@ -22,9 +22,14 @@ Game::Game()
 	ambulance_right = LoadTexture("data/ambulance_right.png");
 	restart_button = LoadTexture("data/restartButton.png");
 	pause_button = LoadTexture("data/pauseButton.png");
-	music_button = LoadTexture("data/musicButton.png");
+	music_button = LoadTexture("data/musicButton.png"); 
+	resume_button = LoadTexture("data/resumeButton.png");
+	home_button = LoadTexture("data/homeButton.png");
+	blurImage = LoadTexture("data/Blur.png");
+	pauseMenu = LoadTexture("data/pauseMenu.png");
 	backButton = nextButton = false;
 	startTime = 0;
+	pauseState = false;
 }
 
 Game::~Game()
@@ -47,6 +52,9 @@ Game::~Game()
 	UnloadTexture(restart_button);
 	UnloadTexture(pause_button);
 	UnloadTexture(music_button);
+	UnloadTexture(resume_button);
+	UnloadTexture(home_button);
+	UnloadTexture(blurImage);
 }
 
 Screen Game::update()
@@ -140,6 +148,7 @@ Screen Game::update()
 		}
 		player.screenRec.y += 45;
 	}
+	
 
 	if (backButton)
 	{
@@ -230,6 +239,7 @@ void Game::draw()
 		DrawTexture(pause_button, pauseX, pauseY, RED);
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
+			pauseState = true;
 		}
 	}
 	else
@@ -246,12 +256,42 @@ void Game::draw()
 	}
 	else
 		DrawTexture(music_button, musicX, musicY, RAYWHITE);
-	DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
+
+
+	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
 	DrawText(TextFormat("Time: %lf", playTime + player.time), 1000, 500, 35, BLACK);
 	if (GuiLabelButton({ 1150, 100, 100, 50 }, "NEXT"))
 		nextButton = true;
 	if (GuiLabelButton({ 1050, 100, 100, 50 }, "BACK"))
 		backButton = true;
+
+	if (pauseState == true) {
+		float pauseMenuX = 640 - pauseMenu.width / 2;
+		float pauseMenuY = 360 - pauseMenu.height / 2;
+		DrawTexture(blurImage, 0, 0, CLITERAL(Color){ 255, 255, 255, 200 });
+		DrawTexture(pauseMenu, pauseMenuX, pauseMenuY, RAYWHITE);
+		float resumeButtonX = pauseMenuX + pauseMenu.width / 4 - resume_button.width / 2;
+		float resumeButtonY = pauseMenuY + 170;
+		float homeButtonX = pauseMenuX + 3 * pauseMenu.width / 4 - home_button.width / 2;
+		float homeButtonY = pauseMenuY + 170;
+		Vector2 mousePos = GetMousePosition();
+		if (mousePos.x >= resumeButtonX && mousePos.x <= resumeButtonX + resume_button.width && mousePos.y >= resumeButtonY && mousePos.y <= resumeButtonY + resume_button.height) {
+			DrawTexture(resume_button, resumeButtonX, resumeButtonY, RED);
+			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+				pauseState = false;
+			}
+		}
+		else DrawTexture(resume_button, resumeButtonX, resumeButtonY, RAYWHITE);
+
+		if (mousePos.x >= homeButtonX && mousePos.x <= homeButtonX + home_button.width && mousePos.y >= homeButtonY && mousePos.y <= homeButtonY + home_button.height) {
+			DrawTexture(home_button, homeButtonX, homeButtonY, RED);
+			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+				pauseState = false;
+				backButton = true;
+			}
+		}
+		else DrawTexture(home_button, homeButtonX, homeButtonY, RAYWHITE);
+	}
 }
 
 void Game::drawPlayerState()

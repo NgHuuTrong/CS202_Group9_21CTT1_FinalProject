@@ -5,5 +5,6 @@ typedef enum
     GAME,
     CONTINUE,
     HIGHSCORE,
-    INSTRUCTION
+    INSTRUCTION,
+    EXIT
 } Screen;

@@ -8,6 +8,7 @@ int main()
 	while (!WindowShouldClose())
 	{
 		program.run();
+		if (program.isExit) break;
 	}
 	CloseWindow();
 	return 0;

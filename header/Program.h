@@ -14,6 +14,7 @@ private:
 	Instruction instruction;
 
 public:
+	int isExit = 0;
 	Program();
 	~Program();
 	void run();

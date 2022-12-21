@@ -34,6 +34,9 @@ void Program::run()
 	case INSTRUCTION:
 		screen = instruction.update();
 		break;
+	case EXIT:
+		isExit = 1;
+		break;
 	}
 	BeginDrawing();
 	ClearBackground(RAYWHITE);

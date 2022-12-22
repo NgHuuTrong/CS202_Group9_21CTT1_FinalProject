@@ -3,15 +3,14 @@
 Instruction::Instruction()
 {
 	mode = 0;
-	instructionBackground1 = LoadTexture("data/Instruction1.png");
-	instructionBackground2 = LoadTexture("data/Instruction2.png");
+	instructionBackground1 = &TextureHolder::getHolder().get(Textures::INS_BG_1);
+	instructionBackground2 = &TextureHolder::getHolder().get(Textures::INS_BG_2);
 	backButton = false;
 }
 Instruction::~Instruction()
 {
-	UnloadTexture(instructionBackground1);
-	UnloadTexture(instructionBackground2);
 }
+
 Screen Instruction::update()
 {
 	if (backButton)
@@ -23,7 +22,7 @@ Screen Instruction::update()
 }
 void Instruction::draw() {
 	if (mode == 0) {
-		DrawTextureRec(instructionBackground1, { 0,0,1280,720 }, { 0,0 }, WHITE);
+		DrawTextureRec(*instructionBackground1, { 0,0,1280,720 }, { 0,0 }, WHITE);
 		if (CheckCollisionPointTriangle(GetMousePosition(), { 1200, 300 }, { 1200, 400 }, { 1250, 350 }))
 		{
 			DrawTriangle({ 1200, 300 }, { 1200, 400 }, { 1250, 350 }, RED);
@@ -37,7 +36,7 @@ void Instruction::draw() {
 			backButton = true;
 	}
 	if (mode == 1) {
-		DrawTextureRec(instructionBackground2, { 0,0,1280,720 }, { 0,0 }, WHITE);
+		DrawTextureRec(*instructionBackground2, { 0,0,1280,720 }, { 0,0 }, WHITE);
 		if (CheckCollisionPointTriangle(GetMousePosition(), { 100, 300 }, { 50, 350 }, { 100, 400 }))
 		{
 			DrawTriangle({ 100, 300 }, { 50, 350 }, { 100, 400 }, RED);

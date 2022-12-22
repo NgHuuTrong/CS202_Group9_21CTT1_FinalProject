@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Scoreboard.h"
 #include "Instruction.h"
+#include "TextureHolder.h"
 
 class Program
 {
@@ -12,9 +13,9 @@ private:
 	Game game;
 	Scoreboard scoreboard;
 	Instruction instruction;
-
 public:
 	int isExit = 0;
+	void loadAllTextures();
 	Program();
 	~Program();
 	void run();

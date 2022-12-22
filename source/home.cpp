@@ -3,7 +3,7 @@
 
 Home::Home()
 {
-	homeBackground = LoadTexture("data/homeBackground.png");
+	homeBackground = &TextureHolder::getHolder().get(Textures::HOME_BG);
 	mode = 0;
 }
 
@@ -27,7 +27,7 @@ Screen Home::update()
 
 void Home::draw()
 {
-	DrawTexture(homeBackground, 0, 0, WHITE);
+	DrawTexture(*homeBackground, 0, 0, WHITE);
 	if (allLane.size())
 		if (GuiButton({500, 150, 280, 70}, "CONTINUE"))
 			mode = 2;
@@ -43,5 +43,5 @@ void Home::draw()
 
 Home::~Home()
 {
-	UnloadTexture(homeBackground);
+	
 }

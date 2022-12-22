@@ -15,7 +15,6 @@ private:
 	Instruction instruction;
 public:
 	int isExit = 0;
-	void loadAllTextures();
 	Program();
 	~Program();
 	void run();

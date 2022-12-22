@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <stdexcept>
 
 namespace Textures
 {

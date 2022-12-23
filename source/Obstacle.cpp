@@ -12,7 +12,7 @@ Ob_type Obstacle::getType()
     return this->type;
 }
 
-void Obstacle::renderLeft()
+void Obstacle::renderLeft(float y)
 {
     Texture2D txt;
     switch (this->type)
@@ -31,11 +31,11 @@ void Obstacle::renderLeft()
     }
     Rectangle srcTexture = { 0, 0, (float)txt.width, float(txt.height) };
     
-    Vector2 screenPos = { (float)this->getScreenRec().x, (float)this->getScreenRec().y };
+    Vector2 screenPos = { (float)this->getScreenRec().x, y };
     DrawTextureRec(txt, srcTexture, screenPos, WHITE);
 }
 
-void Obstacle::renderRight()
+void Obstacle::renderRight(float y)
 {
     Texture2D txt;
     switch (this->type)
@@ -53,7 +53,7 @@ void Obstacle::renderRight()
         break;
     }
     Rectangle srcTexture = { 0, 0, (float)txt.width, float(txt.height) };
-    Vector2 screenPos = { (float)this->getScreenRec().x, (float)this->getScreenRec().y + 15 };
+    Vector2 screenPos = { (float)this->getScreenRec().x, y };
     DrawTextureRec(txt, srcTexture, screenPos, WHITE);
 }
 

@@ -17,7 +17,7 @@ float Player::calHighScore()
 {
     if (this->time == 0)
         throw std::runtime_error("playtime is zero");
-    float high = this->level * 100000 + (1 / this->time) * 1000000;
+    float high = this->level * 1000 + (1 / this->time) * 1000;
     return high;
 }
 // // return if player can be in the scoreboard top 5

@@ -18,7 +18,7 @@ public:
     Obstacle(int laneIndex, Ob_type type);
 
     Ob_type getType();
-    void renderLeft();
-    void renderRight();
+    void renderLeft(float y);
+    void renderRight(float y);
     ~Obstacle();
 };

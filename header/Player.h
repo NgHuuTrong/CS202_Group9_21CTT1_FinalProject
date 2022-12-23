@@ -47,8 +47,4 @@ public:
     void setIsMoving(bool flag);
 
     void render(std::vector<std::vector<Texture2D*>> charAnim);
-    virtual void renderLeft();
-    virtual void renderRight();
-    virtual void renderUp();
-    virtual void renderDown();
 };

@@ -14,18 +14,17 @@ Ob_type Obstacle::getType()
 
 void Obstacle::renderLeft()
 {
-    TextureHolder* tHold;
     Texture2D txt;
     switch (this->type)
     {
     case REDCAR:
-        txt = tHold->get(Textures::REDCAR_LEFT);
+        txt = TextureHolder::getHolder().get(Textures::REDCAR_LEFT);
         break;
     case BLUECAR:
-        txt = tHold->get(Textures::BLUECAR_LEFT);
+        txt = TextureHolder::getHolder().get(Textures::BLUECAR_LEFT);
         break;
     case AMBULANCE:
-        txt = tHold->get(Textures::AMBULANCE_LEFT);
+        txt = TextureHolder::getHolder().get(Textures::AMBULANCE_LEFT);
         break;
     default:
         break;
@@ -38,18 +37,17 @@ void Obstacle::renderLeft()
 
 void Obstacle::renderRight()
 {
-    TextureHolder* tHold;
     Texture2D txt;
     switch (this->type)
     {
     case REDCAR:
-        txt = tHold->get(Textures::REDCAR_RIGHT);
+        txt = TextureHolder::getHolder().get(Textures::REDCAR_RIGHT);
         break;
     case BLUECAR:
-        txt = tHold->get(Textures::BLUECAR_RIGHT);
+        txt = TextureHolder::getHolder().get(Textures::BLUECAR_RIGHT);
         break;
     case AMBULANCE:
-        txt = tHold->get(Textures::AMBULANCE_RIGHT);
+        txt = TextureHolder::getHolder().get(Textures::AMBULANCE_RIGHT);
         break;
     default:
         break;
@@ -58,9 +56,5 @@ void Obstacle::renderRight()
     Vector2 screenPos = { (float)this->getScreenRec().x, (float)this->getScreenRec().y + 15 };
     DrawTextureRec(txt, srcTexture, screenPos, WHITE);
 }
-
-void Obstacle::renderUp() {}
-
-void Obstacle::renderDown() {}
 
 Obstacle::~Obstacle() {}

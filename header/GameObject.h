@@ -23,12 +23,7 @@ public:
     void moveScreenRecX(float x);
     void moveScreenRecY(float y);
 
-    virtual void renderLeft() = 0;
-    virtual void renderRight() = 0;
-    virtual void renderUp() = 0;
-    virtual void renderDown() = 0;
     void setScreenRecX(float pos, int velo, short type);
-
     // int getInLane();
     // Rectangle getScreenRec();
     ~GameObject();

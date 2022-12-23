@@ -152,9 +152,13 @@ void Player::storeHighScore()
 void Player::render(std::vector<std::vector<Texture2D*>> charAnim)
 {
     
-    DrawTexturePro(*charAnim[this->curDirection][this->curDirection / 4],
-				   {0, 0, (float)charAnim[this->curDirection][this->curImage / 4]->width, (float)charAnim[this->curDirection][this->curImage / 4]->height},
-				   {this->getScreenRec()}, {0, 0}, 0, WHITE);
+    DrawTexturePro(
+        *charAnim[this->curDirection][this->curDirection / 4],
+        {0, 0, (float)charAnim[this->curDirection][this->curImage / 4]->width,
+        (float)charAnim[this->curDirection][this->curImage / 4]->height},
+		{this->getScreenRec()}, {0, 0},
+        0, WHITE
+    );
 	if (this->isMoving)
 	{
 		this->curImage++;
@@ -167,10 +171,6 @@ void Player::render(std::vector<std::vector<Texture2D*>> charAnim)
 		this->curImage = 0;
 	}
 }
-void Player::renderLeft() {}
-void Player::renderRight() {}
-void Player::renderUp() {}
-void Player::renderDown() {}
 
 // curDirection getter, setter
 void Player::setCurdirection(int x)

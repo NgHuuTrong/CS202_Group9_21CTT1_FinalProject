@@ -15,8 +15,6 @@
 // // calculate highscore
 float Player::calHighScore()
 {
-    if (this->time == 0)
-        throw std::runtime_error("playtime is zero");
     float high = this->level * 1000 + (1 / this->time) * 1000;
     return high;
 }
@@ -207,4 +205,12 @@ std::string Player::getName()
 void Player::setIsMoving(bool flag)
 {
     this->isMoving = flag;
+}
+void Player::setLevel(float lvl)
+{
+    this->level = lvl;
+}
+float Player::getLevel()
+{
+    return this->level;
 }

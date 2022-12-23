@@ -45,7 +45,10 @@ public:
     void setName(std::string n);
     std::string getName();
 
+    void setLevel(float lvl);
+    float getLevel();
+
     void setIsMoving(bool flag);
 
-    void render(std::vector<std::vector<Texture2D*>> &charAnim);
+    void render(std::vector<std::vector<Texture2D*>> charAnim);
 };

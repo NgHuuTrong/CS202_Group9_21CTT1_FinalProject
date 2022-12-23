@@ -3,13 +3,13 @@
 
 Game::Game()
 {
-	std::string path = "data/characterAnimation/";
+	charAnim = std::vector<std::vector<Texture2D*>>(4, std::vector<Texture2D*>(4));
 	for (int i = 0; i < 4; i++)
 	{
-		charAnim[0][i] = LoadTexture((path + "Front" + std::to_string(i + 1) + ".png").c_str());
-		charAnim[1][i] = LoadTexture((path + "Back" + std::to_string(i + 1) + ".png").c_str());
-		charAnim[2][i] = LoadTexture((path + "Left" + std::to_string(i + 1) + ".png").c_str());
-		charAnim[3][i] = LoadTexture((path + "Right" + std::to_string(i + 1) + ".png").c_str());
+		charAnim[0][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 22));
+		charAnim[1][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 26));
+		charAnim[2][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 30));
+		charAnim[3][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 34));
 	}
 	player = Player("Test Name");
 	pavement = &TextureHolder::getHolder().get(Textures::PAVEMENT);
@@ -29,22 +29,6 @@ Game::Game()
 	blurImage = &TextureHolder::getHolder().get(Textures::BLUR_BG);
 	pauseMenu = &TextureHolder::getHolder().get(Textures::PAUSE_MENU);
 	victoryMenu = &TextureHolder::getHolder().get(Textures::VICTORY_MENU);
-	// road = LoadTexture("data/road.png");
-	// redcar_left = LoadTexture("data/redcar_left.png");
-	// redcar_right = LoadTexture("data/redcar_right.png");
-	// bluecar_left = LoadTexture("data/bluecar_left.png");
-	// bluecar_right = LoadTexture("data/bluecar_right.png");
-	// ambulance_left = LoadTexture("data/ambulance_left.png");
-	// ambulance_right = LoadTexture("data/ambulance_right.png");
-	// restart_button = LoadTexture("data/restartButton.png");
-	// pause_button = LoadTexture("data/pauseButton.png");
-	// music_button = LoadTexture("data/musicButton.png"); 
-	// resume_button = LoadTexture("data/resumeButton.png");
-	// home_button = LoadTexture("data/homeButton.png");
-	// next_button = LoadTexture("data/nextLevelButton.png");
-	// blurImage = LoadTexture("data/Blur.png");
-	// pauseMenu = LoadTexture("data/pauseMenu.png");
-	// victoryMenu = LoadTexture("data/victoryMenu.png");
 	backButton = nextButton = false;
 	startTime = 0;
 	pauseState = false;
@@ -53,13 +37,7 @@ Game::Game()
 
 Game::~Game()
 {
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			UnloadTexture(charAnim[i][j]);
-		}
-	}
+	
 }
 
 Screen Game::update()
@@ -322,8 +300,8 @@ void Game::draw()
 
 void Game::drawPlayerState()
 {
-	DrawTexturePro(charAnim[player.curDirection][player.curImage / 4],
-				   {0, 0, (float)charAnim[player.curDirection][player.curImage / 4].width, (float)charAnim[player.curDirection][player.curImage / 4].height},
+	DrawTexturePro(*charAnim[player.curDirection][player.curImage / 4],
+				   {0, 0, (float)charAnim[player.curDirection][player.curImage / 4]->width, (float)charAnim[player.curDirection][player.curImage / 4]->height},
 				   {player.getScreenRec()}, {0, 0}, 0, WHITE);
 	if (player.isMoving)
 	{

@@ -8,7 +8,7 @@
 namespace Textures
 {
     enum ID {
-        PAVEMENT,
+        PAVEMENT = 0, 
         ROAD,
         REDCAR_LEFT,
         REDCAR_RIGHT,
@@ -30,6 +30,22 @@ namespace Textures
         RANK_IMG,
         PAUSE_MENU,
         VICTORY_MENU,
+        CHAR_FRONT_1,
+        CHAR_FRONT_2,
+        CHAR_FRONT_3,
+        CHAR_FRONT_4,
+        CHAR_BACK_1,
+        CHAR_BACK_2,
+        CHAR_BACK_3,
+        CHAR_BACK_4,
+        CHAR_LEFT_1,
+        CHAR_LEFT_2,
+        CHAR_LEFT_3,
+        CHAR_LEFT_4,
+        CHAR_RIGHT_1,
+        CHAR_RIGHT_2,
+        CHAR_RIGHT_3,
+        CHAR_RIGHT_4
     };
 } // namespace Textures
 

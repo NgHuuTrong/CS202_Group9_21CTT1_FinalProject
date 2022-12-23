@@ -23,11 +23,12 @@ private:
     int curImage;
 
     std::vector<std::pair<int, std::string>>& gethighScoreList();
-    float calHighScore();
 public:
     Player();
     Player(std::string name);
     ~Player();
+
+    float calHighScore();
 
     void storeHighScore();
 
@@ -39,12 +40,12 @@ public:
     // time getter, setter
     void setTime(double t);
     double getTime();
-    double timeIncrease(double t);
+    void timeIncrease(double t);
     // name getter, setter
     void setName(std::string n);
     std::string getName();
 
     void setIsMoving(bool flag);
 
-    void render(std::vector<std::vector<Texture2D*>> charAnim);
+    void render(std::vector<std::vector<Texture2D*>> &charAnim);
 };

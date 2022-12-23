@@ -12,6 +12,7 @@ Game::Game()
 		charAnim[3][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 34));
 	}
 	player = Player("Test Name");
+	gameRight = &TextureHolder::getHolder().get(Textures::GAMERIGHT);
 	pavement = &TextureHolder::getHolder().get(Textures::PAVEMENT);
 	road = &TextureHolder::getHolder().get(Textures::ROAD);
 	redcar_left = &TextureHolder::getHolder().get(Textures::REDCAR_LEFT);
@@ -196,10 +197,16 @@ void Game::draw()
 			}
 		}
 	}
-	DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
-
+	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
+	DrawTexture(*gameRight, 961, 0, RAYWHITE);
+	DrawText("123", 1160, 147, 32, DARKGRAY);
+	DrawText("234", 1160, 228, 32, DARKGRAY);
+	player.setTime(playTime + player.getTime());
+	double scoreHere = player.calHighScore();
+	DrawText(TextFormat("%.0f", scoreHere), 1160, 316, 32, DARKGRAY);
+	DrawText(TextFormat("%.2f", playTime + player.getTime()), 1160, 395, 32, DARKGRAY);
 	Vector2 getMouse = GetMousePosition();
-	int restartX = 1000, restartY = 600, pauseX = 1100, pauseY = 600, musicX = 1200, musicY = 600;
+	int restartX = 1000,  restartY = 600, pauseX = 1100, pauseY = 600, musicX = 1200, musicY = 600;
 	if (getMouse.x >= restartX && getMouse.x <= restartX + restart_button->width && getMouse.y >= restartY && getMouse.y <= restartY + restart_button->height)
 	{
 		DrawTexture(*restart_button, restartX, restartY, RED);
@@ -238,7 +245,7 @@ void Game::draw()
 
 
 	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
-	DrawText(TextFormat("Time: %.2f", playTime + player.getTime()), 1030, 500, 35, BLACK);
+	//DrawText(TextFormat("Time: %.2f", playTime + player.getTime()), 1030, 500, 35, BLACK);
 	if (GuiLabelButton({ 1150, 100, 100, 50 }, "NEXT"))
 		nextButton = true;
 	if (GuiLabelButton({ 1050, 100, 100, 50 }, "BACK"))

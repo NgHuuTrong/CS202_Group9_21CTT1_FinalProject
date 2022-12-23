@@ -8,7 +8,7 @@
 namespace Textures
 {
     enum ID {
-        PAVEMENT = 0, 
+        PAVEMENT = 0,
         ROAD,
         REDCAR_LEFT,
         REDCAR_RIGHT,
@@ -45,7 +45,8 @@ namespace Textures
         CHAR_RIGHT_1,
         CHAR_RIGHT_2,
         CHAR_RIGHT_3,
-        CHAR_RIGHT_4
+        CHAR_RIGHT_4,
+        GAMERIGHT
     };
 } // namespace Textures
 

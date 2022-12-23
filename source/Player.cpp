@@ -17,7 +17,7 @@ float Player::calHighScore()
 {
     if (this->time == 0)
         throw std::runtime_error("playtime is zero");
-    float high = this->level * 100000 + (1 / this->time) * 1000000;
+    float high = this->level * 100000 + (1.0f / this->time) * 1000000;
     return high;
 }
 // // return if player can be in the scoreboard top 5
@@ -106,7 +106,7 @@ void Player::loadState()
 // MoveRight => Right
 Player::Player(): GameObject(), name(""), level(0), curDirection(0), isMoving(false), time(0.0), score(0), curImage(0) {}
 
-Player::Player(std::string name)
+Player::Player(std::string name) : Player()
 {
     this->name = name;
 }
@@ -149,16 +149,18 @@ void Player::storeHighScore()
     fout.close();
 }
 
-void Player::render(std::vector<std::vector<Texture2D*>> charAnim)
+void Player::render(std::vector<std::vector<Texture2D*>>& charAnim)
 {
-    
+    std::cerr << "1" <<std:: endl;
     DrawTexturePro(
-        *charAnim[this->curDirection][this->curDirection / 4],
+        *charAnim[this->curDirection][this->curImage / 4],
         {0, 0, (float)charAnim[this->curDirection][this->curImage / 4]->width,
         (float)charAnim[this->curDirection][this->curImage / 4]->height},
 		{this->getScreenRec()}, {0, 0},
         0, WHITE
     );
+    std::cerr << "2" << std::endl;
+
 	if (this->isMoving)
 	{
 		this->curImage++;
@@ -190,7 +192,7 @@ double Player::getTime()
 {
     return this->time;
 }
-double Player::timeIncrease(double t)
+void Player::timeIncrease(double t)
 {
     this->time += t;
 }

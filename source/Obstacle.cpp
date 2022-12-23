@@ -14,47 +14,47 @@ Ob_type Obstacle::getType()
 
 void Obstacle::renderLeft(float y)
 {
-    Texture2D txt;
+    Texture2D* txt;
     switch (this->type)
     {
     case REDCAR:
-        txt = TextureHolder::getHolder().get(Textures::REDCAR_LEFT);
+        txt = &TextureHolder::getHolder().get(Textures::REDCAR_LEFT);
         break;
     case BLUECAR:
-        txt = TextureHolder::getHolder().get(Textures::BLUECAR_LEFT);
+        txt = &TextureHolder::getHolder().get(Textures::BLUECAR_LEFT);
         break;
     case AMBULANCE:
-        txt = TextureHolder::getHolder().get(Textures::AMBULANCE_LEFT);
+        txt = &TextureHolder::getHolder().get(Textures::AMBULANCE_LEFT);
         break;
     default:
         break;
     }
-    Rectangle srcTexture = { 0, 0, (float)txt.width, float(txt.height) };
+    Rectangle srcTexture = { 0, 0, (float)txt->width, (float)txt->height };
     
     Vector2 screenPos = { (float)this->getScreenRec().x, y };
-    DrawTextureRec(txt, srcTexture, screenPos, WHITE);
+    DrawTextureRec(*txt, srcTexture, screenPos, WHITE);
 }
 
 void Obstacle::renderRight(float y)
 {
-    Texture2D txt;
+    Texture2D* txt;
     switch (this->type)
     {
     case REDCAR:
-        txt = TextureHolder::getHolder().get(Textures::REDCAR_RIGHT);
+        txt = &TextureHolder::getHolder().get(Textures::REDCAR_RIGHT);
         break;
     case BLUECAR:
-        txt = TextureHolder::getHolder().get(Textures::BLUECAR_RIGHT);
+        txt = &TextureHolder::getHolder().get(Textures::BLUECAR_RIGHT);
         break;
     case AMBULANCE:
-        txt = TextureHolder::getHolder().get(Textures::AMBULANCE_RIGHT);
+        txt = &TextureHolder::getHolder().get(Textures::AMBULANCE_RIGHT);
         break;
     default:
         break;
     }
-    Rectangle srcTexture = { 0, 0, (float)txt.width, float(txt.height) };
+    Rectangle srcTexture = { 0, 0, (float)txt->width, (float)txt->height };
     Vector2 screenPos = { (float)this->getScreenRec().x, y };
-    DrawTextureRec(txt, srcTexture, screenPos, WHITE);
+    DrawTextureRec(*txt, srcTexture, screenPos, WHITE);
 }
 
 Obstacle::~Obstacle() {}

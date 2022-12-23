@@ -29,10 +29,10 @@ void Obstacle::renderLeft(float y)
     default:
         break;
     }
-    Rectangle srcTexture = { 0, 0, (float)txt->width, (float)txt->height };
-    
-    Vector2 screenPos = { (float)this->getScreenRec().x, y };
-    DrawTextureRec(*txt, srcTexture, screenPos, WHITE);
+    DrawTextureRec(
+        *txt, { 0, 0, (float)txt->width, (float)txt->height },
+        { (float)this->getScreenRec().x, y }, WHITE
+    );
 }
 
 void Obstacle::renderRight(float y)
@@ -52,9 +52,10 @@ void Obstacle::renderRight(float y)
     default:
         break;
     }
-    Rectangle srcTexture = { 0, 0, (float)txt->width, (float)txt->height };
-    Vector2 screenPos = { (float)this->getScreenRec().x, y };
-    DrawTextureRec(*txt, srcTexture, screenPos, WHITE);
+    DrawTextureRec(
+        *txt, { 0, 0, (float)txt->width, (float)txt->height },
+        { (float)this->getScreenRec().x, y }, WHITE
+    );
 }
 
 Obstacle::~Obstacle() {}

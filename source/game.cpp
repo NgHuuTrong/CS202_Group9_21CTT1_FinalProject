@@ -142,10 +142,6 @@ void Game::draw()
 	renderAllLane();
 	DrawRectangleLinesEx({ 0, 0, 960, 720 }, 3, BLACK);
 	drawPlayerState();
-	for (int i = 0; i < (int)allLane.size(); i++)
-	{
-		allLane[i].renderObstacles();
-	}
 	DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
 
 	Vector2 getMouse = GetMousePosition();

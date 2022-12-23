@@ -234,6 +234,7 @@ void renderAllLane() {
     if (!allLane.size()) return;
     for (int i = 0; i < (int)allLane.size(); i++) {
         allLane[i].render();
+        allLane[i].renderObstacles();
     }
 }
 

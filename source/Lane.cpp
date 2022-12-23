@@ -263,13 +263,13 @@ void renderAllLane(bool isWin, bool pauseState) {
     for (int i = 0; i < (int)allLane.size(); i++) {
         allLane[i].render();
         allLane[i].renderObstacles(isWin, pauseState);
-        allLane[i].renderTrafficLight();
+        allLane[i].renderTrafficLight(isWin, pauseState);
     }
 }
 
-void Lane::renderTrafficLight()
+void Lane::renderTrafficLight(bool isWin, bool pauseState)
 {
-    increaseCountLight();
+    if (!isWin && !pauseState) increaseCountLight();
     if (_istraffic)
     {
         getLight();

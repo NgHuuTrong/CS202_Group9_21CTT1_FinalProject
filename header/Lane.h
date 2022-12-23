@@ -58,7 +58,7 @@ public:
 
     void render();
     void renderObstacles(bool isWin, bool pauseState);
-    void renderTrafficLight();
+    void renderTrafficLight(bool isWin, bool pauseState);
     friend std::vector<Lane> random(int level);
 };
 long long Rand(long long l, long long h);

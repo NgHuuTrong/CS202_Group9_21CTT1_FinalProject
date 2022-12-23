@@ -18,7 +18,7 @@ private:
     // MoveRight => Right
     int curDirection;
     bool isMoving;
-    double time; // in second
+    double time, preTime; // in second
     int score;
     int curImage;
 
@@ -39,7 +39,7 @@ public:
     // time getter, setter
     void setTime(double t);
     double getTime();
-    double timeIncrease(double t);
+    void timeIncrease(double t);
     // name getter, setter
     void setName(std::string n);
     std::string getName();

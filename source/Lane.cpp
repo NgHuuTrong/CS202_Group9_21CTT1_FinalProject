@@ -71,7 +71,7 @@ long long Rand(long long l, long long h)
 
 Lane::Lane(int level, int laneType)
 {
-    _laneVelocity = level * 2;
+    (level <= 10) ? _laneVelocity = 1.5 + level * 0.4 : _laneVelocity = 5 + level * 0.1;
     this->level = level;
     if (laneType == 0) // PAVEMENT
     {
@@ -107,6 +107,8 @@ Lane::Lane(int level, int laneType)
             _numsOfObstacles = Rand(4, 7);
         }
         _istraffic = Rand(0, 1);
+        if (_istraffic) countLight = Rand(0, 600);
+        else light = GREEN_LIGHT;
         _direction = Rand(0, 1);
     }
 }
@@ -210,8 +212,39 @@ std::vector<Lane> random(int level)
 
 void Lane::setScreenRecX(float pos, int i)
 {
-    (this->_direction == 1) ? this->_obstacles[i].setScreenRecX(pos, _laneVelocity, 1)
-        : this->_obstacles[i].setScreenRecX(pos, _laneVelocity, -1);
+    if (_istraffic) getLight();
+    if (this->light == GREEN_LIGHT)
+    {
+        (this->_direction == 1) ? this->_obstacles[i].setScreenRecX(pos, _laneVelocity, 1)
+            : this->_obstacles[i].setScreenRecX(pos, _laneVelocity, -1);
+    }
+    else if (this->light == RED_LIGHT)
+    {
+        this->_obstacles[i].setScreenRecX(pos, 0, 1);
+    }
+    else
+    {
+        (this->_direction == 1) ? this->_obstacles[i].setScreenRecX(pos, 1.2, 1)
+            : this->_obstacles[i].setScreenRecX(pos, 1.2, -1);
+    }
+
+}
+
+Light Lane::getLight()
+{
+    if (countLight <= 160)
+        light =  RED_LIGHT;
+    else if (countLight <= 600)
+        light = GREEN_LIGHT;
+    else if (countLight <= 700)
+        light = YELLOW_LIGHT;
+    return light;
+}
+
+void Lane::increaseCountLight()
+{
+    countLight++;
+    if (countLight > 700) countLight = 0;
 }
 
 std::vector<Lane> allLane;

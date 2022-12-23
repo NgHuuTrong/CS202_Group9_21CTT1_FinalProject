@@ -15,12 +15,21 @@ enum LaneType
     ROAD
 }; // PAVEMENT: no obstacles, ROAD: has obstacles
 
+enum Light
+{
+    RED_LIGHT,
+    YELLOW_LIGHT,
+    GREEN_LIGHT
+};
+
 class Lane
 {
 private:
     int _numsOfObstacles;     // range = [1; 5] (random)
     bool _istraffic;          // 0 = no traffic, 1 = traffic
     int _laneVelocity, level; // range = [1; 20] base on level
+    Light light;
+    int countLight;               // red_light = 0 (2s); yellow_light = 1 (1s); green_light = 2 (7s);
     LaneType _laneType;
     Rectangle _srcRec;  // rectangle to take the image from the sprite sheet
     Vector2 _screenPos; // rectangle to draw the image on the screen
@@ -31,6 +40,8 @@ public:
     bool getIsTraffic();
     int getLaneVelocity();
     int getLevel();
+    Light getLight();
+    void increaseCountLight();
     LaneType getLaneType();
     Rectangle getSrcRec();
     Vector2 getScreenPos();

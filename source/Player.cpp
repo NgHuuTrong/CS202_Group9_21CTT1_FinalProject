@@ -18,6 +18,16 @@ float Player::calHighScore()
     float high = this->level * 1000 + (1 / this->time) * 1000;
     return high;
 }
+
+void Player::addScore(int x)
+{
+    this->score += x;
+}
+
+int Player::getScore()
+{
+    return score;
+}
 // // return if player can be in the scoreboard top 5
 // bool Player::checkHighScoreBoard()
 // {
@@ -106,7 +116,7 @@ void Player::loadState()
 // MoveUp => Back
 // MoveLeft => Left
 // MoveRight => Right
-Player::Player(): GameObject(), name(""), level(0), curDirection(0), isMoving(false), time(0.0), score(0), curImage(0) {}
+Player::Player(): GameObject(), name(""), level(1), curDirection(0), isMoving(false), time(0.0), score(0), curImage(0) {}
 
 Player::Player(std::string name): Player()
 {
@@ -214,7 +224,7 @@ void Player::setLevel(float lvl)
 {
     this->level = lvl;
 }
-float Player::getLevel()
+int Player::getLevel()
 {
     return this->level;
 }

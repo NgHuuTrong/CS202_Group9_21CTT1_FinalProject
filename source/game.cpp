@@ -59,6 +59,7 @@ Screen Game::update()
 		player.setScreenRec({ 426, 0, 44, 59 });
 		player.setTime(0);
 		player.setCurdirection(0);
+		player.setLevel(1);
 	}
 	if (startTime == 0)
 	{
@@ -136,12 +137,14 @@ Screen Game::update()
 	}
 	if (nextButton)
 	{
+		player.addScore(1000);
 		player.setCurdirection(0);
 		player.setScreenRec({426, 0, 44, 59});
 		startTime = 0;
 		player.timeIncrease(playTime);
 		nextButton = false;
-		int level = allLane[0].getLevel() + 1;
+		int level = player.getLevel() + 1;
+		player.setLevel(level);
 		allLane.clear();
 		allLane = random(level);
 	}
@@ -150,42 +153,17 @@ Screen Game::update()
 
 void Game::draw()
 {
-	if (!allLane.size())
-		return;
-	for (Lane l : allLane)
-	{
-		if (l.getLaneType() == PAVEMENT)
-			DrawTextureRec(*pavement, l.getSrcRec(), l.getScreenPos(), WHITE);
-		else if (l.getLaneType() == ROAD)
-			DrawTextureRec(*road, l.getSrcRec(), l.getScreenPos(), WHITE);
-		if (l.getIsTraffic())
-		{
-			if (l.getLight() == RED_LIGHT)
-			{
-				DrawTexture(*red_light, 930, l.getScreenPos().y, WHITE);
-			}
-			else if (l.getLight() == GREEN_LIGHT)
-			{
-				DrawTexture(*green_light, 930, l.getScreenPos().y, WHITE);
-			}
-			else if (l.getLight() == YELLOW_LIGHT)
-			{
-				DrawTexture(*yellow_light, 930, l.getScreenPos().y, WHITE);
-			}
-		}
-	}
-	renderAllLane();
+	renderAllLane(isWin, pauseState);
 	DrawRectangleLinesEx({ 0, 0, 960, 720 }, 3, BLACK);
 	drawPlayerState();
 	DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
 
 	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
 	DrawTexture(*gameRight, 961, 0, RAYWHITE);
-	DrawText("123", 1160, 147, 32, DARKGRAY);
-	DrawText("234", 1160, 228, 32, DARKGRAY);
-	player.setTime(playTime + player.getTime());
-	DrawText(TextFormat("%.0f", player.calHighScore()), 1160, 316, 32, DARKGRAY);
-	DrawText(TextFormat("%.2f", player.getTime()), 1160, 395, 32, DARKGRAY);
+	DrawText("name", 1160, 147, 32, DARKGRAY);
+	DrawText(TextFormat("%i", player.getLevel()), 1160, 228, 32, DARKGRAY);
+	DrawText(TextFormat("%i", player.getScore()), 1160, 316, 32, DARKGRAY);
+	DrawText(TextFormat("%.2lf", player.getTime() + playTime), 1160, 395, 32, DARKGRAY);
 	Vector2 getMouse = GetMousePosition();
 	int restartX = 1000, restartY = 600, pauseX = 1100, pauseY = 600, musicX = 1200, musicY = 600;
 	if (getMouse.x >= restartX && getMouse.x <= restartX + restart_button->width && getMouse.y >= restartY && getMouse.y <= restartY + restart_button->height)
@@ -286,8 +264,7 @@ void Game::draw()
 		}
 		else DrawTexture(*home_button, homeButtonX, homeButtonY, RAYWHITE);
 
-		DrawText("Current Score: ", victoryMenuX + 50, victoryMenuY + 330, 55, DARKGRAY);
-		DrawText("2000", victoryMenuX + 600, victoryMenuY + 333, 55, ORANGE);	
+		DrawText(TextFormat("Current Score:  %i", player.getScore() + 1000), victoryMenuX + 50, victoryMenuY + 330, 55, DARKGRAY);
 	}
 }
 

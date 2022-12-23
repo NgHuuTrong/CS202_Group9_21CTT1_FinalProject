@@ -29,7 +29,8 @@ public:
     ~Player();
 
     float calHighScore();
-
+    int getScore();
+    void addScore(int x);
     void storeHighScore();
 
     void storeState();
@@ -46,7 +47,7 @@ public:
     std::string getName();
 
     void setLevel(float lvl);
-    float getLevel();
+    int getLevel();
 
     void setIsMoving(bool flag);
 

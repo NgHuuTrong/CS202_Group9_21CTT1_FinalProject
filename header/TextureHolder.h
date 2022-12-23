@@ -48,8 +48,7 @@ namespace Textures
         CHAR_RIGHT_4,
         RED_LIGHT,
         YELLOW_LIGHT,
-        GREEN_LIGHT
-        CHAR_RIGHT_4,
+        GREEN_LIGHT,
         GAMERIGHT
     };
 } // namespace Textures

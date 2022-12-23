@@ -28,7 +28,7 @@ class Lane
 private:
     int _numsOfObstacles;     // range = [1; 5] (random)
     bool _istraffic;          // 0 = no traffic, 1 = traffic
-    int _laneVelocity, level; // range = [1; 20] base on level
+    int _laneVelocity; // range = [1; 20] base on level
     Light light;
     int countLight;               // red_light = 0 (2s); yellow_light = 1 (1s); green_light = 2 (7s);
     LaneType _laneType;
@@ -57,13 +57,14 @@ public:
     ~Lane();
 
     void render();
-    void renderObstacles();
+    void renderObstacles(bool isWin, bool pauseState);
+    void renderTrafficLight();
     friend std::vector<Lane> random(int level);
 };
 long long Rand(long long l, long long h);
 
 std::vector<Lane> random(int level);
 
-void renderAllLane();
+void renderAllLane(bool isWin, bool pauseState);
 
 extern std::vector<Lane> allLane;

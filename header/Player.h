@@ -35,21 +35,25 @@ public:
 
     void storeState();
     void loadState();
+
     // curDirection getter, setter
     void setCurdirection(int x);
     int getCurdirection();
+
     // time getter, setter
     void setTime(double t);
     double getTime();
     void timeIncrease(double t);
+
     // name getter, setter
     void setName(std::string n);
     std::string getName();
 
     void setLevel(float lvl);
     int getLevel();
-
     void setIsMoving(bool flag);
 
     void render(std::vector<std::vector<Texture2D*>> charAnim);
+
+    void eventKeyboard();
 };

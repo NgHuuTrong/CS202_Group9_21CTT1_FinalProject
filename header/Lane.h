@@ -26,6 +26,8 @@ enum Light
 class Lane
 {
 private:
+    Texture2D* txt;
+
     int _numsOfObstacles;     // range = [1; 5] (random)
     bool _istraffic;          // 0 = no traffic, 1 = traffic
     int _laneVelocity; // range = [1; 20] base on level

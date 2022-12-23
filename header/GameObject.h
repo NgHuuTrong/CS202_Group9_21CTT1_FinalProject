@@ -4,7 +4,7 @@
 
 class GameObject
 {
-private:
+protected:
     int inLane;          // Index of lane that the object is in
     Rectangle screenRec; // Rectangle that represents the object on the screen
 public:

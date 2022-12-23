@@ -13,8 +13,6 @@ Game::Game()
 	}
 	player = Player("Test Name");
 	gameRight = &TextureHolder::getHolder().get(Textures::GAMERIGHT);
-	pavement = &TextureHolder::getHolder().get(Textures::PAVEMENT);
-	road = &TextureHolder::getHolder().get(Textures::ROAD);
 	redcar_left = &TextureHolder::getHolder().get(Textures::REDCAR_LEFT);
 	redcar_right = &TextureHolder::getHolder().get(Textures::REDCAR_RIGHT);
 	bluecar_left = &TextureHolder::getHolder().get(Textures::BLUECAR_LEFT);
@@ -30,9 +28,6 @@ Game::Game()
 	blurImage = &TextureHolder::getHolder().get(Textures::BLUR_BG);
 	pauseMenu = &TextureHolder::getHolder().get(Textures::PAUSE_MENU);
 	victoryMenu = &TextureHolder::getHolder().get(Textures::VICTORY_MENU);
-	red_light = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
-	green_light = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
-	yellow_light = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
 	backButton = nextButton = false;
 	startTime = 0;
 	pauseState = false;
@@ -82,35 +77,9 @@ Screen Game::update()
 	{
 		isWin = true;
 	}
-	if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
-	{
-		player.setCurdirection(0);
-		player.setIsMoving(true);
-		if (player.getScreenRec().y + 65 < 720)
-			player.moveScreenRecY(5);
-	}
-	else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
-	{
-		player.setCurdirection(1);
-		player.setIsMoving(true);
-		if (player.getScreenRec().y - 5 > 0)
-			player.moveScreenRecY(-5);
-	}
-	else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
-	{
-		player.setCurdirection(2);
-		player.setIsMoving(true);
-		if (player.getScreenRec().x - 5 > 0)
-			player.moveScreenRecX(-5);
-	}
-	else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
-	{
-		player.setCurdirection(3);
-		player.setIsMoving(true);
-		if (player.getScreenRec().x + 44 < 960)
-			player.moveScreenRecX(5);
-	}
-	if (GetMouseWheelMove() == -1 && allLane[allLane.size() - 1].getScreenPos().y > 720 - pavement->height)
+	
+	// Event Wheel Mouse
+	if (GetMouseWheelMove() == -1 && allLane[allLane.size() - 1].getScreenPos().y > 630)
 	{
 		for (int i = 0; i < (int)allLane.size(); i++)
 		{
@@ -126,7 +95,9 @@ Screen Game::update()
 		}
 		player.moveScreenRecY(45);
 	}
-	
+
+	// Event Ketboard
+	player.eventKeyboard();
 
 	if (backButton)
 	{

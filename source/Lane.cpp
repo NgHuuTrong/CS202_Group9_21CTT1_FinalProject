@@ -237,25 +237,24 @@ void Lane::increaseCountLight()
 }
 
 void Lane::render() {
-    Texture2D* pavement = &TextureHolder::getHolder().get(Textures::PAVEMENT);
-    Texture2D* road = &TextureHolder::getHolder().get(Textures::ROAD);
-    if (this->getLaneType() == PAVEMENT)
-		DrawTextureRec(*pavement, this->getSrcRec(), this->getScreenPos(), WHITE);
-	else if (this->getLaneType() == ROAD)
-		DrawTextureRec(*road, this->getSrcRec(), this->getScreenPos(), WHITE);
+    if (this->_laneType == PAVEMENT)
+        txt = &TextureHolder::getHolder().get(Textures::PAVEMENT);
+    else if (this->_laneType == ROAD)
+        txt = &TextureHolder::getHolder().get(Textures::ROAD);
+    DrawTextureRec(*txt, this->_srcRec, this->_screenPos, WHITE);
 }
 
 void Lane::renderObstacles(bool isWin, bool pauseState) {
-    for (int j = 0; j < this->getNumsOfObstacles(); j++)
-		{
-            if (!isWin && !pauseState)
-			    this->setScreenRecX(this->getObstacles()[j].getScreenRec().x, j);
-			float y = allLane[this->getObstacles()[j].getInLane()].getScreenPos().y + 15;
-			if (!this->getDirection())
-				this->getObstacles()[j].renderLeft(y);
-			else
-				this->getObstacles()[j].renderRight(y);
-		}
+    for (int j = 0; j < this->_numsOfObstacles; j++)
+    {
+        if (!isWin && !pauseState)
+            this->setScreenRecX(this->_obstacles[j].getScreenRec().x, j);
+        float y = allLane[this->_obstacles[j].getInLane()]._screenPos.y + 15;
+        if (!this->_direction)
+            this->_obstacles[j].renderLeft(y);
+        else
+            this->_obstacles[j].renderRight(y);
+    }
 }
 
 void renderAllLane(bool isWin, bool pauseState) {
@@ -274,20 +273,12 @@ void Lane::renderTrafficLight(bool isWin, bool pauseState)
     {
         getLight();
         if (light == RED_LIGHT)
-        {
-            Texture2D* red_light = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
-            DrawTexture(*red_light, 930, _screenPos.y, WHITE);
-        }
+            txt = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
         else if (light == GREEN_LIGHT)
-        {
-            Texture2D* green_light = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
-            DrawTexture(*green_light, 930, _screenPos.y, WHITE);
-        }
+            txt = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
         else if (light == YELLOW_LIGHT)
-        {
-            Texture2D* yellow_light = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
-            DrawTexture(*yellow_light, 930, _screenPos.y, WHITE);
-        }
+            txt = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
+        DrawTexture(*txt, 930, _screenPos.y, WHITE);
     }
 }
 

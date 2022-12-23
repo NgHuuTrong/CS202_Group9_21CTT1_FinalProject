@@ -228,3 +228,37 @@ int Player::getLevel()
 {
     return this->level;
 }
+
+void Player::eventKeyboard()
+{
+    {
+        if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
+        {
+            this->curDirection = 0;
+            this->isMoving = true;
+            if (this->screenRec.y + 65 < 720)
+                this->moveScreenRecY(5);
+        }
+        else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
+        {
+            this->curDirection = 1;
+            this->isMoving = true;
+            if (this->screenRec.y - 5 > 0)
+                this->moveScreenRecY(-5);
+        }
+        else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
+        {
+            this->curDirection = 2;
+            this->isMoving = true;
+            if (this->screenRec.x - 5 > 0)
+                this->moveScreenRecX(-5);
+        }
+        else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
+        {
+            this->curDirection = 3;
+            this->isMoving = true;
+            if (this->screenRec.x + 44 < 960)
+                this->moveScreenRecX(5);
+        }
+    }
+}

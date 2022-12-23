@@ -106,7 +106,7 @@ void Player::loadState()
 // MoveRight => Right
 Player::Player(): GameObject(), name(""), level(0), curDirection(0), isMoving(false), time(0.0), score(0), curImage(0) {}
 
-Player::Player(std::string name)
+Player::Player(std::string name): Player()
 {
     this->name = name;
 }
@@ -153,7 +153,7 @@ void Player::render(std::vector<std::vector<Texture2D*>> charAnim)
 {
     
     DrawTexturePro(
-        *charAnim[this->curDirection][this->curDirection / 4],
+        *charAnim[this->curDirection][this->curImage / 4],
         {0, 0, (float)charAnim[this->curDirection][this->curImage / 4]->width,
         (float)charAnim[this->curDirection][this->curImage / 4]->height},
 		{this->getScreenRec()}, {0, 0},

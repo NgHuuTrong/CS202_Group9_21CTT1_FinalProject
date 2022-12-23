@@ -1,5 +1,5 @@
 #pragma once
-#include "../header/raylib.h"
+#include "raylib.h"
 #include <vector>
 #include <algorithm>
 #include <time.h>
@@ -8,7 +8,8 @@
 #include <assert.h>
 #include <iostream>
 
-#include "../header/Obstacle.h"
+#include "Obstacle.h"
+#include "TextureHolder.h"
 enum LaneType
 {
     PAVEMENT,
@@ -35,6 +36,7 @@ private:
     Vector2 _screenPos; // rectangle to draw the image on the screen
     bool _direction;    // 0 = left->right, 1 = right->left;
     std::vector<Obstacle> _obstacles;
+
 public:
     int getNumsOfObstacles();
     bool getIsTraffic();
@@ -54,11 +56,14 @@ public:
     Lane(int level, int laneType);
     ~Lane();
 
-    bool checkCollisionLane();
+    void render();
+    void renderObstacles();
     friend std::vector<Lane> random(int level);
 };
 long long Rand(long long l, long long h);
 
 std::vector<Lane> random(int level);
+
+void renderAllLane();
 
 extern std::vector<Lane> allLane;

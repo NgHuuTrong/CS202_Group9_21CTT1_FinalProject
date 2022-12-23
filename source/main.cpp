@@ -20,6 +20,7 @@ int main()
 }
 
 void loadAllTextures() {
+	TextureHolder::getHolder().load(Textures::GAMERIGHT, "data/gameMenuRight.png");
 	TextureHolder::getHolder().load(Textures::PAVEMENT, "data/pavement.png");
 	TextureHolder::getHolder().load(Textures::ROAD, "data/road.png");
 	TextureHolder::getHolder().load(Textures::REDCAR_LEFT, "data/redcar_left.png");

@@ -23,11 +23,12 @@ private:
     int curImage;
 
     std::vector<std::pair<int, std::string>>& gethighScoreList();
-    float calHighScore();
 public:
     Player();
     Player(std::string name);
     ~Player();
+
+    float calHighScore();
 
     void storeHighScore();
 
@@ -43,6 +44,9 @@ public:
     // name getter, setter
     void setName(std::string n);
     std::string getName();
+
+    void setLevel(float lvl);
+    float getLevel();
 
     void setIsMoving(bool flag);
 

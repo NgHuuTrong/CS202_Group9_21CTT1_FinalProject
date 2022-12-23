@@ -205,11 +205,6 @@ std::vector<Lane> random(int level)
     return lanes;
 }
 
-//bool Lane::checkCollisionLane() {
-//    
-//}
-
-
 void Lane::setScreenRecX(float pos, int i)
 {
     if (_istraffic) getLight();
@@ -245,6 +240,35 @@ void Lane::increaseCountLight()
 {
     countLight++;
     if (countLight > 700) countLight = 0;
+}
+
+void Lane::render() {
+    Texture2D* pavement = &TextureHolder::getHolder().get(Textures::PAVEMENT);
+    Texture2D* road = &TextureHolder::getHolder().get(Textures::ROAD);
+    if (this->getLaneType() == PAVEMENT)
+		DrawTextureRec(*pavement, this->getSrcRec(), this->getScreenPos(), WHITE);
+	else if (this->getLaneType() == ROAD)
+		DrawTextureRec(*road, this->getSrcRec(), this->getScreenPos(), WHITE);
+}
+
+void Lane::renderObstacles() {
+    for (int j = 0; j < this->getNumsOfObstacles(); j++)
+		{
+			this->setScreenRecX(this->getObstacles()[j].getScreenRec().x, j);
+			float y = allLane[this->getObstacles()[j].getInLane()].getScreenPos().y + 15;
+			if (!this->getDirection())
+				this->getObstacles()[j].renderLeft(y);
+			else
+				this->getObstacles()[j].renderRight(y);
+		}
+}
+
+void renderAllLane() {
+    if (!allLane.size()) return;
+    for (int i = 0; i < (int)allLane.size(); i++) {
+        allLane[i].render();
+        allLane[i].renderObstacles();
+    }
 }
 
 std::vector<Lane> allLane;

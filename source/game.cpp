@@ -56,8 +56,6 @@ Screen Game::update()
 	{
 		allLane = random(1);
 		player.setScreenRec({ 426, 0, 44, 59 });
-		// player.time = 0;
-		// player.curDirection = 0;
 		player.setTime(0);
 		player.setCurdirection(0);
 	}
@@ -84,8 +82,6 @@ Screen Game::update()
 	}
 	if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
 	{
-		// player.curDirection = 0;
-		// player.isMoving = true;
 		player.setCurdirection(0);
 		player.setIsMoving(true);
 		if (player.getScreenRec().y + 65 < 720)
@@ -93,8 +89,6 @@ Screen Game::update()
 	}
 	else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
 	{
-		// player.curDirection = 1;
-		// player.isMoving = true;
 		player.setCurdirection(1);
 		player.setIsMoving(true);
 		if (player.getScreenRec().y - 5 > 0)
@@ -102,9 +96,6 @@ Screen Game::update()
 	}
 	else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
 	{
-
-		// player.curDirection = 2;
-		// player.isMoving = true;
 		player.setCurdirection(2);
 		player.setIsMoving(true);
 		if (player.getScreenRec().x - 5 > 0)
@@ -112,8 +103,6 @@ Screen Game::update()
 	}
 	else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
 	{
-		// player.curDirection = 3;
-		// player.isMoving = true;
 		player.setCurdirection(3);
 		player.setIsMoving(true);
 		if (player.getScreenRec().x + 44 < 960)
@@ -140,18 +129,15 @@ Screen Game::update()
 	if (backButton)
 	{
 		startTime = 0;
-		// player.time += playTime;
 		player.timeIncrease(playTime);
 		backButton = false;
 		return HOME;
 	}
 	if (nextButton)
 	{
-		// player.curDirection = 0;
 		player.setCurdirection(0);
 		player.setScreenRec({426, 0, 44, 59});
 		startTime = 0;
-		// player.time += playTime;
 		player.timeIncrease(playTime);
 		nextButton = false;
 		int level = allLane[0].getLevel() + 1;
@@ -189,6 +175,8 @@ void Game::draw()
 	}
 	DrawRectangleLinesEx({ 0, 0, 960, 720 }, 3, BLACK);
 	drawPlayerState();
+	DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
+
 	for (int i = 0; i < (int)allLane.size(); i++)
 	{
 		if (allLane[i].getIsTraffic()) allLane[i].increaseCountLight();
@@ -222,8 +210,14 @@ void Game::draw()
 			}
 		}
 	}
-	DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
-
+	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
+	DrawTexture(*gameRight, 961, 0, RAYWHITE);
+	DrawText("123", 1160, 147, 32, DARKGRAY);
+	DrawText("234", 1160, 228, 32, DARKGRAY);
+	player.setTime(playTime + player.getTime());
+	double scoreHere = player.calHighScore();
+	DrawText(TextFormat("%.0f", scoreHere), 1160, 316, 32, DARKGRAY);
+	DrawText(TextFormat("%.2f", playTime + player.getTime()), 1160, 395, 32, DARKGRAY);
 	Vector2 getMouse = GetMousePosition();
 	int restartX = 1000, restartY = 600, pauseX = 1100, pauseY = 600, musicX = 1200, musicY = 600;
 	if (getMouse.x >= restartX && getMouse.x <= restartX + restart_button->width && getMouse.y >= restartY && getMouse.y <= restartY + restart_button->height)
@@ -254,17 +248,13 @@ void Game::draw()
 	if (getMouse.x >= musicX && getMouse.x <= musicX + music_button->width && getMouse.y >= musicY && getMouse.y <= musicY + music_button->height)
 	{
 		DrawTexture(*music_button, musicX, musicY, RED);
-		// if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-		// {
-		// 	isWin = true;
-		// }
 	}
 	else
 		DrawTexture(*music_button, musicX, musicY, RAYWHITE);
 
 
 	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
-	DrawText(TextFormat("Time: %.2f", playTime + player.getTime()), 1030, 500, 35, BLACK);
+	//DrawText(TextFormat("Time: %.2f", playTime + player.getTime()), 1030, 500, 35, BLACK);
 	if (GuiLabelButton({ 1150, 100, 100, 50 }, "NEXT"))
 		nextButton = true;
 	if (GuiLabelButton({ 1050, 100, 100, 50 }, "BACK"))
@@ -329,7 +319,6 @@ void Game::draw()
 		else DrawTexture(*home_button, homeButtonX, homeButtonY, RAYWHITE);
 
 		DrawText("Current Score: ", victoryMenuX + 50, victoryMenuY + 330, 55, DARKGRAY);
-		// Vẽ thử điểm bất kì
 		DrawText("2000", victoryMenuX + 600, victoryMenuY + 333, 55, ORANGE);	
 	}
 }

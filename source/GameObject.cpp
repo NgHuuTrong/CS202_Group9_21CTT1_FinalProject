@@ -8,9 +8,12 @@ GameObject::GameObject(int inLane)
 	this->inLane = inLane;
 }
 
-bool GameObject::checkCollision(GameObject &other)
+GameObject::GameObject(Rectangle rec): screenRec(rec) {}
+
+GameObject::GameObject(int laneIndex, Rectangle rec)
 {
-	return CheckCollisionRecs(this->screenRec, other.screenRec);
+	this->inLane = laneIndex;
+	this->screenRec = rec;
 }
 
 void GameObject::setInLane(int x)
@@ -20,6 +23,15 @@ void GameObject::setInLane(int x)
 void GameObject::setScreenRec(Rectangle other)
 {
 	this->screenRec = other;
+}
+
+int GameObject::getInLane()
+{
+	return this->inLane;
+}
+Rectangle GameObject::getScreenRec()
+{
+	return this->screenRec;
 }
 
 void GameObject::setScreenRecX(float pos, int velo, short type)
@@ -38,11 +50,4 @@ void GameObject::moveScreenRecY(float y)
 	this->screenRec.y += y;
 }
 
-int GameObject::getInLane()
-{
-	return this->inLane;
-}
-Rectangle GameObject::getScreenRec()
-{
-	return this->screenRec;
-}
+GameObject::~GameObject() {}

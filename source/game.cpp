@@ -46,8 +46,10 @@ Screen Game::update()
 	{
 		allLane = random(1);
 		player.setScreenRec({ 426, 0, 44, 59 });
-		player.time = 0;
-		player.curDirection = 0;
+		// player.time = 0;
+		// player.curDirection = 0;
+		player.setTime(0);
+		player.setCurdirection(0);
 	}
 	if (startTime == 0)
 	{
@@ -72,32 +74,38 @@ Screen Game::update()
 	}
 	if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
 	{
-
-		player.curDirection = 0;
-		player.isMoving = true;
+		// player.curDirection = 0;
+		// player.isMoving = true;
+		player.setCurdirection(0);
+		player.setIsMoving(true);
 		if (player.getScreenRec().y + 65 < 720)
 			player.moveScreenRecY(5);
 	}
 	else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
 	{
-
-		player.curDirection = 1;
-		player.isMoving = true;
+		// player.curDirection = 1;
+		// player.isMoving = true;
+		player.setCurdirection(1);
+		player.setIsMoving(true);
 		if (player.getScreenRec().y - 5 > 0)
 			player.moveScreenRecY(-5);
 	}
 	else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
 	{
 
-		player.curDirection = 2;
-		player.isMoving = true;
+		// player.curDirection = 2;
+		// player.isMoving = true;
+		player.setCurdirection(2);
+		player.setIsMoving(true);
 		if (player.getScreenRec().x - 5 > 0)
 			player.moveScreenRecX(-5);
 	}
 	else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
 	{
-		player.curDirection = 3;
-		player.isMoving = true;
+		// player.curDirection = 3;
+		// player.isMoving = true;
+		player.setCurdirection(3);
+		player.setIsMoving(true);
 		if (player.getScreenRec().x + 44 < 960)
 			player.moveScreenRecX(5);
 	}
@@ -122,16 +130,19 @@ Screen Game::update()
 	if (backButton)
 	{
 		startTime = 0;
-		player.time += playTime;
+		// player.time += playTime;
+		player.timeIncrease(playTime);
 		backButton = false;
 		return HOME;
 	}
 	if (nextButton)
 	{
-		player.curDirection = 0;
+		// player.curDirection = 0;
+		player.setCurdirection(0);
 		player.setScreenRec({426, 0, 44, 59});
 		startTime = 0;
-		player.time += playTime;
+		// player.time += playTime;
+		player.timeIncrease(playTime);
 		nextButton = false;
 		int level = allLane[0].getLevel() + 1;
 		allLane.clear();
@@ -160,7 +171,6 @@ void Game::draw()
 			for (int j = 0; j < allLane[i].getNumsOfObstacles(); j++)
 			{
 				allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
-				
 				if (allLane[i].getObstacles()[j].getType() == REDCAR)
 					DrawTextureRec(*redcar_left, { 0, 0, (float)redcar_left->width, float(redcar_left->height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
 				if (allLane[i].getObstacles()[j].getType() == BLUECAR)
@@ -228,7 +238,7 @@ void Game::draw()
 
 
 	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
-	DrawText(TextFormat("Time: %.2f", playTime + player.time), 1030, 500, 35, BLACK);
+	DrawText(TextFormat("Time: %.2f", playTime + player.getTime()), 1030, 500, 35, BLACK);
 	if (GuiLabelButton({ 1150, 100, 100, 50 }, "NEXT"))
 		nextButton = true;
 	if (GuiLabelButton({ 1050, 100, 100, 50 }, "BACK"))
@@ -300,20 +310,7 @@ void Game::draw()
 
 void Game::drawPlayerState()
 {
-	DrawTexturePro(*charAnim[player.curDirection][player.curImage / 4],
-				   {0, 0, (float)charAnim[player.curDirection][player.curImage / 4]->width, (float)charAnim[player.curDirection][player.curImage / 4]->height},
-				   {player.getScreenRec()}, {0, 0}, 0, WHITE);
-	if (player.isMoving)
-	{
-		player.curImage++;
-		if (player.curImage > 15)
-			player.curImage = 0;
-		player.isMoving = false;
-	}
-	else
-	{
-		player.curImage = 0;
-	}
+	player.render(charAnim);
 }
 
 bool Game::CheckCollision(Player& p, Obstacle  &ob)

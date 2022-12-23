@@ -15,8 +15,12 @@ private:
     Ob_type type;
 public:
     Obstacle();
-    Obstacle(int inLane, Ob_type type);
+    Obstacle(int laneIndex, Ob_type type);
 
     Ob_type getType();
-    ~Obstacle();  
+    virtual void renderLeft();
+    virtual void renderRight();
+    virtual void renderUp();
+    virtual void renderDown();
+    ~Obstacle();
 };

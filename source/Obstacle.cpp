@@ -14,7 +14,7 @@ Ob_type Obstacle::getType()
 
 void Obstacle::renderLeft(float y)
 {
-    Texture2D* txt;
+    Texture2D* txt{};
     switch (this->type)
     {
     case REDCAR:
@@ -37,7 +37,7 @@ void Obstacle::renderLeft(float y)
 
 void Obstacle::renderRight(float y)
 {
-    Texture2D* txt;
+    Texture2D* txt{};
     switch (this->type)
     {
     case REDCAR:

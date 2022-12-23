@@ -145,46 +145,13 @@ void Game::draw()
 	drawPlayerState();
 	DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
 
-	for (int i = 0; i < (int)allLane.size(); i++)
-	{
-		if (!allLane[i].getDirection())
-		{
-			for (int j = 0; j < allLane[i].getNumsOfObstacles(); j++)
-			{
-				allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
-				if (allLane[i].getObstacles()[j].getType() == REDCAR)
-					DrawTextureRec(*redcar_left, { 0, 0, (float)redcar_left->width, float(redcar_left->height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
-				if (allLane[i].getObstacles()[j].getType() == BLUECAR)
-					DrawTextureRec(*bluecar_left, { 0, 0, (float)bluecar_left->width, float(bluecar_left->height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
-				if (allLane[i].getObstacles()[j].getType() == AMBULANCE)
-					DrawTextureRec(*ambulance_left, { 0, 0, (float)ambulance_left->width, float(ambulance_left->height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
-			}
-		}
-		else
-		{
-			for (int j = 0; j < allLane[i].getNumsOfObstacles(); j++)
-			{
-				// allLane[i].getObstacles()[j].moveScreenRecX(-2);
-				// allLane[i].getObstacles()[j].getScreenRec().x -= velo;
-				// allLane[i].getObstacles()[j].setScreenRec({ allLane[i].getObstacles()[j].getScreenRec().x - velo, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
-				allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
-				if (allLane[i].getObstacles()[j].getType() == REDCAR)
-					DrawTextureRec(*redcar_right, { 0, 0, (float)redcar_right->width, float(redcar_right->height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
-				if (allLane[i].getObstacles()[j].getType() == BLUECAR)
-					DrawTextureRec(*bluecar_right, { 0, 0, (float)bluecar_right->width, float(bluecar_right->height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
-				if (allLane[i].getObstacles()[j].getType() == AMBULANCE)
-					DrawTextureRec(*ambulance_right, { 0, 0, (float)ambulance_right->width, float(ambulance_right->height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
-			}
-		}
-	}
 	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
 	DrawTexture(*gameRight, 961, 0, RAYWHITE);
 	DrawText("123", 1160, 147, 32, DARKGRAY);
 	DrawText("234", 1160, 228, 32, DARKGRAY);
 	player.setTime(playTime + player.getTime());
-	double scoreHere = player.calHighScore();
-	DrawText(TextFormat("%.0f", scoreHere), 1160, 316, 32, DARKGRAY);
-	DrawText(TextFormat("%.2f", playTime + player.getTime()), 1160, 395, 32, DARKGRAY);
+	DrawText(TextFormat("%.0f", player.calHighScore()), 1160, 316, 32, DARKGRAY);
+	DrawText(TextFormat("%.2f", player.getTime()), 1160, 395, 32, DARKGRAY);
 	Vector2 getMouse = GetMousePosition();
 	int restartX = 1000, restartY = 600, pauseX = 1100, pauseY = 600, musicX = 1200, musicY = 600;
 	if (getMouse.x >= restartX && getMouse.x <= restartX + restart_button->width && getMouse.y >= restartY && getMouse.y <= restartY + restart_button->height)

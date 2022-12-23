@@ -58,4 +58,7 @@ void loadAllTextures() {
 	TextureHolder::getHolder().load(Textures::CHAR_RIGHT_2, "data/characterAnimation/Right2.png");
 	TextureHolder::getHolder().load(Textures::CHAR_RIGHT_3, "data/characterAnimation/Right3.png");
 	TextureHolder::getHolder().load(Textures::CHAR_RIGHT_4, "data/characterAnimation/Right4.png");
+	TextureHolder::getHolder().load(Textures::GREEN_LIGHT, "data/green_light.png");
+	TextureHolder::getHolder().load(Textures::YELLOW_LIGHT, "data/yellow_light.png");
+	TextureHolder::getHolder().load(Textures::RED_LIGHT, "data/red_light.png");
 }

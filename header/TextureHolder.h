@@ -45,7 +45,10 @@ namespace Textures
         CHAR_RIGHT_1,
         CHAR_RIGHT_2,
         CHAR_RIGHT_3,
-        CHAR_RIGHT_4
+        CHAR_RIGHT_4,
+        RED_LIGHT,
+        YELLOW_LIGHT,
+        GREEN_LIGHT
     };
 } // namespace Textures
 

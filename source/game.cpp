@@ -29,6 +29,9 @@ Game::Game()
 	blurImage = &TextureHolder::getHolder().get(Textures::BLUR_BG);
 	pauseMenu = &TextureHolder::getHolder().get(Textures::PAUSE_MENU);
 	victoryMenu = &TextureHolder::getHolder().get(Textures::VICTORY_MENU);
+	red_light = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
+	green_light = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
+	yellow_light = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
 	backButton = nextButton = false;
 	startTime = 0;
 	pauseState = false;
@@ -42,6 +45,13 @@ Game::~Game()
 
 Screen Game::update()
 {
+	if (isWin || pauseState)
+	{
+		startTime = 0;
+		player.timeIncrease(playTime);
+		playTime = 0;
+		return GAME;
+	}
 	if (!allLane.size())
 	{
 		allLane = random(1);
@@ -161,16 +171,33 @@ void Game::draw()
 			DrawTextureRec(*pavement, l.getSrcRec(), l.getScreenPos(), WHITE);
 		else if (l.getLaneType() == ROAD)
 			DrawTextureRec(*road, l.getSrcRec(), l.getScreenPos(), WHITE);
+		if (l.getIsTraffic())
+		{
+			if (l.getLight() == RED_LIGHT)
+			{
+				DrawTexture(*red_light, 930, l.getScreenPos().y, WHITE);
+			}
+			else if (l.getLight() == GREEN_LIGHT)
+			{
+				DrawTexture(*green_light, 930, l.getScreenPos().y, WHITE);
+			}
+			else if (l.getLight() == YELLOW_LIGHT)
+			{
+				DrawTexture(*yellow_light, 930, l.getScreenPos().y, WHITE);
+			}
+		}
 	}
 	DrawRectangleLinesEx({ 0, 0, 960, 720 }, 3, BLACK);
 	drawPlayerState();
 	for (int i = 0; i < (int)allLane.size(); i++)
 	{
+		if (allLane[i].getIsTraffic()) allLane[i].increaseCountLight();
 		if (!allLane[i].getDirection())
 		{
 			for (int j = 0; j < allLane[i].getNumsOfObstacles(); j++)
 			{
-				allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
+				if (!isWin && !pauseState)
+					allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
 				if (allLane[i].getObstacles()[j].getType() == REDCAR)
 					DrawTextureRec(*redcar_left, { 0, 0, (float)redcar_left->width, float(redcar_left->height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
 				if (allLane[i].getObstacles()[j].getType() == BLUECAR)
@@ -183,10 +210,9 @@ void Game::draw()
 		{
 			for (int j = 0; j < allLane[i].getNumsOfObstacles(); j++)
 			{
-				// allLane[i].getObstacles()[j].moveScreenRecX(-2);
-				// allLane[i].getObstacles()[j].getScreenRec().x -= velo;
-				// allLane[i].getObstacles()[j].setScreenRec({ allLane[i].getObstacles()[j].getScreenRec().x - velo, allLane[i].getObstacles()[j].getScreenRec().y, allLane[i].getObstacles()[j].getScreenRec().width, allLane[i].getObstacles()[j].getScreenRec().height });
-				allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
+
+				if (!isWin && !pauseState)
+					allLane[i].setScreenRecX(allLane[i].getObstacles()[j].getScreenRec().x, j);
 				if (allLane[i].getObstacles()[j].getType() == REDCAR)
 					DrawTextureRec(*redcar_right, { 0, 0, (float)redcar_right->width, float(redcar_right->height) }, { (float)allLane[i].getObstacles()[j].getScreenRec().x, allLane[allLane[i].getObstacles()[j].getInLane()].getScreenPos().y + 15 }, WHITE);
 				if (allLane[i].getObstacles()[j].getType() == BLUECAR)

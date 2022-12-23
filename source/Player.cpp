@@ -79,6 +79,10 @@ void Player::storeState()
     fout << this->name << std::endl;
     fout << this->level << std::endl;
     fout << this->time << std::endl;
+    fout << this->score << std::endl;
+    fout.close();
+    fout.open("../resource/player.txt");
+    fout << this->name;
     fout.close();
 }
 
@@ -190,7 +194,7 @@ double Player::getTime()
 {
     return this->time;
 }
-double Player::timeIncrease(double t)
+void Player::timeIncrease(double t)
 {
     this->time += t;
 }

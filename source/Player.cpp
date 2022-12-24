@@ -1,5 +1,5 @@
 #include "../header/Player.h"
-
+#include "../header/Lane.h"
 // create new player, name update when close
 // Player::Player(): name(""), playtime(0), level(0) {}
 
@@ -27,6 +27,11 @@ void Player::addScore(int x)
 int Player::getScore()
 {
     return score;
+}
+
+void Player::setScore(int x)
+{
+    this->score = x;
 }
 // // return if player can be in the scoreboard top 5
 // bool Player::checkHighScoreBoard()
@@ -236,15 +241,30 @@ void Player::eventKeyboard()
         {
             this->curDirection = 0;
             this->isMoving = true;
-            if (this->screenRec.y + 65 < 720)
-                this->moveScreenRecY(5);
+            this->screenRec.y += 5;
+            if (allLane[allLane.size() - 1].getScreenPos().y > 630)
+            {
+                
+                if (this->screenRec.y >= 270)
+                {
+                    for (int i = 0; i < (int)allLane.size(); i++)
+                        allLane[i].setScreenPos({ 0, -5 });
+                    this->screenRec.y = 270;
+                }
+            }
         }
         else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
         {
             this->curDirection = 1;
             this->isMoving = true;
-            if (this->screenRec.y - 5 > 0)
-                this->moveScreenRecY(-5);
+            this->screenRec.y -= 5;
+            if (allLane[0].getScreenPos().y < 0)
+            {
+                for (int i = 0; i < (int)allLane.size(); i++)
+                    allLane[i].setScreenPos({ 0, 5 });
+                if (this->screenRec.y <= 270)
+                    this->screenRec.y = 270;
+            }
         }
         else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
         {

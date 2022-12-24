@@ -98,10 +98,10 @@ Lane::Lane(int level, int laneType)
         }
         else
         {
-            _numsOfObstacles = Rand(4, 7);
+            _numsOfObstacles = Rand(4, 6);
         }
         _istraffic = Rand(0, 1);
-        if (_istraffic) countLight = Rand(0, 600);
+        if (_istraffic) countLight = Rand(0, 700);
         else light = GREEN_LIGHT;
         _direction = Rand(0, 1);
     }

@@ -28,9 +28,11 @@ public:
     Player(std::string name);
     ~Player();
 
+    // Score
     float calHighScore();
     int getScore();
     void addScore(int x);
+    void setScore(int x);
     void storeHighScore();
 
     void storeState();

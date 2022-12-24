@@ -55,6 +55,7 @@ Screen Game::update()
 		player.setTime(0);
 		player.setCurdirection(0);
 		player.setLevel(1);
+		player.setScore(0);
 	}
 	if (startTime == 0)
 	{
@@ -79,7 +80,7 @@ Screen Game::update()
 	}
 	
 	// Event Wheel Mouse
-	if (GetMouseWheelMove() == -1 && allLane[allLane.size() - 1].getScreenPos().y > 630)
+	/*if (GetMouseWheelMove() == -1 && allLane[allLane.size() - 1].getScreenPos().y > 630)
 	{
 		for (int i = 0; i < (int)allLane.size(); i++)
 		{
@@ -94,7 +95,7 @@ Screen Game::update()
 			allLane[i].setScreenPos({0, 45});
 		}
 		player.moveScreenRecY(45);
-	}
+	}*/
 
 	// Event Ketboard
 	player.eventKeyboard();

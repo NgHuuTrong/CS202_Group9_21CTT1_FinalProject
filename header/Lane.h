@@ -28,9 +28,10 @@ class Lane
 private:
     Texture2D* txt;
 
+    int level;
     int _numsOfObstacles;     // range = [1; 5] (random)
     bool _istraffic;          // 0 = no traffic, 1 = traffic
-    int _laneVelocity; // range = [1; 20] base on level
+    float _laneVelocity; // range = [1; 20] base on level
     Light light;
     int countLight;               // red_light = 0 (2s); yellow_light = 1 (1s); green_light = 2 (7s);
     LaneType _laneType;
@@ -40,10 +41,10 @@ private:
     std::vector<Obstacle> _obstacles;
 
 public:
+    float calVelocity();
     int getNumsOfObstacles();
     bool getIsTraffic();
-    int getLaneVelocity();
-    int getLevel();
+    float getLaneVelocity();
     Light getLight();
     void increaseCountLight();
     LaneType getLaneType();

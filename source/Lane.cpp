@@ -19,7 +19,7 @@ bool Lane::getIsTraffic()
     return _istraffic;
 }
 
-int Lane::getLaneVelocity()
+float Lane::getLaneVelocity()
 {
     return _laneVelocity;
 }
@@ -66,7 +66,8 @@ long long Rand(long long l, long long h)
 
 Lane::Lane(int level, int laneType)
 {
-    (level <= 10) ? _laneVelocity = 1.5 + level * 0.4 : _laneVelocity = 5 + level * 0.1;
+    this->level = level;
+    this->_laneVelocity = calVelocity();
     if (laneType == 0) // PAVEMENT
     {
         _laneType = PAVEMENT;
@@ -82,23 +83,15 @@ Lane::Lane(int level, int laneType)
         _screenPos = {0, 0};
         if (level >= 1 && level <= 3)
         {
-            _numsOfObstacles = Rand(1, 4);
-        }
-        else if (level <= 5)
-        {
-            _numsOfObstacles = Rand(2, 4);
+            _numsOfObstacles = Rand(1, 3);
         }
         else if (level <= 15)
         {
-            _numsOfObstacles = Rand(3, 4);
-        }
-        else if (level <= 25)
-        {
-            _numsOfObstacles = Rand(4, 5);
+            _numsOfObstacles = Rand(2, 3);
         }
         else
         {
-            _numsOfObstacles = Rand(4, 6);
+            _numsOfObstacles = Rand(2, 4);
         }
         _istraffic = Rand(0, 1);
         if (_istraffic) countLight = Rand(0, 700);
@@ -163,27 +156,32 @@ std::vector<Lane> random(int level)
             continue;
         for (int j = 0; j < (int)lanes[i]._numsOfObstacles; j++)
         {
-            int ChooseObsType = Rand(1, 3);
+            int ChooseObsType = Rand(1, 4);
             if (ChooseObsType == 1)
-                lanes[i]._obstacles.push_back(Obstacle(i, REDCAR));
-            if (ChooseObsType == 2)
-                lanes[i]._obstacles.push_back(Obstacle(i, BLUECAR));
-            if (ChooseObsType == 3)
-                lanes[i]._obstacles.push_back(Obstacle(i, AMBULANCE));
+                lanes[i]._obstacles.push_back(Obstacle(i, YCAR));
+            else if (ChooseObsType == 2)
+                lanes[i]._obstacles.push_back(Obstacle(i, PCAR));
+            else if (ChooseObsType == 3)
+                lanes[i]._obstacles.push_back(Obstacle(i, BUS));
+            else
+                lanes[i]._obstacles.push_back(Obstacle(i, POLICE));
         }
         for (int j = 0; j < (int)lanes[i]._numsOfObstacles; j++)
         {
-            int tmp = Rand(0, 23);
+            int tmp = Rand(-100, 960);
             bool check = true, flag = false;
             while (check)
             {
                 flag = false;
                 for (int k = 0; k < j; k++)
                 {
-                    if (abs(tmp * 40 - lanes[i]._obstacles[k].getScreenRec().x) < 80 || abs(tmp * 40 - lanes[i]._obstacles[k].getScreenRec().x) >= 920)
+                    int dummy = tmp - lanes[i]._obstacles[k].getScreenRec().x;
+                    bool temp1 = (dummy > 0) ? (dummy < lanes[i]._obstacles[k].getScreenRec().width) : (abs(dummy) < lanes[i]._obstacles[j].getScreenRec().width);
+                    bool temp2 = (dummy > 0) ? (dummy > 1050 - lanes[i]._obstacles[j].getScreenRec().width) : (abs(dummy) > 1050 - lanes[i]._obstacles[k].getScreenRec().width);
+                    if (temp1 || temp2)
                     {
-                        std::cerr << abs(tmp * 40 - lanes[i]._obstacles[k].getScreenRec().x) << std::endl;
-                        tmp = Rand(0, 23);
+                        std::cerr << abs(dummy) << "  " << tmp << std::endl;
+                        tmp = Rand(-80, 960);
                         flag = true;
                         break;
                     }
@@ -192,11 +190,16 @@ std::vector<Lane> random(int level)
                     check = false;
             }
             // lanes[i]._obstacles[j].screenRec.x = tmp * 40;
-            lanes[i]._obstacles[j].setScreenRec({(float)(tmp * 40), 0, lanes[i]._obstacles[j].getScreenRec().width, lanes[i]._obstacles[j].getScreenRec().height});
+            lanes[i]._obstacles[j].setScreenRec({(float)tmp, 0, lanes[i]._obstacles[j].getScreenRec().width, lanes[i]._obstacles[j].getScreenRec().height});
         }
     }
     std::cerr << "finish random" << std::endl;
     return lanes;
+}
+
+float Lane::calVelocity()
+{
+    return (level <= 10) ? _laneVelocity = 2 + level * 0.2 : _laneVelocity = 4 + level * 0.05;
 }
 
 void Lane::setScreenRecX(float pos, int i)
@@ -204,18 +207,19 @@ void Lane::setScreenRecX(float pos, int i)
     if (_istraffic) getLight();
     if (this->light == GREEN_LIGHT)
     {
-        (this->_direction == 1) ? this->_obstacles[i].setScreenRecX(pos, _laneVelocity, 1)
-            : this->_obstacles[i].setScreenRecX(pos, _laneVelocity, -1);
+        _laneVelocity = calVelocity();
+        
     }
     else if (this->light == RED_LIGHT)
     {
-        this->_obstacles[i].setScreenRecX(pos, 0, 1);
+        _laneVelocity = 0;
     }
     else
     {
-        (this->_direction == 1) ? this->_obstacles[i].setScreenRecX(pos, 1.2, 1)
-            : this->_obstacles[i].setScreenRecX(pos, 1.2, -1);
+        _laneVelocity = 1.2;
     }
+    (this->_direction == 1) ? this->_obstacles[i].setScreenRecX(pos, _laneVelocity, 1)
+        : this->_obstacles[i].setScreenRecX(pos, _laneVelocity, -1);
 
 }
 
@@ -249,11 +253,11 @@ void Lane::renderObstacles(bool isWin, bool pauseState) {
     {
         if (!isWin && !pauseState)
             this->setScreenRecX(this->_obstacles[j].getScreenRec().x, j);
-        float y = allLane[this->_obstacles[j].getInLane()]._screenPos.y + 15;
+        float y = allLane[this->_obstacles[j].getInLane()]._screenPos.y + 80 - this->_obstacles[j].getScreenRec().height;
         if (!this->_direction)
-            this->_obstacles[j].renderLeft(y);
+            this->_obstacles[j].renderLeft(y, this->_laneVelocity);
         else
-            this->_obstacles[j].renderRight(y);
+            this->_obstacles[j].renderRight(y, this->_laneVelocity);
     }
 }
 

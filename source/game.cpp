@@ -6,19 +6,13 @@ Game::Game()
 	charAnim = std::vector<std::vector<Texture2D*>>(4, std::vector<Texture2D*>(4));
 	for (int i = 0; i < 4; i++)
 	{
-		charAnim[0][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 22));
-		charAnim[1][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 26));
-		charAnim[2][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 30));
-		charAnim[3][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 34));
+		charAnim[0][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 16));
+		charAnim[1][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 20));
+		charAnim[2][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 24));
+		charAnim[3][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 28));
 	}
 	player = Player("Test Name");
 	gameRight = &TextureHolder::getHolder().get(Textures::GAMERIGHT);
-	redcar_left = &TextureHolder::getHolder().get(Textures::REDCAR_LEFT);
-	redcar_right = &TextureHolder::getHolder().get(Textures::REDCAR_RIGHT);
-	bluecar_left = &TextureHolder::getHolder().get(Textures::BLUECAR_LEFT);
-	bluecar_right = &TextureHolder::getHolder().get(Textures::BLUECAR_RIGHT);
-	ambulance_left = &TextureHolder::getHolder().get(Textures::AMBULANCE_LEFT);
-	ambulance_right = &TextureHolder::getHolder().get(Textures::AMBULANCE_RIGHT);
 	restart_button = &TextureHolder::getHolder().get(Textures::RESTART_BTN);
 	pause_button = &TextureHolder::getHolder().get(Textures::PAUSE_BTN);
 	music_button = &TextureHolder::getHolder().get(Textures::MUSIC_BTN);
@@ -126,16 +120,16 @@ Screen Game::update()
 void Game::draw()
 {
 	renderAllLane(isWin, pauseState);
-	DrawRectangleLinesEx({ 0, 0, 960, 720 }, 3, BLACK);
+	DrawRectangleLinesEx({ 0, 0, 961, 720 }, 3, BROWN);
 	drawPlayerState();
-	DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
+	DrawRectangleRec({ 960, 0, 1280 - 960, 720 }, BROWN);
 
 	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
-	DrawTexture(*gameRight, 961, 0, RAYWHITE);
-	DrawText("name", 1160, 147, 32, DARKGRAY);
-	DrawText(TextFormat("%i", player.getLevel()), 1160, 228, 32, DARKGRAY);
-	DrawText(TextFormat("%i", player.getScore()), 1160, 316, 32, DARKGRAY);
-	DrawText(TextFormat("%.2lf", player.getTime() + playTime), 1160, 395, 32, DARKGRAY);
+	DrawTexture(*gameRight, 961, 0, WHITE);
+	DrawText("name", 1160, 180, 33, BROWN);
+	DrawText(TextFormat("%i", player.getLevel()), 1160, 100, 33, BROWN);
+	DrawText(TextFormat("%i", player.getScore()), 1160, 355, 33, BROWN);
+	DrawText(TextFormat("%.2lf", player.getTime() + playTime), 1160, 270, 33, BROWN);
 	Vector2 getMouse = GetMousePosition();
 	int restartX = 1000, restartY = 600, pauseX = 1100, pauseY = 600, musicX = 1200, musicY = 600;
 	if (getMouse.x >= restartX && getMouse.x <= restartX + restart_button->width && getMouse.y >= restartY && getMouse.y <= restartY + restart_button->height)
@@ -147,7 +141,7 @@ void Game::draw()
 	}
 	else
 	{
-		DrawTexture(*restart_button, restartX, restartY, RAYWHITE);
+		DrawTexture(*restart_button, restartX, restartY, BROWN);
 	}
 
 	if (getMouse.x >= pauseX && getMouse.x <= pauseX + pause_button->width && getMouse.y >= pauseY && getMouse.y <= pauseY + pause_button->height)
@@ -160,7 +154,7 @@ void Game::draw()
 	}
 	else
 	{
-		DrawTexture(*pause_button, pauseX, pauseY, RAYWHITE);
+		DrawTexture(*pause_button, pauseX, pauseY, BROWN);
 	}
 
 	if (getMouse.x >= musicX && getMouse.x <= musicX + music_button->width && getMouse.y >= musicY && getMouse.y <= musicY + music_button->height)
@@ -168,14 +162,14 @@ void Game::draw()
 		DrawTexture(*music_button, musicX, musicY, RED);
 	}
 	else
-		DrawTexture(*music_button, musicX, musicY, RAYWHITE);
+		DrawTexture(*music_button, musicX, musicY, BROWN);
 
 
 	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
 	//DrawText(TextFormat("Time: %.2f", playTime + player.getTime()), 1030, 500, 35, BLACK);
-	if (GuiLabelButton({ 1150, 100, 100, 50 }, "NEXT"))
+	if (GuiLabelButton({ 1150, 550, 100, 50 }, "NEXT"))
 		nextButton = true;
-	if (GuiLabelButton({ 1050, 100, 100, 50 }, "BACK"))
+	if (GuiLabelButton({ 1050, 550, 100, 50 }, "BACK"))
 		backButton = true;
 
 	if (pauseState == true) {
@@ -252,23 +246,10 @@ bool Game::CheckCollision(Player& p, Obstacle  &ob)
 	temp1.y = allLane[ob.getInLane()].getScreenPos().y + 15;
 	temp2.y += temp2.height * 4 / 5;
 	temp2.height /= 5;
-	switch (ob.getType())
-	{
-		case REDCAR:
-			temp1.width = (float)redcar_left->width;
-			temp1.height = (float)(redcar_left->height);
-			break;
-		case BLUECAR:
-			temp1.width = (float)bluecar_left->width;
-			temp1.height = (float)bluecar_left->height;
-			break;
-		case AMBULANCE:
-			temp1.width = (float)ambulance_left->width;
-			temp1.height = (float)ambulance_right->height;
-			break;
-		default:
-			break;
-	}
+
+	temp1.width = ob.getScreenRec().width;
+	temp1.height = ob.getScreenRec().height;
+
 	temp1.y += temp1.height * 0.5;
 	temp1.height /= 2;
 	if (CheckCollisionRecs(temp2, temp1))

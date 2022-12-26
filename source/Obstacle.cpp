@@ -5,6 +5,38 @@ Obstacle::Obstacle(): GameObject() {}
 Obstacle::Obstacle(int laneIndex, Ob_type type): GameObject(laneIndex)
 {
     this->type = type;
+    curFrame = 0;
+    switch (this->type)
+    {
+    case YCAR:
+        numsFrame = 9;
+        txt = std::vector<Texture2D* >(numsFrame);
+        for (int i = 0; i < numsFrame; i++)
+            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 36));
+        break;
+    case PCAR:
+        numsFrame = 9;
+        txt = std::vector<Texture2D* >(numsFrame);
+        for (int i = 0; i < numsFrame; i++)
+            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 58));
+        break;
+    case BUS:
+        numsFrame = 13;
+        txt = std::vector<Texture2D* >(numsFrame);
+        for (int i = 0; i < numsFrame; i++)
+            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 45));
+        break;
+    case POLICE:
+        numsFrame = 9;
+        txt = std::vector<Texture2D* >(numsFrame);
+        for (int i = 0; i < numsFrame; i++)
+            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 67));
+        break;
+    default:
+        break;
+    }
+    this->screenRec.width = txt[0]->width;
+    this->screenRec.height = txt[0]->height;
 }
 
 Ob_type Obstacle::getType()
@@ -12,49 +44,33 @@ Ob_type Obstacle::getType()
     return this->type;
 }
 
-void Obstacle::renderLeft(float y)
+void Obstacle::renderLeft(float y, float velocity)
 {
-    Texture2D* txt{};
-    switch (this->type)
+    int delay = (velocity >= 8) ? 2 : 10 - (int)velocity;
+    if (velocity)
     {
-    case REDCAR:
-        txt = &TextureHolder::getHolder().get(Textures::REDCAR_LEFT);
-        break;
-    case BLUECAR:
-        txt = &TextureHolder::getHolder().get(Textures::BLUECAR_LEFT);
-        break;
-    case AMBULANCE:
-        txt = &TextureHolder::getHolder().get(Textures::AMBULANCE_LEFT);
-        break;
-    default:
-        break;
+        curFrame++;
+        if (curFrame == numsFrame * delay) curFrame = 0;
     }
+    else curFrame = 0;
     DrawTextureRec(
-        *txt, { 0, 0, (float)txt->width, (float)txt->height },
-        { (float)this->getScreenRec().x, y }, WHITE
+        *txt[curFrame / delay], { 0, 0, (float)txt[curFrame / delay]->width, (float)txt[curFrame / delay]->height },
+        { (float)this->screenRec.x, y }, WHITE
     );
 }
 
-void Obstacle::renderRight(float y)
+void Obstacle::renderRight(float y, float velocity)
 {
-    Texture2D* txt{};
-    switch (this->type)
+    int delay = (velocity >= 8) ? 2 : 10 - (int)velocity;
+    if (velocity)
     {
-    case REDCAR:
-        txt = &TextureHolder::getHolder().get(Textures::REDCAR_RIGHT);
-        break;
-    case BLUECAR:
-        txt = &TextureHolder::getHolder().get(Textures::BLUECAR_RIGHT);
-        break;
-    case AMBULANCE:
-        txt = &TextureHolder::getHolder().get(Textures::AMBULANCE_RIGHT);
-        break;
-    default:
-        break;
+        curFrame++;
+        if (curFrame == numsFrame * delay) curFrame = 0;
     }
+    else curFrame = 0;
     DrawTextureRec(
-        *txt, { 0, 0, (float)txt->width, (float)txt->height },
-        { (float)this->getScreenRec().x, y }, WHITE
+        *txt[curFrame / delay], { 0, 0, (float)-txt[curFrame / delay]->width, (float)txt[curFrame / delay]->height },
+        { (float)this->screenRec.x, y }, WHITE
     );
 }
 

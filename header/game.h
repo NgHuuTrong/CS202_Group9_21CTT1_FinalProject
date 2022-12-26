@@ -27,6 +27,10 @@ public:
 	Game();
 	Screen update();
 	void draw();
+	void drawRightMenu();
+	void drawButtons();
+	void drawPauseMenu();
+	void drawVictoryMenu();
 	void drawPlayerState();
 	~Game();
 };

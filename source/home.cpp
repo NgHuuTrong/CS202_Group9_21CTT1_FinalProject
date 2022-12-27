@@ -46,5 +46,4 @@ void Home::draw()
 
 Home::~Home()
 {
-	
 }

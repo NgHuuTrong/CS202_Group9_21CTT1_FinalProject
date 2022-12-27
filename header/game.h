@@ -3,17 +3,16 @@
 #include "Player.h"
 #include "TextureHolder.h"
 
-
 class Game
 {
 private:
-	Texture2D* txt;
-	Texture2D* gameRight;																			 // Lane Textures
-	Texture2D *restart_button, *pause_button, *music_button, *resume_button, *home_button, *next_button;	 // Buttons
-	std::vector<std::vector<Texture2D*>> charAnim;
-	
-	bool backButton, nextButton;																			 // Buttons
-	Player player;																							 // Player
+	Texture2D *txt;
+	Texture2D *gameRight;																				 // Lane Textures
+	Texture2D *restart_button, *pause_button, *music_button, *resume_button, *home_button, *next_button; // Buttons
+	std::vector<std::vector<Texture2D *>> charAnim;
+
+	bool backButton, nextButton; // Buttons
+	Player player;				 // Player
 	double playTime, startTime;
 
 	bool isWin;

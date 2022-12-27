@@ -27,5 +27,4 @@ void Scoreboard::draw()
 	DrawTextureV(*rankImage, {xPos, yPos}, WHITE);
 	if (GuiLabelButton({15, 15, 100, 50}, "BACK"))
 		backButton = true;
-	// DrawTextureRec(rankImage, { 0,0,(float)rankImage.width, (float)rankBackground.height }, { 0,0 }, WHITE);
 }

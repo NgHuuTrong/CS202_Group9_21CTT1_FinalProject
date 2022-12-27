@@ -7,7 +7,8 @@
 
 namespace Textures
 {
-    enum ID {
+    enum ID
+    {
         PAVEMENT = 0,
         ROAD,
         RESTART_BTN,
@@ -91,17 +92,19 @@ namespace Textures
     };
 } // namespace Textures
 
-class TextureHolder {
+class TextureHolder
+{
 private:
     static TextureHolder gTextureHolder;
-    std::map<Textures::ID, std::unique_ptr<Texture2D>> mTextureMap;    
+    std::map<Textures::ID, std::unique_ptr<Texture2D>> mTextureMap;
     TextureHolder();
-    TextureHolder(const TextureHolder&) = delete;
-    TextureHolder& operator=(const TextureHolder&) = delete;
+    TextureHolder(const TextureHolder &) = delete;
+    TextureHolder &operator=(const TextureHolder &) = delete;
+
 public:
-    static TextureHolder& getHolder();
+    static TextureHolder &getHolder();
     ~TextureHolder();
-    void load(Textures::ID id, const std::string& filename);
-    Texture2D& get(Textures::ID id);
-    const Texture2D& get(Textures::ID id) const;
+    void load(Textures::ID id, const std::string &filename);
+    Texture2D &get(Textures::ID id);
+    const Texture2D &get(Textures::ID id) const;
 };

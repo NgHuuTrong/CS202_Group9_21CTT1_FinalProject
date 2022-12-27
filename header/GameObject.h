@@ -12,8 +12,7 @@ public:
     GameObject(int laneIndex);
     GameObject(Rectangle rec);
     GameObject(int laneIndex, Rectangle rec);
-    // // bool checkCollision(GameObject &other);
-    
+
     void setInLane(int x);
     void setScreenRec(Rectangle other);
 
@@ -24,7 +23,6 @@ public:
     void moveScreenRecY(float y);
 
     void setScreenRecX(float pos, int velo, short type);
-    // int getInLane();
-    // Rectangle getScreenRec();
+
     ~GameObject();
 };

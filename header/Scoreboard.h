@@ -3,8 +3,8 @@
 
 class Scoreboard
 {
-	Texture2D* rankBackground;
-	Texture2D* rankImage;
+	Texture2D *rankBackground;
+	Texture2D *rankImage;
 	bool backButton;
 
 public:

@@ -42,7 +42,7 @@ Vector2 Lane::getScreenPos()
 bool Lane::getDirection()
 {
     return _direction;
-}   
+}
 
 void Lane::setScreenPos(Vector2 pos)
 {
@@ -94,8 +94,10 @@ Lane::Lane(int level, int laneType)
             _numsOfObstacles = Rand(2, 4);
         }
         _istraffic = Rand(0, 1);
-        if (_istraffic) countLight = Rand(0, 700);
-        else light = GREEN_LIGHT;
+        if (_istraffic)
+            countLight = Rand(0, 700);
+        else
+            light = GREEN_LIGHT;
         _direction = Rand(0, 1);
     }
 }
@@ -204,11 +206,11 @@ float Lane::calVelocity()
 
 void Lane::setScreenRecX(float pos, int i)
 {
-    if (_istraffic) getLight();
+    if (_istraffic)
+        getLight();
     if (this->light == GREEN_LIGHT)
     {
         _laneVelocity = calVelocity();
-        
     }
     else if (this->light == RED_LIGHT)
     {
@@ -219,14 +221,13 @@ void Lane::setScreenRecX(float pos, int i)
         _laneVelocity = 1.2;
     }
     (this->_direction == 1) ? this->_obstacles[i].setScreenRecX(pos, _laneVelocity, 1)
-        : this->_obstacles[i].setScreenRecX(pos, _laneVelocity, -1);
-
+                            : this->_obstacles[i].setScreenRecX(pos, _laneVelocity, -1);
 }
 
 Light Lane::getLight()
 {
     if (countLight <= 160)
-        light =  RED_LIGHT;
+        light = RED_LIGHT;
     else if (countLight <= 600)
         light = GREEN_LIGHT;
     else if (countLight <= 700)
@@ -237,10 +238,12 @@ Light Lane::getLight()
 void Lane::increaseCountLight()
 {
     countLight++;
-    if (countLight > 700) countLight = 0;
+    if (countLight > 700)
+        countLight = 0;
 }
 
-void Lane::render() {
+void Lane::render()
+{
     if (this->_laneType == PAVEMENT)
         txt = &TextureHolder::getHolder().get(Textures::PAVEMENT);
     else if (this->_laneType == ROAD)
@@ -248,7 +251,8 @@ void Lane::render() {
     DrawTextureRec(*txt, this->_srcRec, this->_screenPos, WHITE);
 }
 
-void Lane::renderObstacles(bool isWin, bool pauseState) {
+void Lane::renderObstacles(bool isWin, bool pauseState)
+{
     for (int j = 0; j < this->_numsOfObstacles; j++)
     {
         if (!isWin && !pauseState)
@@ -261,9 +265,12 @@ void Lane::renderObstacles(bool isWin, bool pauseState) {
     }
 }
 
-void renderAllLane(bool isWin, bool pauseState) {
-    if (!allLane.size()) return;
-    for (int i = 0; i < (int)allLane.size(); i++) {
+void renderAllLane(bool isWin, bool pauseState)
+{
+    if (!allLane.size())
+        return;
+    for (int i = 0; i < (int)allLane.size(); i++)
+    {
         allLane[i].render();
         allLane[i].renderObstacles(isWin, pauseState);
         allLane[i].renderTrafficLight(isWin, pauseState);
@@ -272,7 +279,8 @@ void renderAllLane(bool isWin, bool pauseState) {
 
 void Lane::renderTrafficLight(bool isWin, bool pauseState)
 {
-    if (!isWin && !pauseState) increaseCountLight();
+    if (!isWin && !pauseState)
+        increaseCountLight();
     if (_istraffic)
     {
         getLight();

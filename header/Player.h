@@ -22,7 +22,8 @@ private:
     int score;
     int curImage;
 
-    std::vector<std::pair<int, std::string>>& gethighScoreList();
+    std::vector<std::pair<int, std::string>> &gethighScoreList();
+
 public:
     Player();
     Player(std::string name);
@@ -55,7 +56,7 @@ public:
     int getLevel();
     void setIsMoving(bool flag);
 
-    void render(std::vector<std::vector<Texture2D*>> charAnim);
+    void render(std::vector<std::vector<Texture2D *>> charAnim);
 
     void eventKeyboard();
 };

@@ -15,6 +15,7 @@ private:
 	Login login;
 	Scoreboard scoreboard;
 	Instruction instruction;
+
 public:
 	int isExit = 0;
 	Program();

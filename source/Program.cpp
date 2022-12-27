@@ -5,7 +5,6 @@
 
 Program::Program()
 {
-	// loadAllTextures();
 	GuiLoadIcons("data/arrow.rgi", true);
 	GuiLoadStyle("data/style.rgs");
 	font = LoadFont("data/font.ttf");

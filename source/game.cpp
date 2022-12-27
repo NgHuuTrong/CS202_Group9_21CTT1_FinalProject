@@ -72,26 +72,8 @@ Screen Game::update()
 	{
 		isWin = true;
 	}
-	
-	// Event Wheel Mouse
-	/*if (GetMouseWheelMove() == -1 && allLane[allLane.size() - 1].getScreenPos().y > 630)
-	{
-		for (int i = 0; i < (int)allLane.size(); i++)
-		{
-			allLane[i].setScreenPos({0, -45});
-		}
-		player.moveScreenRecY(-45);
-	}
-	if (GetMouseWheelMove() == 1 && allLane[0].getScreenPos().y < 0)
-	{
-		for (int i = 0; i < (int)allLane.size(); i++)
-		{
-			allLane[i].setScreenPos({0, 45});
-		}
-		player.moveScreenRecY(45);
-	}*/
 
-	// Event Ketboard
+	// Event Keyboard
 	player.eventKeyboard();
 
 	if (backButton)
@@ -123,15 +105,11 @@ void Game::draw()
 	DrawRectangleLinesEx({ 0, 0, 961, 720 }, 3, BROWN);
 	drawPlayerState();
 	DrawRectangleRec({ 960, 0, 1280 - 960, 720 }, BROWN);
-
-	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
 	
 	drawRightMenu();
 
 	drawButtons();
 
-	//DrawRectangleRec({ 961, 0, 1280 - 961, 720 }, RAYWHITE);
-	//DrawText(TextFormat("Time: %.2f", playTime + player.getTime()), 1030, 500, 35, BLACK);
 	if (GuiLabelButton({ 1150, 550, 100, 50 }, "NEXT"))
 		nextButton = true;
 	if (GuiLabelButton({ 1050, 550, 100, 50 }, "BACK"))

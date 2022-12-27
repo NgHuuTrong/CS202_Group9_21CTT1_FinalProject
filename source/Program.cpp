@@ -29,6 +29,9 @@ void Program::run()
 	case GAME:
 		screen = game.update();
 		break;
+	case LOGIN:
+		screen = login.update();
+		break;
 	case HIGHSCORE:
 		screen = scoreboard.update();
 		break;
@@ -48,6 +51,9 @@ void Program::run()
 		break;
 	case GAME:
 		game.draw();
+		break;
+	case LOGIN:
+		login.draw();
 		break;
 	case HIGHSCORE:
 		scoreboard.draw();

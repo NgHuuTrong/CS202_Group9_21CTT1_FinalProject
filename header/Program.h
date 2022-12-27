@@ -1,5 +1,6 @@
 #pragma once
 #include "Game.h"
+#include "Login.h"
 #include "Scoreboard.h"
 #include "Instruction.h"
 #include "TextureHolder.h"
@@ -11,6 +12,7 @@ private:
 	Home home;
 	Screen screen;
 	Game game;
+	Login login;
 	Scoreboard scoreboard;
 	Instruction instruction;
 public:

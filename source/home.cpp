@@ -28,17 +28,20 @@ Screen Home::update()
 void Home::draw()
 {
 	DrawTexture(*homeBackground, 0, 0, WHITE);
+	float posX = 150;
 	if (allLane.size())
-		if (GuiButton({500, 150, 280, 70}, "CONTINUE"))
+		if (GuiButton({510, posX, 280, 65}, "CONTINUE"))
 			mode = 2;
-	if (GuiButton({500, 230, 280, 70}, "PLAY GAME"))
+	if (GuiButton({510, posX + 75, 280, 65}, "PLAY GAME"))
 		mode = 1;
-	if (GuiButton({500, 310, 280, 70}, "HIGHSCORE"))
+	if (GuiButton({510, posX + 150, 280, 65}, "LOGIN"))
 		mode = 3;
-	if (GuiButton({500, 390, 280, 70}, "INSTRUCTION"))
+	if (GuiButton({510, posX + 225 , 280, 65}, "HIGHSCORE"))
 		mode = 4;
-	if (GuiButton({500, 470, 280, 70}, "EXIT")) 
+	if (GuiButton({ 510, posX + 300, 280, 65 }, "INSTRUCTION"))
 		mode = 5;
+	if (GuiButton({510, posX + 375, 280, 65}, "EXIT")) 
+		mode = 6;
 }
 
 Home::~Home()

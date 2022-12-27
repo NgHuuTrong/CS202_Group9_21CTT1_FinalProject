@@ -96,5 +96,9 @@ void loadAllTextures() {
 	TextureHolder::getHolder().load(Textures::POLICE_7, "data/police/7.png");
 	TextureHolder::getHolder().load(Textures::POLICE_8, "data/police/8.png");
 	TextureHolder::getHolder().load(Textures::POLICE_9, "data/police/9.png");
+	TextureHolder::getHolder().load(Textures::INPUT_BTN_1, "data/inputBox.png");
+	TextureHolder::getHolder().load(Textures::INPUT_BTN_2, "data/inputBox2.png");
+	TextureHolder::getHolder().load(Textures::OK_BTN_1, "data/okButton.png");
+	TextureHolder::getHolder().load(Textures::OK_BTN_2, "data/okButton2.png");
 
 }

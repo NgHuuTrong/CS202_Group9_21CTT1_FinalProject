@@ -84,6 +84,10 @@ namespace Textures
         POLICE_7,
         POLICE_8,
         POLICE_9,
+        INPUT_BTN_1,
+        INPUT_BTN_2,
+        OK_BTN_1,
+        OK_BTN_2
     };
 } // namespace Textures
 

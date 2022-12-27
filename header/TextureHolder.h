@@ -85,10 +85,16 @@ namespace Textures
         POLICE_7,
         POLICE_8,
         POLICE_9,
+        LOGIN_BG,
+        PLAYER_BOX_1,
+        PLAYER_BOX_2,
         INPUT_BTN_1,
         INPUT_BTN_2,
         OK_BTN_1,
-        OK_BTN_2
+        OK_BTN_2,
+        LOAD_MENU,
+        LOAD_BAR,
+        LOAD_ELE
     };
 } // namespace Textures
 

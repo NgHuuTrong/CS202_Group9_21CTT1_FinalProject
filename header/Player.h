@@ -60,3 +60,7 @@ public:
 
     void eventKeyboard();
 };
+
+extern std::vector<Player> listPlayer;
+extern Player curPlayer;
+void loadAllPlayer();

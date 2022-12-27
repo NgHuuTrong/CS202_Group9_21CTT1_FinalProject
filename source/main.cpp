@@ -6,8 +6,15 @@ int main()
 {
 	InitWindow(1280, 720, "Game");
 	SetTargetFPS(60);
-
+	loadAllPlayer();
 	loadAllTextures();
+	Player t;
+	/*for (int i = 0; i < listPlayer.size(); i++) {
+		std::cout << listPlayer[i].getName() << std::endl
+			<< listPlayer[i].getLevel() << std::endl
+			<< listPlayer[i].getTime() << std::endl
+			<< listPlayer[i].getScore() << std::endl;
+	}*/
 	Program program;
 
 	while (!WindowShouldClose())
@@ -98,9 +105,14 @@ void loadAllTextures()
 	TextureHolder::getHolder().load(Textures::POLICE_7, "data/police/7.png");
 	TextureHolder::getHolder().load(Textures::POLICE_8, "data/police/8.png");
 	TextureHolder::getHolder().load(Textures::POLICE_9, "data/police/9.png");
+	TextureHolder::getHolder().load(Textures::LOGIN_BG, "data/loginBackground.png");
+	TextureHolder::getHolder().load(Textures::PLAYER_BOX_1, "data/playerBox.png");
+	TextureHolder::getHolder().load(Textures::PLAYER_BOX_2, "data/playerBox2.png");
 	TextureHolder::getHolder().load(Textures::INPUT_BTN_1, "data/inputBox.png");
 	TextureHolder::getHolder().load(Textures::INPUT_BTN_2, "data/inputBox2.png");
 	TextureHolder::getHolder().load(Textures::OK_BTN_1, "data/okButton.png");
 	TextureHolder::getHolder().load(Textures::OK_BTN_2, "data/okButton2.png");
-
+	TextureHolder::getHolder().load(Textures::LOAD_MENU, "data/loadingMenu.png");
+	TextureHolder::getHolder().load(Textures::LOAD_BAR, "data/loadingBar.png");
+	TextureHolder::getHolder().load(Textures::LOAD_ELE, "data/loadingEle.png");
 }

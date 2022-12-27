@@ -94,7 +94,7 @@ void Player::storeState()
     fout << this->time << std::endl;
     fout << this->score << std::endl;
     fout.close();
-    fout.open("../resource/player.txt");
+    fout.open("./resource/player.txt", std::ios::app);
     fout << this->name;
     fout.close();
 }
@@ -106,6 +106,7 @@ void Player::loadState()
     getline(fin, this->name);
     fin >> this->level;
     fin >> this->time;
+    fin >> this->score;
     fin.close();
 }
 
@@ -281,3 +282,23 @@ void Player::eventKeyboard()
         }
     }
 }
+
+void loadAllPlayer() {
+    std::ifstream finPlayer;
+    std::string temp;
+    finPlayer.open("./resource/player.txt");
+    
+    while (!finPlayer.eof()) {
+        getline(finPlayer, temp);
+        if (temp != "") std::cout << temp << std::endl;
+        else std::cout << "PHUC" << std::endl;
+        //finState.open("../resource/state/" + temp + ".txt");
+        Player t(temp);
+        t.loadState();
+        listPlayer.push_back(t);
+    }
+    finPlayer.close();
+}
+
+std::vector<Player> listPlayer;
+Player curPlayer;

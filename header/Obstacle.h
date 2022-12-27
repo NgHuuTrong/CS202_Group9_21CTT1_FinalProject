@@ -14,10 +14,11 @@ enum Ob_type
 class Obstacle : public GameObject
 {
 private:
-    std::vector<Texture2D* > txt;
+    std::vector<Texture2D *> txt;
 
     Ob_type type;
     int numsFrame, curFrame;
+
 public:
     Obstacle();
     Obstacle(int laneIndex, Ob_type type);

@@ -13,13 +13,15 @@ int main()
 	while (!WindowShouldClose())
 	{
 		program.run();
-		if (program.isExit) break;
+		if (program.isExit)
+			break;
 	}
 	CloseWindow();
 	return 0;
 }
 
-void loadAllTextures() {
+void loadAllTextures()
+{
 	TextureHolder::getHolder().load(Textures::GAMERIGHT, "data/gameMenuRight.png");
 	TextureHolder::getHolder().load(Textures::PAVEMENT, "data/pavement.png");
 	TextureHolder::getHolder().load(Textures::ROAD, "data/road.png");
@@ -96,5 +98,4 @@ void loadAllTextures() {
 	TextureHolder::getHolder().load(Textures::POLICE_7, "data/police/7.png");
 	TextureHolder::getHolder().load(Textures::POLICE_8, "data/police/8.png");
 	TextureHolder::getHolder().load(Textures::POLICE_9, "data/police/9.png");
-
 }

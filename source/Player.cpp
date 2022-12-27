@@ -121,15 +121,15 @@ void Player::loadState()
 // MoveUp => Back
 // MoveLeft => Left
 // MoveRight => Right
-Player::Player(): GameObject(), name(""), level(1), curDirection(0), isMoving(false), time(0.0), score(0), curImage(0) {}
+Player::Player() : GameObject(), name(""), level(1), curDirection(0), isMoving(false), time(0.0), score(0), curImage(0) {}
 
-Player::Player(std::string name): Player()
+Player::Player(std::string name) : Player()
 {
     this->name = name;
 }
 Player::~Player() {}
 
-std::vector<std::pair<int, std::string>>& Player::gethighScoreList()
+std::vector<std::pair<int, std::string>> &Player::gethighScoreList()
 {
     std::vector<std::pair<int, std::string>> highScoreList = {};
 
@@ -153,7 +153,7 @@ void Player::storeHighScore()
 
     float playerHigh = calHighScore();
     highScoreList.push_back(std::make_pair(playerHigh, this->name));
-    
+
     std::sort(highScoreList.begin(), highScoreList.end());
     reverse(highScoreList.begin(), highScoreList.end());
     highScoreList.pop_back();
@@ -166,27 +166,26 @@ void Player::storeHighScore()
     fout.close();
 }
 
-void Player::render(std::vector<std::vector<Texture2D*>> charAnim)
+void Player::render(std::vector<std::vector<Texture2D *>> charAnim)
 {
-    
+
     DrawTexturePro(
         *charAnim[this->curDirection][this->curImage / 4],
         {0, 0, (float)charAnim[this->curDirection][this->curImage / 4]->width,
-        (float)charAnim[this->curDirection][this->curImage / 4]->height},
-		{this->getScreenRec()}, {0, 0},
-        0, WHITE
-    );
-	if (this->isMoving)
-	{
-		this->curImage++;
-		if (this->curImage > 15)
-			this->curImage = 0;
-		this->isMoving = false;
-	}
-	else
-	{
-		this->curImage = 0;
-	}
+         (float)charAnim[this->curDirection][this->curImage / 4]->height},
+        {this->getScreenRec()}, {0, 0},
+        0, WHITE);
+    if (this->isMoving)
+    {
+        this->curImage++;
+        if (this->curImage > 15)
+            this->curImage = 0;
+        this->isMoving = false;
+    }
+    else
+    {
+        this->curImage = 0;
+    }
 }
 
 // curDirection getter, setter
@@ -244,11 +243,11 @@ void Player::eventKeyboard()
             this->screenRec.y += 5;
             if (allLane[allLane.size() - 1].getScreenPos().y > 630)
             {
-                
+
                 if (this->screenRec.y >= 270)
                 {
                     for (int i = 0; i < (int)allLane.size(); i++)
-                        allLane[i].setScreenPos({ 0, -5 });
+                        allLane[i].setScreenPos({0, -5});
                     this->screenRec.y = 270;
                 }
             }
@@ -261,7 +260,7 @@ void Player::eventKeyboard()
             if (allLane[0].getScreenPos().y < 0)
             {
                 for (int i = 0; i < (int)allLane.size(); i++)
-                    allLane[i].setScreenPos({ 0, 5 });
+                    allLane[i].setScreenPos({0, 5});
                 if (this->screenRec.y <= 270)
                     this->screenRec.y = 270;
             }

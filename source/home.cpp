@@ -37,11 +37,10 @@ void Home::draw()
 		mode = 3;
 	if (GuiButton({500, 390, 280, 70}, "INSTRUCTION"))
 		mode = 4;
-	if (GuiButton({500, 470, 280, 70}, "EXIT")) 
+	if (GuiButton({500, 470, 280, 70}, "EXIT"))
 		mode = 5;
 }
 
 Home::~Home()
 {
-	
 }

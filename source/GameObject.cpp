@@ -1,14 +1,14 @@
 #include "../header/GameObject.h"
 #include "../header/raylib.h"
 
-GameObject::GameObject(): inLane(-1), screenRec({0, 0, 0, 0}) {}
+GameObject::GameObject() : inLane(-1), screenRec({0, 0, 0, 0}) {}
 
 GameObject::GameObject(int inLane)
 {
 	this->inLane = inLane;
 }
 
-GameObject::GameObject(Rectangle rec): screenRec(rec) {}
+GameObject::GameObject(Rectangle rec) : screenRec(rec) {}
 
 GameObject::GameObject(int laneIndex, Rectangle rec)
 {
@@ -37,8 +37,10 @@ Rectangle GameObject::getScreenRec()
 void GameObject::setScreenRecX(float pos, int velo, short type)
 {
 	this->screenRec.x -= (type * velo);
-	if (this->screenRec.x > 960) this->screenRec.x = -100;
-	if (this->screenRec.x < -100) this->screenRec.x = 960;
+	if (this->screenRec.x > 960)
+		this->screenRec.x = -100;
+	if (this->screenRec.x < -100)
+		this->screenRec.x = 960;
 }
 
 void GameObject::moveScreenRecX(float x)

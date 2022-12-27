@@ -1,8 +1,8 @@
 #include "../header/Obstacle.h"
 
-Obstacle::Obstacle(): GameObject() {}
+Obstacle::Obstacle() : GameObject() {}
 
-Obstacle::Obstacle(int laneIndex, Ob_type type): GameObject(laneIndex)
+Obstacle::Obstacle(int laneIndex, Ob_type type) : GameObject(laneIndex)
 {
     this->type = type;
     curFrame = 0;
@@ -10,25 +10,25 @@ Obstacle::Obstacle(int laneIndex, Ob_type type): GameObject(laneIndex)
     {
     case YCAR:
         numsFrame = 9;
-        txt = std::vector<Texture2D* >(numsFrame);
+        txt = std::vector<Texture2D *>(numsFrame);
         for (int i = 0; i < numsFrame; i++)
             txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 36));
         break;
     case PCAR:
         numsFrame = 9;
-        txt = std::vector<Texture2D* >(numsFrame);
+        txt = std::vector<Texture2D *>(numsFrame);
         for (int i = 0; i < numsFrame; i++)
             txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 58));
         break;
     case BUS:
         numsFrame = 13;
-        txt = std::vector<Texture2D* >(numsFrame);
+        txt = std::vector<Texture2D *>(numsFrame);
         for (int i = 0; i < numsFrame; i++)
             txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 45));
         break;
     case POLICE:
         numsFrame = 9;
-        txt = std::vector<Texture2D* >(numsFrame);
+        txt = std::vector<Texture2D *>(numsFrame);
         for (int i = 0; i < numsFrame; i++)
             txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 67));
         break;
@@ -50,13 +50,14 @@ void Obstacle::renderLeft(float y, float velocity)
     if (velocity)
     {
         curFrame++;
-        if (curFrame == numsFrame * delay) curFrame = 0;
+        if (curFrame == numsFrame * delay)
+            curFrame = 0;
     }
-    else curFrame = 0;
+    else
+        curFrame = 0;
     DrawTextureRec(
-        *txt[curFrame / delay], { 0, 0, (float)txt[curFrame / delay]->width, (float)txt[curFrame / delay]->height },
-        { (float)this->screenRec.x, y }, WHITE
-    );
+        *txt[curFrame / delay], {0, 0, (float)txt[curFrame / delay]->width, (float)txt[curFrame / delay]->height},
+        {(float)this->screenRec.x, y}, WHITE);
 }
 
 void Obstacle::renderRight(float y, float velocity)
@@ -65,13 +66,14 @@ void Obstacle::renderRight(float y, float velocity)
     if (velocity)
     {
         curFrame++;
-        if (curFrame == numsFrame * delay) curFrame = 0;
+        if (curFrame == numsFrame * delay)
+            curFrame = 0;
     }
-    else curFrame = 0;
+    else
+        curFrame = 0;
     DrawTextureRec(
-        *txt[curFrame / delay], { 0, 0, (float)-txt[curFrame / delay]->width, (float)txt[curFrame / delay]->height },
-        { (float)this->screenRec.x, y }, WHITE
-    );
+        *txt[curFrame / delay], {0, 0, (float)-txt[curFrame / delay]->width, (float)txt[curFrame / delay]->height},
+        {(float)this->screenRec.x, y}, WHITE);
 }
 
 Obstacle::~Obstacle() {}

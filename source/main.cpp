@@ -23,6 +23,8 @@ int main()
 		if (program.isExit)
 			break;
 	}
+	if (program.getScreen() != LOGIN)
+		curPlayer.storeState();
 	CloseWindow();
 	return 0;
 }

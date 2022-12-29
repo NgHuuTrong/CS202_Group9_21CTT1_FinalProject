@@ -5,24 +5,31 @@
 class GameObject
 {
 protected:
-    int inLane;          // Index of lane that the object is in
-    Rectangle screenRec; // Rectangle that represents the object on the screen
+    int inLane;              // Index of lane that the object is in
+
+    Rectangle screenRec;     // Rectangle that represents the object on the screen
+
 public:
+    // Constructor
     GameObject();
     GameObject(int laneIndex);
     GameObject(Rectangle rec);
     GameObject(int laneIndex, Rectangle rec);
 
-    void setInLane(int x);
-    void setScreenRec(Rectangle other);
+    ~GameObject();                          // Destructor
 
-    int getInLane();
-    Rectangle getScreenRec();
+    // In lane
+    int getInLane();                        // Getter
+    void setInLane(int x);                  // Setter
 
-    void moveScreenRecX(float x);
-    void moveScreenRecY(float y);
+    // Screen Rectangle
+    Rectangle getScreenRec();               // Getter
+    void setScreenRec(Rectangle other);     // Setter
 
-    void setScreenRecX(float pos, int velo, short type);
+    // Move object
+    void moveScreenRecX(float x);           // by X
+    void moveScreenRecY(float y);           // by Y
 
-    ~GameObject();
+    void setScreenRecX(float pos, int velo, short type);    // Move object has velocity
+
 };

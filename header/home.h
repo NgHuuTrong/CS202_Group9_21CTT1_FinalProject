@@ -11,11 +11,16 @@
 class Home
 {
 private:
-	Texture2D *homeBackground; // Texture for background
+	Texture2D *homeBackground; // Texture2D for background
+
 	short mode;				   // 0: home, 1: instruction, 2: highscore
+
 public:
-	Home();
-	Screen update();
-	void draw();
-	~Home();
+	Home();					// Constructor
+
+	~Home();				// Destructor
+
+	// Main methods
+	Screen update();		// Process events
+	void draw();			// Drawing menu
 };

@@ -81,9 +81,6 @@ Screen Login::update() {
 
 		if ((key >= 32) && (key <= 125) && inputName.length() <= MAX_INPUT_CHARS) {
 			inputName.push_back(char(key));
-			/*if (MeasureText(inputName.c_str(), 40) >= inputButtonRec.width) {
-				inputName.pop_back();
-			}*/
 		}
 		key = GetCharPressed();
 
@@ -105,6 +102,7 @@ Screen Login::update() {
 		}
 		else {
 			if (IsKeyPressed(KEY_ENTER)) {
+				// reset attribute
 				curFrame = 0;
 				letterFrame = 0;
 				loadSuccess = false;
@@ -112,7 +110,11 @@ Screen Login::update() {
 				backButton = false;
 				inputName = "";
 				currentState.first = 0;
-				return GAME;
+
+				// create game
+				allLane = random(curPlayer.getLevel());
+
+				return HOME;
 			}
 		}
 	}

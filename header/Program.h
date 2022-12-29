@@ -8,16 +8,28 @@
 class Program
 {
 private:
-	Font font;
-	Home home;
-	Screen screen;
-	Game game;
-	Login login;
-	Scoreboard scoreboard;
-	Instruction instruction;
+	Font font;					// Load font
+
+	Screen screen;				// Store current screen
+
+	Home home;					// Store home menu				
+
+	Game game;					// Store game menu
+
+	Login login;				// Store login menu
+
+	Scoreboard scoreboard;		// Store ranking menu
+
+	Instruction instruction;	// Store instruction menu
+
 public:
-	int isExit = 0;
-	Program();
-	~Program();
-	void run();
+	Program();					// Constructor
+
+	~Program();					// Destructor
+
+	int isExit = 0;				// Check if exit
+
+	void run();					// Run
+
+	Screen getScreen();			// Screen getter
 };

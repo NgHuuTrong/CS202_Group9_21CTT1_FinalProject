@@ -3,13 +3,18 @@
 
 class Scoreboard
 {
+	// Texture2D
 	Texture2D *rankBackground;
 	Texture2D *rankImage;
+
 	bool backButton;
 
 public:
-	Scoreboard();
-	Screen update();
-	void draw();
-	~Scoreboard();
+	Scoreboard();		// Constructor
+
+	~Scoreboard();		// Destructor
+
+	// Main methods
+	Screen update();	// Process events
+	void draw();		// Drawing menu
 };

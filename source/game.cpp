@@ -11,7 +11,6 @@ Game::Game()
 		charAnim[2][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 24));
 		charAnim[3][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 28));
 	}
-	player = Player("Test Name");
 	gameRight = &TextureHolder::getHolder().get(Textures::GAMERIGHT);
 	restart_button = &TextureHolder::getHolder().get(Textures::RESTART_BTN);
 	pause_button = &TextureHolder::getHolder().get(Textures::PAUSE_BTN);
@@ -35,100 +34,91 @@ Game::~Game()
 
 Screen Game::update()
 {
+	// Stopping event in game
 	if (isWin || pauseState)
 	{
 		startTime = 0;
-		player.timeIncrease(playTime);
+		curPlayer.timeIncrease(playTime);
 		playTime = 0;
 		return GAME;
 	}
-	if (!allLane.size())
-	{
-		allLane = random(1);
-		player.setScreenRec({ 426, 0, 44, 59 });
-		player.setTime(0);
-		player.setCurdirection(0);
-		player.setLevel(1);
-		player.setScore(0);
-	}
-	if (startTime == 0)
-	{
-		startTime = GetTime();
-	}
-	playTime = GetTime() - startTime;
-	for (int i = 0; i < (int)allLane.size(); i++)
-	{
-		for (int j = 0; j < (int)allLane[i].getObstacles().size(); ++j)
-		{
-			if (this->CheckCollision(player, allLane[i].getObstacles()[j]))
-			{
-				startTime = 0;
-				allLane.clear();
-				return HOME;
-			}
-		}
-	}
-	if (player.getScreenRec().y > allLane[allLane.size() - 1].getScreenPos().y)
-	{
-		isWin = true;
-	}
 
-	// Event Keyboard
-	player.eventKeyboard();
+	// Create next level
+	if (nextButton)
+	{
+		curPlayer.setCurdirection(0);
+		curPlayer.setScreenRec({ 426, 0, 44, 59 });
+		curPlayer.setPreTime(curPlayer.getTime());
+		nextButton = false;
+		int level = curPlayer.getLevel() + 1;
+		curPlayer.setLevel(level);
+		allLane.clear();
+		allLane = random(level);
+	}
 
 	if (backButton)
 	{
 		startTime = 0;
-		player.timeIncrease(playTime);
+		curPlayer.timeIncrease(playTime);
 		backButton = false;
 		return HOME;
 	}
-	if (nextButton)
+	
+	// Create new level 1
+	if (!allLane.size())
 	{
-		player.addScore(1000);
-		player.setCurdirection(0);
-		player.setScreenRec({426, 0, 44, 59});
-		startTime = 0;
-		player.timeIncrease(playTime);
-		nextButton = false;
-		int level = player.getLevel() + 1;
-		player.setLevel(level);
-		allLane.clear();
-		allLane = random(level);
+		allLane = random(1);
+		curPlayer.setScreenRec({ 426, 0, 44, 59 });
+		curPlayer.setTime(0);
+		curPlayer.setPreTime(0);
+		curPlayer.setCurdirection(0);
+		curPlayer.setLevel(1);
+		curPlayer.setScore(0);
 	}
+
+	// Count Time
+	if (startTime == 0) startTime = GetTime();
+	playTime = GetTime() - startTime;
+
+	//Check Collision, Lose Function
+	if (checkLose())
+		return HOME;
+
+	// Win function
+	isWin = checkWin();
+
+	// Event Keyboard
+	curPlayer.eventKeyboard();
+
 	return GAME;
 }
 
 void Game::draw()
 {
-	renderAllLane(isWin, pauseState);
-	DrawRectangleLinesEx({ 0, 0, 961, 720 }, 3, BROWN);
-	drawPlayerState();
-	DrawRectangleRec({ 960, 0, 1280 - 960, 720 }, BROWN);
-	
-	drawRightMenu();
+	renderAllLane(isWin, pauseState);	// Drawing lanes
 
-	drawButtons();
+	drawPlayerState();					// Drawing current detail of player
+
+	drawRightMenu();					// Drawing detail menu
+
+	drawButtons();						// Drawing buttons
 
 	if (GuiLabelButton({ 1150, 550, 100, 50 }, "NEXT"))
 		nextButton = true;
 	if (GuiLabelButton({ 1050, 550, 100, 50 }, "BACK"))
 		backButton = true;
 
-	if (pauseState == true) {
-		drawPauseMenu();
-	}
-	if (isWin == true) {
-		drawVictoryMenu();
-	}
+	if (pauseState == true)   drawPauseMenu();  // Drawing paused state
+	
+	if (isWin == true)	drawVictoryMenu();		// Drawing passed menu
 }
 
 void Game::drawRightMenu() {
 	DrawTexture(*gameRight, 961, 0, WHITE);
-	DrawText("name", 1160, 180, 33, BROWN);
-	DrawText(TextFormat("%i", player.getLevel()), 1160, 100, 33, BROWN);
-	DrawText(TextFormat("%i", player.getScore()), 1160, 355, 33, BROWN);
-	DrawText(TextFormat("%.2lf", player.getTime() + playTime), 1160, 270, 33, BROWN);
+	DrawText(curPlayer.getName().c_str(), 1150, 185, 33, BROWN);
+	DrawText(TextFormat("%i", curPlayer.getLevel()), 1150, 100, 33, BROWN);
+	DrawText(TextFormat("%i", curPlayer.getScore()), 1150, 355, 33, BROWN);
+	DrawText(TextFormat("%.2lf", curPlayer.getTime() + playTime), 1150, 270, 33, BROWN);
 }
 
 void Game::drawButtons() {
@@ -208,7 +198,6 @@ void Game::drawVictoryMenu() {
 	if (mousePos.x >= nextButtonX && mousePos.x <= nextButtonX + next_button->width && mousePos.y >= nextButtonY && mousePos.y <= nextButtonY + next_button->height) {
 		DrawTexture(*next_button, nextButtonX, nextButtonY, RED);
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-			player.setScreenRec({ 426, 0, 44, 59 });
 			isWin = false;
 			nextButton = true;
 			pauseState = false;
@@ -220,24 +209,57 @@ void Game::drawVictoryMenu() {
 		DrawTexture(*home_button, homeButtonX, homeButtonY, RED);
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 			isWin = false;
+			nextButton = true;
 			pauseState = false;
 			backButton = true;
 		}
 	}
 	else DrawTexture(*home_button, homeButtonX, homeButtonY, RAYWHITE);
 
-	DrawText(TextFormat("Current Score:  %i", player.getScore() + 1000), victoryMenuX + 50, victoryMenuY + 330, 55, DARKGRAY);
+	DrawText(TextFormat("Score:        %i", curPlayer.getScore()), victoryMenuX + 150, victoryMenuY + 330, 55, DARKGRAY);
 }
 
 void Game::drawPlayerState()
 {
-	player.render(charAnim);
+	curPlayer.render(charAnim);
 }
 
-bool Game::CheckCollision(Player& p, Obstacle  &ob)
+bool Game::checkLose()
+{
+	for (int i = 0; i < (int)allLane.size(); i++)
+	{
+		for (int j = 0; j < (int)allLane[i].getObstacles().size(); ++j)
+		{
+			if (CheckCollision(curPlayer, allLane[i].getObstacles()[j]))
+			{
+				startTime = 0;
+				curPlayer = Player(curPlayer.getName());
+				playTime = 0;
+				allLane.clear();
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool Game::checkWin()
+{
+	if (curPlayer.getScreenRec().y > allLane[allLane.size() - 1].getScreenPos().y)
+	{
+		startTime = 0;
+		curPlayer.timeIncrease(playTime);
+		playTime = 0;
+		curPlayer.addScore(curPlayer.calScore());
+		return true;
+	}
+	return false;
+}
+
+bool CheckCollision(Player& p, Obstacle  &ob)
 {
 	Rectangle temp1 = ob.getScreenRec();
-	Rectangle temp2 = player.getScreenRec();
+	Rectangle temp2 = curPlayer.getScreenRec();
 	temp1.y = allLane[ob.getInLane()].getScreenPos().y + 15;
 	temp2.y += temp2.height * 4 / 5;
 	temp2.height /= 5;
@@ -253,3 +275,4 @@ bool Game::CheckCollision(Player& p, Obstacle  &ob)
 	}
 	return false;
 }
+

@@ -13,9 +13,9 @@
 // }
 // Player::~Player() {}
 // // calculate highscore
-float Player::calHighScore()
+int Player::calScore()
 {
-    float high = this->level * 1000 + (1 / this->time) * 1000;
+    int high = int((float)(1 + 1 / (this->time - this->preTime)) * (1000 + this->level * 100));
     return high;
 }
 
@@ -91,9 +91,12 @@ void Player::storeState()
     fout.open("./resource/state/" + name + ".txt");
     fout << this->name << std::endl;
     fout << this->level << std::endl;
-    fout << this->time << std::endl;
+    fout << this->preTime << std::endl;
     fout << this->score << std::endl;
     fout.close();
+    for (int i = 0; i < (int)listPlayer.size(); i++)
+        if (listPlayer[i].getName() == this->name)
+            return;
     fout.open("./resource/player.txt", std::ios::app);
     fout << this->name;
     fout.close();
@@ -106,6 +109,7 @@ void Player::loadState()
     getline(fin, this->name);
     fin >> this->level;
     fin >> this->time;
+    this->preTime = this->time;
     fin >> this->score;
     fin.close();
 }
@@ -122,18 +126,23 @@ void Player::loadState()
 // MoveUp => Back
 // MoveLeft => Left
 // MoveRight => Right
-Player::Player() : GameObject(), name(""), level(1), curDirection(0), isMoving(false), time(0.0), score(0), curImage(0) {}
+Player::Player() : GameObject(), name(""), level(1), curDirection(0), isMoving(false), time(0.0), preTime(0.0), score(0), curImage(0) {}
 
 Player::Player(std::string name) : Player()
 {
     this->name = name;
+    this->screenRec = { 426, 0, 44, 59 };
+    loadFileHighScore(listHighScore);
 }
-Player::~Player() {}
 
-std::vector<std::pair<int, std::string>> &Player::gethighScoreList()
+Player::~Player() 
 {
-    std::vector<std::pair<int, std::string>> highScoreList = {};
+    saveFileHighScore(listHighScore);
+    listHighScore.clear();
+}
 
+void loadFileHighScore(std::vector<std::pair<int, std::string>>& listHighScore)
+{
     std::ifstream fin("./resource/highscore/highscore.txt");
     std::string temp_name;
     float temp_highscore;
@@ -142,34 +151,38 @@ std::vector<std::pair<int, std::string>> &Player::gethighScoreList()
         fin >> temp_highscore;
         fin >> temp_name;
         std::cout << temp_highscore << " " << temp_name << std::endl;
-        highScoreList.push_back(std::make_pair(temp_highscore, temp_name));
+        listHighScore.push_back(std::make_pair(temp_highscore, temp_name));
     }
     fin.close();
-    return highScoreList;
 }
 
-void Player::storeHighScore()
+void saveFileHighScore(std::vector<std::pair<int, std::string>> listHighScore)
 {
-    std::vector<std::pair<int, std::string>> highScoreList = gethighScoreList();
-
-    float playerHigh = calHighScore();
-    highScoreList.push_back(std::make_pair(playerHigh, this->name));
-
-    std::sort(highScoreList.begin(), highScoreList.end());
-    reverse(highScoreList.begin(), highScoreList.end());
-    highScoreList.pop_back();
     std::ofstream fout("./resource/highscore/highscore.txt");
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < listHighScore.size(); i++)
     {
-        fout << highScoreList[i].first << std::endl;
-        fout << highScoreList[i].second << std::endl;
+        fout << listHighScore[i].first << std::endl;
+        fout << listHighScore[i].second << std::endl;
     }
     fout.close();
 }
 
+std::vector<std::pair<int, std::string>> Player::getHighScoreList()
+{
+    return listHighScore;
+}
+
+void Player::updateListHighScore()
+{
+    listHighScore.push_back(std::make_pair(this->score, this->name));
+
+    std::sort(listHighScore.begin(), listHighScore.end());
+    reverse(listHighScore.begin(), listHighScore.end());
+    listHighScore.pop_back();
+}
+
 void Player::render(std::vector<std::vector<Texture2D *>> charAnim)
 {
-
     DrawTexturePro(
         *charAnim[this->curDirection][this->curImage / 4],
         {0, 0, (float)charAnim[this->curDirection][this->curImage / 4]->width,
@@ -194,28 +207,44 @@ void Player::setCurdirection(int x)
 {
     this->curDirection = x;
 }
+
 int Player::getCurdirection()
 {
     return this->curDirection;
 }
+
 // time getter, setter
 void Player::setTime(double t)
 {
     this->time = t;
 }
+
 double Player::getTime()
 {
     return this->time;
 }
+
 void Player::timeIncrease(double t)
 {
     this->time += t;
 }
+
+void Player::setPreTime(double t)
+{
+    this->preTime = t;
+}
+
+double Player::getPreTime()
+{
+    return preTime;
+}
+
 // name getter, setter
 void Player::setName(std::string n)
 {
     this->name = n;
 }
+
 std::string Player::getName()
 {
     return this->name;
@@ -225,10 +254,12 @@ void Player::setIsMoving(bool flag)
 {
     this->isMoving = flag;
 }
+
 void Player::setLevel(float lvl)
 {
     this->level = lvl;
 }
+
 int Player::getLevel()
 {
     return this->level;
@@ -301,4 +332,4 @@ void loadAllPlayer() {
 }
 
 std::vector<Player> listPlayer;
-Player curPlayer;
+Player curPlayer("");

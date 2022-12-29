@@ -9,58 +9,78 @@
 class Player : public GameObject
 {
 private:
-    std::string name;
-    int level;
-    // Front = 0; Back = 1; Left = 2; Right = 3;
-    // MoveDown => Front
-    // MoveUp => Back
-    // MoveLeft => Left
-    // MoveRight => Right
-    int curDirection;
-    bool isMoving;
-    double time, preTime; // in second
-    int score;
-    int curImage;
+    std::string name;       // Player's name
 
-    std::vector<std::pair<int, std::string>> &gethighScoreList();
+    int level;              // Current Level
+
+    int curDirection;       /* Front = 0; Back = 1; Left = 2; Right = 3;
+                               MoveDown => Front
+                               MoveUp => Back
+                               MoveLeft => Left
+                               MoveRight => Right*/
+
+    bool isMoving;          // Check move
+
+    double time, preTime;   // In second (preTime: save time before this level
+
+    int score;              // Current Score
+
+    int curImage;           // Current Frame
+
+    std::vector<std::pair<int, std::string>> listHighScore;     // List players in ranking board
 
 public:
+    // Constructor
     Player();
     Player(std::string name);
-    ~Player();
 
-    // Score
-    float calHighScore();
-    int getScore();
-    void addScore(int x);
-    void setScore(int x);
-    void storeHighScore();
+    ~Player();                  // Destructor
 
-    void storeState();
-    void loadState();
+    // Score method
+    int calScore();             // Calculate score each level (by time)
+    void addScore(int x);       // Add
+    int getScore();             // Getter
+    void setScore(int x);       // Setter
 
-    // curDirection getter, setter
-    void setCurdirection(int x);
-    int getCurdirection();
+    // High Score
+    void updateListHighScore();                                     // Update
+    std::vector<std::pair<int, std::string>> getHighScoreList();    // Getter
 
-    // time getter, setter
-    void setTime(double t);
-    double getTime();
-    void timeIncrease(double t);
+    // State
+    void storeState();               // Storing
+    void loadState();                // Loading
 
-    // name getter, setter
-    void setName(std::string n);
-    std::string getName();
+    // curDirection
+    void setCurdirection(int x);     // Setter
+    int getCurdirection();           // Getter
 
-    void setLevel(float lvl);
-    int getLevel();
-    void setIsMoving(bool flag);
+    // time
+    void setTime(double t);          // Setter
+    double getTime();                // Getter
+    void timeIncrease(double t);     // Add
 
-    void render(std::vector<std::vector<Texture2D *>> charAnim);
+    // preTime
+    void setPreTime(double t);       // Setter
+    double getPreTime();             // Getter
 
-    void eventKeyboard();
+    // name
+    void setName(std::string n);     // Setter
+    std::string getName();           // Getter
+    
+    //level 
+    void setLevel(float lvl);        // Setter
+    int getLevel();                  // Getter
+
+    void setIsMoving(bool flag);     // isMoving setter
+
+    void render(std::vector<std::vector<Texture2D *>> charAnim);    // Drawing player (frames)
+
+    void eventKeyboard();            // Process keyboard event
 };
 
 extern std::vector<Player> listPlayer;
 extern Player curPlayer;
+
 void loadAllPlayer();
+void loadFileHighScore(std::vector<std::pair<int, std::string>>& listHighScore);
+void saveFileHighScore(std::vector<std::pair<int, std::string>> listHighScore);

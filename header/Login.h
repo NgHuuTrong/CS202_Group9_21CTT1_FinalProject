@@ -7,34 +7,48 @@
 
 class Login {
 private:
-	Font font;
+	Font font;			// New Font
+
+	// Texture2D
 	Texture2D* loginBackground, *blurImage;
 	Texture2D* playerBox1, *playerBox2;
 	Texture2D* loadingMenu, * loadingBar, * loadingEle;
 	Texture2D* inputButton1, *inputButton2;
 	Texture2D* okButton1, * okButton2;
+
+	// Position
 	Rectangle inputButtonRec;
 	float posLoadingX, posLoadingY, posBarX, posBarY, posEleX[26], posEleY;
-	int letterFrame;
+	float posPlayerBoxX[2], posPlayerBoxY;
 
+	// Attributes for frames
+	int letterFrame;
 	int curFrame;
 	const int numsFrame = 25;
 	const int delay = 5;
-	bool loadSuccess;
 
+	// Check variable
+	bool loadSuccess;
 	bool mouseOnText, mouseOnOK;
 	bool isOk;
 	bool backButton;
 	std::string inputName;
 
+	// Store state
 	int numsState;
 	std::pair<int,int> currentState;
-	float posPlayerBoxX[2], posPlayerBoxY;
+
 public:
-	Login();
-	~Login();
-	Screen update();
-	void draw();
-	void drawListPlayer();
+	Login();					// Constructor
+
+	~Login();					// Destructor
+
+	// Main methods
+	Screen update();			// Process events
+	void draw();				// Drawing menu
+
+	void drawListPlayer();		// Drawing list of saved player
+
 	int indexInPlayerList();
+
 };

@@ -76,4 +76,7 @@ void Obstacle::renderRight(float y, float velocity)
         {(float)this->screenRec.x, y}, WHITE);
 }
 
-Obstacle::~Obstacle() {}
+Obstacle::~Obstacle() 
+{
+    txt.clear();
+}

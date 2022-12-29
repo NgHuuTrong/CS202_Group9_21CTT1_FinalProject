@@ -5,26 +5,31 @@
 
 enum Ob_type
 {
-    YCAR,
-    PCAR,
-    BUS,
-    POLICE
+    YCAR,    // Yellow Car
+    PCAR,    // Purple Car
+    BUS,     // Bus
+    POLICE   // Police Car
 };
 
 class Obstacle : public GameObject
 {
 private:
-    std::vector<Texture2D *> txt;
+    std::vector<Texture2D *> txt;  // Vector of Texture2D (frames) 
 
-    Ob_type type;
-    int numsFrame, curFrame;
+    Ob_type type;                  // Store type
+
+    int numsFrame, curFrame;       // Store frames to draw
 
 public:
+    //Constructor
     Obstacle();
     Obstacle(int laneIndex, Ob_type type);
 
-    Ob_type getType();
-    void renderLeft(float y, float velocity);
-    void renderRight(float y, float velocity);
-    ~Obstacle();
+    ~Obstacle();                               // Destructor
+
+    Ob_type getType();                         // Type getter
+
+    // Drawing obstacle
+    void renderLeft(float y, float velocity);  // Left  ->  right
+    void renderRight(float y, float velocity); // Right ->  left
 };

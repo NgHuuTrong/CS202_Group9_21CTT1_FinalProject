@@ -10,7 +10,7 @@ Program::Program()
 	font = LoadFont("data/font.ttf");
 	GuiSetStyle(BUTTON, BORDER_WIDTH, 6);
 	GuiSetFont(font);
-	screen = HOME;
+	screen = LOGIN;
 }
 
 Program::~Program()
@@ -42,7 +42,7 @@ void Program::run()
 		break;
 	}
 	BeginDrawing();
-	ClearBackground(RAYWHITE);
+	ClearBackground(BROWN);
 	switch (screen)
 	{
 	case HOME:
@@ -62,4 +62,9 @@ void Program::run()
 		break;
 	}
 	EndDrawing();
+}
+
+Screen Program::getScreen()
+{
+	return screen;
 }

@@ -82,5 +82,6 @@ extern std::vector<Player> listPlayer;
 extern Player curPlayer;
 
 void loadAllPlayer();
+void saveAllPlayer();
 void loadFileHighScore(std::vector<std::pair<int, std::string>>& listHighScore);
 void saveFileHighScore(std::vector<std::pair<int, std::string>> listHighScore);

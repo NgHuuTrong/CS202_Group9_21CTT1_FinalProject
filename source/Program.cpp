@@ -5,9 +5,8 @@
 
 Program::Program()
 {
-	GuiLoadIcons("data/arrow.rgi", true);
-	GuiLoadStyle("data/style.rgs");
-	font = LoadFont("data/font.ttf");
+	GuiLoadStyle("graphics/style/style.rgs");
+	font = LoadFont("graphics/style/font.ttf");
 	GuiSetStyle(BUTTON, BORDER_WIDTH, 6);
 	GuiSetFont(font);
 	screen = LOGIN;

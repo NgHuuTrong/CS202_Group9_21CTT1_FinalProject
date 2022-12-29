@@ -24,7 +24,7 @@ Login::Login() {
 	}
 	posEleY = posBarY + loadingBar->height / 2 - loadingEle->height / 2;
 	inputButtonRec = { 640, 400, 329, 94 };
-	font = LoadFont("data/font.ttf");
+	font = LoadFont("graphics/style/font.ttf");
 	curFrame = 0;
 	letterFrame = 0;
 	loadSuccess = false;
@@ -69,6 +69,7 @@ Screen Login::update() {
 			}
 			else {
 				curPlayer = Player(inputName);
+				listPlayer.push_back(curPlayer);
 			}
 		}
 	}

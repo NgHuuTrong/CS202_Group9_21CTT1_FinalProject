@@ -1,5 +1,6 @@
 #include "../header/Home.h"
 #include "../header/raygui.h"
+#include "../header/Player.h"
 
 Home::Home()
 {
@@ -34,11 +35,21 @@ void Home::draw()
 			mode = 2;
 	if (GuiButton({510, posX + 75, 280, 65}, "PLAY GAME"))
 		mode = 1;
-	if (GuiButton({510, posX + 150, 280, 65}, "LOGIN"))
+	if (GuiButton({ 510, posX + 300, 280, 65 }, "LOG OUT"))
+	{
 		mode = 3;
+		for (int i = 0; i < listPlayer.size(); i++)
+		{
+			if (listPlayer[i].getName() == curPlayer.getName())
+			{
+				listPlayer[i] = curPlayer;
+				break;
+			}
+		}
+	}
 	if (GuiButton({510, posX + 225 , 280, 65}, "HIGHSCORE"))
 		mode = 4;
-	if (GuiButton({ 510, posX + 300, 280, 65 }, "INSTRUCTION"))
+	if (GuiButton({ 510, posX + 150, 280, 65 }, "INSTRUCTION"))
 		mode = 5;
 	if (GuiButton({510, posX + 375, 280, 65}, "EXIT")) 
 		mode = 6;

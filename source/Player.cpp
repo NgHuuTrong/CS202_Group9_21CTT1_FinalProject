@@ -1,18 +1,16 @@
 #include "../header/Player.h"
 #include "../header/Lane.h"
-// create new player, name update when close
-// Player::Player(): name(""), playtime(0), level(0) {}
 
-// Player::Player() : GameObject(), name("No Name"), curDirection(1),
-// curImage(0), isMoving(false) , time(0), score(0) {}
+Player::Player() : GameObject(), name(""), level(1), curDirection(0), isMoving(false), time(0.0), preTime(0.0), score(0), curImage(0) {}
 
-// // load player with name
-// Player::Player(std::string name) : Player()
-// {
-//     this->name = name;
-// }
-// Player::~Player() {}
-// // calculate highscore
+Player::Player(std::string name) : Player()
+{
+    this->name = name;
+    this->screenRec = { 426, 0, 44, 59 };
+    loadFileHighScore(listHighScore);
+}
+
+// calculate highscore
 int Player::calScore()
 {
     int high = int((float)(1 + 1 / (this->time - this->preTime)) * (1000 + this->level * 100));
@@ -69,43 +67,30 @@ void Player::setScore(int x)
 //     }
 //     fout.close();
 // }
-// /*
-//     state file: {name}.txt
-//     name
-//     level
-//     playtime
-// */
+ /*
+     state file: {name}.txt
+     name
+     level
+     playtime
+ */
 void Player::storeState()
 {
-    if (name == "")
-    {
-        std::cerr << "Invalid name" << std::endl;
-        throw std::runtime_error("Invalid name");
-    }
-    else if (level == 0)
-    {
-        std::cerr << "Checkpoint not reached" << std::endl;
-        throw std::runtime_error("Checkpoint not reached");
-    }
-    std::ofstream fout;
-    fout.open("./resource/state/" + name + ".txt");
+    std::string filepath = "./resource/login/state/" + name + ".txt";
+    std::ofstream fout(filepath);
     fout << this->name << std::endl;
     fout << this->level << std::endl;
     fout << this->preTime << std::endl;
     fout << this->score << std::endl;
     fout.close();
-    for (int i = 0; i < (int)listPlayer.size(); i++)
-        if (listPlayer[i].getName() == this->name)
-            return;
-    fout.open("./resource/player.txt", std::ios::app);
-    fout << this->name;
-    fout.close();
 }
 
 void Player::loadState()
 {
-    std::ifstream fin;
-    fin.open("./resource/state/" + name + ".txt");
+    std::string filepath = "./resource/login/state/" + name + ".txt";
+    std::cerr << "./resource/login/state/" << name << ".txt" << std::endl;
+    if (!FileExists(filepath.c_str()))
+        throw std::runtime_error("Invalid file state of player: " + name);
+    std::ifstream fin(filepath);
     getline(fin, this->name);
     fin >> this->level;
     fin >> this->time;
@@ -126,14 +111,6 @@ void Player::loadState()
 // MoveUp => Back
 // MoveLeft => Left
 // MoveRight => Right
-Player::Player() : GameObject(), name(""), level(1), curDirection(0), isMoving(false), time(0.0), preTime(0.0), score(0), curImage(0) {}
-
-Player::Player(std::string name) : Player()
-{
-    this->name = name;
-    this->screenRec = { 426, 0, 44, 59 };
-    loadFileHighScore(listHighScore);
-}
 
 Player::~Player() 
 {
@@ -143,13 +120,17 @@ Player::~Player()
 
 void loadFileHighScore(std::vector<std::pair<int, std::string>>& listHighScore)
 {
-    std::ifstream fin("./resource/highscore/highscore.txt");
+    std::string filepath = "./resource/highscore/highscore.txt";
+    if (!FileExists(filepath.c_str()))
+        throw std::runtime_error("Invalid file highscore");
+    std::ifstream fin(filepath);
     std::string temp_name;
-    float temp_highscore;
+    int temp_highscore;
     for (int i = 0; i < 5; i++)
     {
         fin >> temp_highscore;
-        fin >> temp_name;
+        getline(fin, temp_name);
+        getline(fin, temp_name);
         std::cout << temp_highscore << " " << temp_name << std::endl;
         listHighScore.push_back(std::make_pair(temp_highscore, temp_name));
     }
@@ -158,7 +139,8 @@ void loadFileHighScore(std::vector<std::pair<int, std::string>>& listHighScore)
 
 void saveFileHighScore(std::vector<std::pair<int, std::string>> listHighScore)
 {
-    std::ofstream fout("./resource/highscore/highscore.txt");
+    std::string filepath = "./resource/highscore/highscore.txt";
+    std::ofstream fout(filepath);
     for (int i = 0; i < listHighScore.size(); i++)
     {
         fout << listHighScore[i].first << std::endl;
@@ -315,20 +297,31 @@ void Player::eventKeyboard()
 }
 
 void loadAllPlayer() {
-    std::ifstream finPlayer;
+    std::string filepath = "./resource/login/player.txt";
+    if (!FileExists(filepath.c_str()))
+        throw std::runtime_error("Invalid file player.txt");
+    std::ifstream finPlayer(filepath);
     std::string temp;
-    finPlayer.open("./resource/player.txt");
-    
     while (!finPlayer.eof()) {
         getline(finPlayer, temp);
-        if (temp != "") std::cout << temp << std::endl;
-        else std::cout << "PHUC" << std::endl;
-        //finState.open("../resource/state/" + temp + ".txt");
+        if (temp == "") break;
         Player t(temp);
         t.loadState();
         listPlayer.push_back(t);
     }
     finPlayer.close();
+}
+
+void saveAllPlayer()
+{
+    std::string filepath = "./resource/login/player.txt";
+    std::ofstream foutPlayer(filepath);
+    for (int i = 0; i < (int)listPlayer.size(); i++)
+    {
+        foutPlayer << listPlayer[i].getName() << std::endl;
+        listPlayer[i].storeState();
+    }
+    foutPlayer.close();
 }
 
 std::vector<Player> listPlayer;

@@ -277,7 +277,10 @@ void Player::eventKeyboard()
                     allLane[i].setScreenPos({0, 5});
                 if (this->screenRec.y <= 270)
                     this->screenRec.y = 270;
+                
             }
+            if (this->screenRec.y <= 0)
+                this->screenRec.y = 0;
         }
         else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
         {

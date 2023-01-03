@@ -33,8 +33,7 @@ Login::Login() {
 	isOk = false;
 	backButton = false;
 	inputName = "";
-	if (listPlayer.size() % 2 == 0) numsState = listPlayer.size() / 2;
-	else numsState = listPlayer.size() / 2 + 1;
+	
 	currentState = { 0,0 };
 }
 
@@ -53,6 +52,10 @@ Screen Login::update() {
 		currentState.first = 0;
 		return HOME;
 	}
+
+	if (listPlayer.size() % 2 == 0) numsState = listPlayer.size() / 2;
+	else numsState = listPlayer.size() / 2 + 1;
+
 	if (CheckCollisionPointRec(GetMousePosition(), inputButtonRec)) {
 		mouseOnText = true;
 	}
@@ -114,7 +117,6 @@ Screen Login::update() {
 
 				// create game
 				allLane = random(curPlayer.getLevel());
-
 				return HOME;
 			}
 		}

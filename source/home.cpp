@@ -33,7 +33,7 @@ void Home::draw()
 	if (allLane.size())
 		if (GuiButton({510, posX, 280, 65}, "CONTINUE"))
 			mode = 2;
-	if (GuiButton({510, posX + 75, 280, 65}, "PLAY GAME"))
+	if (GuiButton({510, posX + 75, 280, 65}, "NEW GAME"))
 		mode = 1;
 	if (GuiButton({ 510, posX + 300, 280, 65 }, "LOG OUT"))
 	{

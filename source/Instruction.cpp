@@ -40,17 +40,17 @@ void Instruction::draw()
 	}
 	if (mode == 1)
 	{
-		DrawTextureRec(*instructionBackground2, {0, 0, 1280, 720}, {0, 0}, WHITE);
-		if (CheckCollisionPointTriangle(GetMousePosition(), {100, 300}, {50, 350}, {100, 400}))
+		DrawTextureRec(*instructionBackground2, { 0, 0, 1280, 720 }, { 0, 0 }, WHITE);
+		if (CheckCollisionPointTriangle(GetMousePosition(), { 1200, 300 }, { 1200, 400 }, { 1250, 350 }))
 		{
-			DrawTriangle({100, 300}, {50, 350}, {100, 400}, RED);
+			DrawTriangle({ 1200, 300 }, { 1200, 400 }, { 1250, 350 }, RED);
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 			{
 				mode = 0;
 			}
 		}
 		else
-			DrawTriangle({100, 300}, {50, 350}, {100, 400}, BLACK);
+			DrawTriangle({ 1200, 300 }, { 1200, 400 }, { 1250, 350 }, BLACK);
 		if (GuiLabelButton({15, 15, 100, 50}, "BACK"))
 			backButton = true;
 	}

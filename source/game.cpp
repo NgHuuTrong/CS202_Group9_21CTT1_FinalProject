@@ -6,10 +6,10 @@ Game::Game()
 	charAnim = std::vector<std::vector<Texture2D*>>(4, std::vector<Texture2D*>(4));
 	for (int i = 0; i < 4; i++)
 	{
-		charAnim[0][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 16));
-		charAnim[1][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 20));
-		charAnim[2][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 24));
-		charAnim[3][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 28));
+		charAnim[0][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 17));
+		charAnim[1][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 21));
+		charAnim[2][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 25));
+		charAnim[3][i] = &TextureHolder::getHolder().get((Textures::ID)(i + 29));
 	}
 	gameRight = &TextureHolder::getHolder().get(Textures::GAMERIGHT);
 	restart_button = &TextureHolder::getHolder().get(Textures::RESTART_BTN);
@@ -21,10 +21,14 @@ Game::Game()
 	blurImage = &TextureHolder::getHolder().get(Textures::BLUR_BG);
 	pauseMenu = &TextureHolder::getHolder().get(Textures::PAUSE_MENU);
 	victoryMenu = &TextureHolder::getHolder().get(Textures::VICTORY_MENU);
+	loseMenu = &TextureHolder::getHolder().get(Textures::LOSE_MENU);
 	backButton = nextButton = false;
 	startTime = 0;
+	lastBestScore = lastBestLevel = 0;
+	lastBestTime = 0;
 	pauseState = false;
 	isWin = false;
+	isLose = false;
 }
 
 Game::~Game()
@@ -43,6 +47,22 @@ Screen Game::update()
 		return GAME;
 	}
 
+	if (isLose) {
+		if (IsKeyDown(KEY_ENTER)) {
+			curPlayer = Player(curPlayer.getName());
+			curPlayer.setBestLevel(lastBestLevel);
+			curPlayer.setBestScore(lastBestScore);
+			curPlayer.setBestTime(lastBestTime);
+			sortListPlayer();
+			startTime = 0;
+			playTime = 0;
+			allLane.clear();
+			isLose = false;
+			return HOME;
+		}
+		return GAME;
+	}
+
 	// Create next level
 	if (nextButton)
 	{
@@ -54,12 +74,14 @@ Screen Game::update()
 		curPlayer.setLevel(level);
 		allLane.clear();
 		allLane = random(level);
+		listPlayer[curPlayer.getPosInList()] = curPlayer;
 	}
 
 	if (backButton)
 	{
 		startTime = 0;
 		curPlayer.timeIncrease(playTime);
+		listPlayer[curPlayer.getPosInList()] = curPlayer;
 		backButton = false;
 		return HOME;
 	}
@@ -67,6 +89,15 @@ Screen Game::update()
 	// Create new level 1
 	if (!allLane.size())
 	{
+		/*for (int i = 0; i < listPlayer.size(); i++) {
+			std::cout << "Name: " << listPlayer[i].getName() << std::endl
+				<< "Level: " << listPlayer[i].getLevel() << std::endl
+				<< "Time: " << listPlayer[i].getTime() << std::endl
+				<< "Score: " << listPlayer[i].getScore() << std::endl
+				<< "Best Level: " << listPlayer[i].getBestLevel() << std::endl
+				<< "Best Time: " << listPlayer[i].getBestTime() << std::endl
+				<< "Best Score: " << listPlayer[i].getBestScore() << std::endl;
+		}*/
 		allLane = random(1);
 		curPlayer.setScreenRec({ 426, 0, 44, 59 });
 		curPlayer.setTime(0);
@@ -80,9 +111,8 @@ Screen Game::update()
 	if (startTime == 0) startTime = GetTime();
 	playTime = GetTime() - startTime;
 
-	//Check Collision, Lose Function
-	if (checkLose())
-		return HOME;
+	// Lose Function 
+	isLose = checkLose();
 
 	// Win function
 	isWin = checkWin();
@@ -95,7 +125,7 @@ Screen Game::update()
 
 void Game::draw()
 {
-	renderAllLane(isWin, pauseState);	// Drawing lanes
+	renderAllLane(isWin, pauseState, isLose);	// Drawing lanes
 
 	drawPlayerState();					// Drawing current detail of player
 
@@ -111,6 +141,8 @@ void Game::draw()
 	if (pauseState == true)   drawPauseMenu();  // Drawing paused state
 	
 	if (isWin == true)	drawVictoryMenu();		// Drawing passed menu
+
+	if (isLose == true) drawLoseMenu();			// Drawing lose menu
 }
 
 void Game::drawRightMenu() {
@@ -219,6 +251,21 @@ void Game::drawVictoryMenu() {
 	DrawText(TextFormat("Score:        %i", curPlayer.getScore()), victoryMenuX + 150, victoryMenuY + 330, 55, DARKGRAY);
 }
 
+void Game::drawLoseMenu() {
+	float loseMenuX = 640 - victoryMenu->width / 2;
+	float loseMenuY = 360 - victoryMenu->height / 2;
+	DrawTexture(*blurImage, 0, 0, CLITERAL(Color){ 255, 255, 255, 200 });
+	DrawTexture(*loseMenu, loseMenuX, loseMenuY, RAYWHITE);
+	DrawText(TextFormat("Score :        %i", curPlayer.getScore()), loseMenuX + 210, loseMenuY + 160, 40, DARKGRAY);
+	if (curPlayer.getScore() == curPlayer.getBestScore()) {
+		DrawText(TextFormat("Rank :        %i", curPlayer.getPosInList() + 1), loseMenuX + 210, loseMenuY + 240, 40, DARKGRAY);
+	}
+	else {
+		DrawText(TextFormat("Best Score :        %i", curPlayer.getBestScore()), loseMenuX + 210, loseMenuY + 240, 40, DARKGRAY);
+	}
+	DrawText("PRESS ENTER TO RETURN HOME", loseMenuX + 54, loseMenuY + 350, 40, CLITERAL(Color){80, 80, 80, 200});
+}
+
 void Game::drawPlayerState()
 {
 	curPlayer.render(charAnim);
@@ -233,9 +280,15 @@ bool Game::checkLose()
 			if (CheckCollision(curPlayer, allLane[i].getObstacles()[j]))
 			{
 				startTime = 0;
-				curPlayer = Player(curPlayer.getName());
 				playTime = 0;
-				allLane.clear();
+				listPlayer[curPlayer.getPosInList()].setScore(0);
+				listPlayer[curPlayer.getPosInList()].setLevel(1);
+				listPlayer[curPlayer.getPosInList()].setPreTime(0);
+				listPlayer[curPlayer.getPosInList()].setTime(0);
+				lastBestScore = curPlayer.getBestScore();
+				lastBestLevel = curPlayer.getBestLevel();
+				lastBestTime = curPlayer.getBestTime();
+				sortListPlayer();
 				return true;
 			}
 		}
@@ -251,6 +304,35 @@ bool Game::checkWin()
 		curPlayer.timeIncrease(playTime);
 		playTime = 0;
 		curPlayer.addScore(curPlayer.calScore());
+		/*std::cout << "Score here: " << curPlayer.getScore() << std::endl;
+		std::cout << "Best: " << curPlayer.getBestScore() << std::endl;*/
+		curPlayer.updateBestScore();
+		/*std::cout << "Score here: " << curPlayer.getScore() << std::endl;
+		std::cout << "Best: " << curPlayer.getBestScore() << std::endl;*/
+		listPlayer[curPlayer.getPosInList()].setScore(curPlayer.getScore());
+		listPlayer[curPlayer.getPosInList()].setLevel(curPlayer.getLevel() + 1);
+		listPlayer[curPlayer.getPosInList()].setPreTime(curPlayer.getTime());
+		listPlayer[curPlayer.getPosInList()].setTime(curPlayer.getTime());
+		listPlayer[curPlayer.getPosInList()].updateBestScore();
+		/*for (int i = 0; i < listPlayer.size(); i++) {
+			std::cout << "Name: " << listPlayer[i].getName() << std::endl
+				<< "Level: " << listPlayer[i].getLevel() << std::endl
+				<< "Time: " << listPlayer[i].getTime() << std::endl
+				<< "Score: " << listPlayer[i].getScore() << std::endl
+				<< "Best Level: " << listPlayer[i].getBestLevel() << std::endl
+				<< "Best Time: " << listPlayer[i].getBestTime() << std::endl
+				<< "Best Score: " << listPlayer[i].getBestScore() << std::endl;
+		}*/
+		sortListPlayer();
+		/*for (int i = 0; i < listPlayer.size(); i++) {
+			std::cout << "Name: " << listPlayer[i].getName() << std::endl
+				<< "Level: " << listPlayer[i].getLevel() << std::endl
+				<< "Time: " << listPlayer[i].getTime() << std::endl
+				<< "Score: " << listPlayer[i].getScore() << std::endl
+				<< "Best Level: " << listPlayer[i].getBestLevel() << std::endl
+				<< "Best Time: " << listPlayer[i].getBestTime() << std::endl
+				<< "Best Score: " << listPlayer[i].getBestScore() << std::endl;
+		}*/
 		return true;
 	}
 	return false;

@@ -33,7 +33,8 @@ Login::Login() {
 	isOk = false;
 	backButton = false;
 	inputName = "";
-	
+	backWhenNameEmpty = false;
+	okButtonWhenNameEmpty = false;
 	currentState = { 0,0 };
 }
 
@@ -49,6 +50,8 @@ Screen Login::update() {
 		isOk = false;
 		backButton = false;
 		inputName = "";
+		backWhenNameEmpty = false;
+		okButtonWhenNameEmpty = false;
 		currentState.first = 0;
 		return HOME;
 	}
@@ -64,15 +67,19 @@ Screen Login::update() {
 	if (CheckCollisionPointCircle(GetMousePosition(), { 640, 617 }, 37) && isOk == false) {
 		mouseOnOK = true;
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-			isOk = true;
+
+			if (inputName != "") isOk = true;
+			else okButtonWhenNameEmpty = true;
 
 			int temp = indexInPlayerList();
 			if (temp != -1) {
 				curPlayer = listPlayer[temp];
+				curPlayer.setPosInList(temp);
 			}
 			else {
 				curPlayer = Player(inputName);
 				listPlayer.push_back(curPlayer);
+				curPlayer.setPosInList(listPlayer.size() - 1);
 			}
 		}
 	}
@@ -84,6 +91,8 @@ Screen Login::update() {
 		int key = GetCharPressed();
 
 		if ((key >= 32) && (key <= 125) && inputName.length() <= MAX_INPUT_CHARS) {
+			backWhenNameEmpty = false;
+			okButtonWhenNameEmpty = false;
 			inputName.push_back(char(key));
 		}
 		key = GetCharPressed();
@@ -138,7 +147,10 @@ void Login::drawListPlayer() {
 			DrawTexture(*playerBox2, posPlayerBoxX[0], posPlayerBoxY, WHITE);
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 				isOk = true;
+				backWhenNameEmpty = false;
+				okButtonWhenNameEmpty = false;
 				curPlayer = listPlayer[2 * currentState.first];
+				curPlayer.setPosInList(2 * currentState.first);
 			//	std::cout << curPlayer.getName() << std::endl;
 			}
 		}
@@ -159,7 +171,10 @@ void Login::drawListPlayer() {
 			DrawTexture(*playerBox2, posPlayerBoxX[0], posPlayerBoxY, WHITE);
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 				isOk = true;
+				backWhenNameEmpty = false;
+				okButtonWhenNameEmpty = false;
 				curPlayer = listPlayer[2 * currentState.first];
+				curPlayer.setPosInList(2 * currentState.first);
 			}
 		}
 		else {
@@ -169,7 +184,10 @@ void Login::drawListPlayer() {
 			DrawTexture(*playerBox2, posPlayerBoxX[1], posPlayerBoxY, WHITE);
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 				isOk = true;
+				backWhenNameEmpty = false;
+				okButtonWhenNameEmpty = false;
 				curPlayer = listPlayer[2 * currentState.first + 1];
+				curPlayer.setPosInList(2 * currentState.first + 1);
 			}
 		}
 		else {
@@ -240,8 +258,18 @@ void Login::draw() {
 	}
 	else DrawTexture(*okButton1, 640 - 38, 580, WHITE);
 
-	if (GuiLabelButton({ 15, 15, 100, 50 }, "BACK") && isOk == false)
-		backButton = true;
+	if (GuiLabelButton({ 15, 15, 100, 50 }, "BACK") && isOk == false) {
+		if (inputName != "") {
+			backButton = true;
+		}
+		else {
+			backWhenNameEmpty = true;
+		}
+	}
+		
+	if (backWhenNameEmpty == true || okButtonWhenNameEmpty == true) {
+		DrawText("Please input/choose name first", inputButtonRec.x - 200, inputButtonRec.y + 130, 30, RED);
+	}
 
 
 	if (isOk) {

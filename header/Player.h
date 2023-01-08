@@ -27,13 +27,16 @@ private:
 
     int curImage;           // Current Frame
 
-    std::vector<std::pair<int, std::string>> listHighScore;     // List players in ranking board
+    int posInList;          // Position in the listPlayer
 
+    int bestScore, bestLevel; // Best Score, Best Level
+    double bestTime;          // Best Time
 public:
     // Constructor
     Player();
     Player(std::string name);
 
+    Player& operator= (const Player& src);
     ~Player();                  // Destructor
 
     // Score method
@@ -43,8 +46,8 @@ public:
     void setScore(int x);       // Setter
 
     // High Score
-    void updateListHighScore();                                     // Update
-    std::vector<std::pair<int, std::string>> getHighScoreList();    // Getter
+    //void updateListHighScore();                                     // Update
+    //std::vector<std::pair<int, std::string>> getHighScoreList();    // Getter
 
     // State
     void storeState();               // Storing
@@ -71,6 +74,23 @@ public:
     void setLevel(float lvl);        // Setter
     int getLevel();                  // Getter
 
+    // posInList
+    void setPosInList(int t);        // Setter
+    int getPosInList();              // Getter
+
+    // bestTime
+    void setBestTime(double t);      // Setter
+    double getBestTime();            // Getter
+
+    // bestScore
+    void setBestScore(int t);        // Setter
+    int getBestScore();              // Getter
+    void updateBestScore();
+
+    // bestLevel
+    void setBestLevel(int t);        // Setter
+    int getBestLevel();              // Getter
+
     void setIsMoving(bool flag);     // isMoving setter
 
     void render(std::vector<std::vector<Texture2D *>> charAnim);    // Drawing player (frames)
@@ -78,10 +98,10 @@ public:
     void eventKeyboard();            // Process keyboard event
 };
 
-extern std::vector<Player> listPlayer;
-extern Player curPlayer;
-
 void loadAllPlayer();
 void saveAllPlayer();
-void loadFileHighScore(std::vector<std::pair<int, std::string>>& listHighScore);
-void saveFileHighScore(std::vector<std::pair<int, std::string>> listHighScore);
+void sortListPlayer();
+
+// decrease score
+extern std::vector<Player> listPlayer;
+extern Player curPlayer;

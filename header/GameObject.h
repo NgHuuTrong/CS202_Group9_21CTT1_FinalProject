@@ -16,6 +16,7 @@ public:
     GameObject(Rectangle rec);
     GameObject(int laneIndex, Rectangle rec);
 
+    GameObject& operator=(const GameObject& src);
     ~GameObject();                          // Destructor
 
     // In lane

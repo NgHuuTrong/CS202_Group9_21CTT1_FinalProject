@@ -85,8 +85,8 @@ public:
 
     // Drawing methods
     void render();                              // Drawing lane (pavement or road)
-    void renderObstacles(bool isWin, bool pauseState);      // Drawing obstacles in lane
-    void renderTrafficLight(bool isWin, bool pauseState);   // Drawing traffic light in lane
+    void renderObstacles(bool isWin, bool pauseState, bool isLose);      // Drawing obstacles in lane
+    void renderTrafficLight(bool isWin, bool pauseState, bool isLose);   // Drawing traffic light in lane
 
     // Friend methods
     friend std::vector<Lane> random(int level);     // random all lane (by level)
@@ -97,6 +97,6 @@ long long Rand(long long l, long long h);           // random number
 
 std::vector<Lane> random(int level);                // random all lane (by level)
 
-void renderAllLane(bool isWin, bool pauseState);    // Drawing all lane (all object in lane)
+void renderAllLane(bool isWin, bool pauseState, bool isLose);    // Drawing all lane (all object in lane)
 
 extern std::vector<Lane> allLane;                   // global variable for all lane

@@ -16,6 +16,13 @@ GameObject::GameObject(int laneIndex, Rectangle rec)
 	this->screenRec = rec;
 }
 
+GameObject& GameObject::operator=(const GameObject& src) {
+	if (this == &src) return *this;
+	this->inLane = src.inLane;
+	this->screenRec = src.screenRec;
+	return *this;
+}
+
 void GameObject::setInLane(int x)
 {
 	this->inLane = x;

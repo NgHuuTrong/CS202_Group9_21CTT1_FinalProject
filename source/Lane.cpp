@@ -251,11 +251,11 @@ void Lane::render()
     DrawTextureRec(*txt, this->_srcRec, this->_screenPos, WHITE);
 }
 
-void Lane::renderObstacles(bool isWin, bool pauseState)
+void Lane::renderObstacles(bool isWin, bool pauseState, bool isLose)
 {
     for (int j = 0; j < this->_numsOfObstacles; j++)
     {
-        if (!isWin && !pauseState)
+        if (!isWin && !pauseState && !isLose)
             this->setScreenRecX(this->_obstacles[j].getScreenRec().x, j);
         float y = allLane[this->_obstacles[j].getInLane()]._screenPos.y + 80 - this->_obstacles[j].getScreenRec().height;
         if (!this->_direction)
@@ -265,21 +265,21 @@ void Lane::renderObstacles(bool isWin, bool pauseState)
     }
 }
 
-void renderAllLane(bool isWin, bool pauseState)
+void renderAllLane(bool isWin, bool pauseState, bool isLose)
 {
     if (!allLane.size())
         return;
     for (int i = 0; i < (int)allLane.size(); i++)
     {
         allLane[i].render();
-        allLane[i].renderObstacles(isWin, pauseState);
-        allLane[i].renderTrafficLight(isWin, pauseState);
+        allLane[i].renderObstacles(isWin, pauseState, isLose);
+        allLane[i].renderTrafficLight(isWin, pauseState, isLose);
     }
 }
 
-void Lane::renderTrafficLight(bool isWin, bool pauseState)
+void Lane::renderTrafficLight(bool isWin, bool pauseState, bool isLose)
 {
-    if (!isWin && !pauseState)
+    if (!isWin && !pauseState && !isLose)
         increaseCountLight();
     if (_istraffic)
     {

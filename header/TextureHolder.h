@@ -36,6 +36,7 @@ namespace Textures
         // State in game menu
         PAUSE_MENU,
         VICTORY_MENU,
+        LOSE_MENU,
 
         // Frames of character
         // FRONT

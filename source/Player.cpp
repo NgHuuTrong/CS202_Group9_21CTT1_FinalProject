@@ -1,13 +1,30 @@
 #include "../header/Player.h"
 #include "../header/Lane.h"
 
-Player::Player() : GameObject(), name(""), level(1), curDirection(0), isMoving(false), time(0.0), preTime(0.0), score(0), curImage(0) {}
+Player::Player() : GameObject(), name(""), level(1), curDirection(0), isMoving(false), time(0.0), preTime(0.0), score(0), curImage(0), posInList(0), bestScore(0), bestLevel(1), bestTime(0) {}
 
 Player::Player(std::string name) : Player()
 {
     this->name = name;
     this->screenRec = { 426, 0, 44, 59 };
-    loadFileHighScore(listHighScore);
+}
+
+Player& Player::operator=(const Player& src) {
+    if (this == &src) return *this;
+    GameObject::operator=(src);
+    this->name = src.name;
+    this->level = src.level;
+    this->curDirection = src.curDirection;
+    this->isMoving = src.isMoving;
+    this->time = src.time;
+    this->preTime = src.preTime;
+    this->score = src.score;
+    this->curImage = src.curImage;
+    this->posInList = src.posInList;
+    this->bestLevel = src.bestLevel;
+    this->bestScore = src.bestScore;
+    this->bestTime = src.bestTime;
+    return *this;
 }
 
 // calculate highscore
@@ -31,42 +48,6 @@ void Player::setScore(int x)
 {
     this->score = x;
 }
-// // return if player can be in the scoreboard top 5
-// bool Player::checkHighScoreBoard()
-// {
-//     std::ifstream fin;
-//     std::string temp_name;
-//     float temp_highscore;
-//     fin.open("./resource/highscore/highscore.txt");
-//     for (int i = 0; i < 5; i++)
-//     {
-//         fin >> temp_highscore;
-//         fin >> temp_name;
-//         std::cout << temp_highscore << " " << temp_name << std::endl;
-//         this->highScoreList.push_back(std::make_pair(temp_highscore, temp_name));
-//     }
-//     fin.close();
-//     return this->highScoreList[4].first < calHighScore();
-// }
-// // store highscore if able
-// void Player::storeHighScore()
-// {
-//     float playerHigh = calHighScore();
-//     if (!checkHighScoreBoard())
-//         return;
-//     highScoreList.push_back(std::make_pair(playerHigh, this->name));
-//     std::cout << playerHigh << " " << this->name;
-//     std::sort(highScoreList.begin(), highScoreList.end());
-//     reverse(highScoreList.begin(), highScoreList.end());
-//     highScoreList.pop_back();
-//     std::ofstream fout("./resource/highscore/highscore.txt");
-//     for (int i = 0; i < 5; i++)
-//     {
-//         fout << highScoreList[i].first << std::endl;
-//         fout << highScoreList[i].second << std::endl;
-//     }
-//     fout.close();
-// }
  /*
      state file: {name}.txt
      name
@@ -75,27 +56,41 @@ void Player::setScore(int x)
  */
 void Player::storeState()
 {
-    std::string filepath = "./resource/login/state/" + name + ".txt";
-    std::ofstream fout(filepath);
+    std::string statepath = "./resource/login/state/" + name + ".txt";
+    std::ofstream fout(statepath);
     fout << this->name << std::endl;
     fout << this->level << std::endl;
     fout << this->preTime << std::endl;
     fout << this->score << std::endl;
     fout.close();
+
+    std::string highscorepath = "./resource/highscore/" + name + ".txt";
+    fout.open(highscorepath);
+    fout << this->bestLevel << std::endl;
+    fout << this->bestTime << std::endl;
+    fout << this->bestScore << std::endl;
+    fout.close();
 }
 
 void Player::loadState()
 {
-    std::string filepath = "./resource/login/state/" + name + ".txt";
+    std::string statepath = "./resource/login/state/" + name + ".txt";
     std::cerr << "./resource/login/state/" << name << ".txt" << std::endl;
-    if (!FileExists(filepath.c_str()))
+    if (!FileExists(statepath.c_str()))
         throw std::runtime_error("Invalid file state of player: " + name);
-    std::ifstream fin(filepath);
+    std::ifstream fin(statepath);
     getline(fin, this->name);
     fin >> this->level;
     fin >> this->time;
     this->preTime = this->time;
     fin >> this->score;
+    fin.close();
+    
+    std::string highscorepath = "./resource/highscore/" + name + ".txt";
+    fin.open(highscorepath);
+    fin >> this->bestLevel;
+    fin >> this->bestTime;
+    fin >> this->bestScore;
     fin.close();
 }
 
@@ -114,54 +109,33 @@ void Player::loadState()
 
 Player::~Player() 
 {
-    saveFileHighScore(listHighScore);
-    listHighScore.clear();
 }
 
-void loadFileHighScore(std::vector<std::pair<int, std::string>>& listHighScore)
-{
-    std::string filepath = "./resource/highscore/highscore.txt";
-    if (!FileExists(filepath.c_str()))
-        throw std::runtime_error("Invalid file highscore");
-    std::ifstream fin(filepath);
-    std::string temp_name;
-    int temp_highscore;
-    for (int i = 0; i < 5; i++)
-    {
-        fin >> temp_highscore;
-        getline(fin, temp_name);
-        getline(fin, temp_name);
-        std::cout << temp_highscore << " " << temp_name << std::endl;
-        listHighScore.push_back(std::make_pair(temp_highscore, temp_name));
-    }
-    fin.close();
-}
+//void saveFileHighScore(std::vector<std::pair<int, std::string>> listHighScore)
+//{
+//    std::string filepath = "./resource/highscore/highscore.txt";
+//    std::ofstream fout(filepath);
+//    for (int i = 0; i < listHighScore.size(); i++)
+//    {
+//        fout << listHighScore[i].first << std::endl;
+//        fout << listHighScore[i].second << std::endl;
+//    }
+//    fout.close();
+//}
 
-void saveFileHighScore(std::vector<std::pair<int, std::string>> listHighScore)
-{
-    std::string filepath = "./resource/highscore/highscore.txt";
-    std::ofstream fout(filepath);
-    for (int i = 0; i < listHighScore.size(); i++)
-    {
-        fout << listHighScore[i].first << std::endl;
-        fout << listHighScore[i].second << std::endl;
-    }
-    fout.close();
-}
-
-std::vector<std::pair<int, std::string>> Player::getHighScoreList()
-{
-    return listHighScore;
-}
-
-void Player::updateListHighScore()
-{
-    listHighScore.push_back(std::make_pair(this->score, this->name));
-
-    std::sort(listHighScore.begin(), listHighScore.end());
-    reverse(listHighScore.begin(), listHighScore.end());
-    listHighScore.pop_back();
-}
+//std::vector<std::pair<int, std::string>> Player::getHighScoreList()
+//{
+//    return listHighScore;
+//}
+//
+//void Player::updateListHighScore()
+//{
+//    listHighScore.push_back(std::make_pair(this->score, this->name));
+//
+//    std::sort(listHighScore.begin(), listHighScore.end());
+//    reverse(listHighScore.begin(), listHighScore.end());
+//    listHighScore.pop_back();
+//}
 
 void Player::render(std::vector<std::vector<Texture2D *>> charAnim)
 {
@@ -247,6 +221,46 @@ int Player::getLevel()
     return this->level;
 }
 
+void Player::setPosInList(int t) {
+    this->posInList = t;
+}
+
+int Player::getPosInList() {
+    return this->posInList;
+}
+
+void Player::setBestTime(double t) {
+    this->bestTime = t;
+}
+
+double Player::getBestTime() {
+    return this->bestTime;
+}
+
+void Player::setBestScore(int t) {
+    this->bestScore = t;
+}
+
+int Player::getBestScore() {
+    return this->bestScore;
+}
+
+void Player::setBestLevel(int t) {
+    this->bestLevel = t;
+}
+
+void Player::updateBestScore() {
+    if (this->score > this->bestScore) {
+        this->bestScore = this->score;
+        this->bestTime = this->time;
+        this->bestLevel = this->level + 1;
+    }
+}
+
+int Player::getBestLevel() {
+    return this->bestLevel;
+}
+
 void Player::eventKeyboard()
 {
     {
@@ -317,14 +331,32 @@ void loadAllPlayer() {
 
 void saveAllPlayer()
 {
-    std::string filepath = "./resource/login/player.txt";
-    std::ofstream foutPlayer(filepath);
+    std::string allPlayerPath = "./resource/login/player.txt";
+    std::ofstream foutPlayers(allPlayerPath);
     for (int i = 0; i < (int)listPlayer.size(); i++)
     {
-        foutPlayer << listPlayer[i].getName() << std::endl;
+        foutPlayers << listPlayer[i].getName() << std::endl;
         listPlayer[i].storeState();
     }
-    foutPlayer.close();
+    foutPlayers.close();
+}
+
+void sortListPlayer() {
+    for (int i = 0; i < listPlayer.size(); i++) {
+        for (int j = i + 1; j < listPlayer.size(); j++) {
+            if (listPlayer[i].getBestScore() < listPlayer[j].getBestScore()) {
+                Player temp = listPlayer[i];
+                listPlayer[i] = listPlayer[j];
+                listPlayer[j] = temp;
+            }
+        }
+    }
+    for (int i = 0; i < listPlayer.size(); i++) {
+        if (curPlayer.getName() == listPlayer[i].getName()) {
+            curPlayer.setPosInList(i);
+            break;
+        }
+    }
 }
 
 std::vector<Player> listPlayer;

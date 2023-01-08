@@ -8,11 +8,18 @@ int main()
 	SetTargetFPS(60);
 	loadAllPlayer();
 	loadAllTextures();
+	sortListPlayer();
 	/*for (int i = 0; i < listPlayer.size(); i++) {
 		std::cout << listPlayer[i].getName() << std::endl
 			<< listPlayer[i].getLevel() << std::endl
 			<< listPlayer[i].getTime() << std::endl
 			<< listPlayer[i].getScore() << std::endl;
+	}*/
+	/*for (int i = 0; i < 5; i++) {
+		std::cout << listHighScore[i].getName() << std::endl;
+		std::cout << listHighScore[i].getLevel() << std::endl;
+		std::cout << listHighScore[i].getTime() << std::endl;
+		std::cout << listHighScore[i].getScore() << std::endl;
 	}*/
 	Program program;
 
@@ -22,6 +29,7 @@ int main()
 		if (program.isExit)
 			break;
 	}
+	sortListPlayer();
 	saveAllPlayer();
 	CloseWindow();
 	return 0;
@@ -50,6 +58,7 @@ void loadAllTextures()
 	TextureHolder::getHolder().load(Textures::RANK_IMG, "graphics/background/rankingImage.png");
 	TextureHolder::getHolder().load(Textures::PAUSE_MENU, "graphics/background/pauseMenu.png");
 	TextureHolder::getHolder().load(Textures::VICTORY_MENU, "graphics/background/victoryMenu.png");
+	TextureHolder::getHolder().load(Textures::LOSE_MENU, "graphics/background/loseMenu.png");
 	TextureHolder::getHolder().load(Textures::LOGIN_BG, "graphics/background/loginBackground.png");
 	TextureHolder::getHolder().load(Textures::PLAYER_BOX_1, "graphics/background/playerBox.png");
 	TextureHolder::getHolder().load(Textures::PLAYER_BOX_2, "graphics/background/playerBox2.png");

@@ -12,25 +12,25 @@ Obstacle::Obstacle(int laneIndex, Ob_type type) : GameObject(laneIndex)
         numsFrame = 9;
         txt = std::vector<Texture2D *>(numsFrame);
         for (int i = 0; i < numsFrame; i++)
-            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 36));
+            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 37));
         break;
     case PCAR:
         numsFrame = 9;
         txt = std::vector<Texture2D *>(numsFrame);
         for (int i = 0; i < numsFrame; i++)
-            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 58));
+            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 59));
         break;
     case BUS:
         numsFrame = 13;
         txt = std::vector<Texture2D *>(numsFrame);
         for (int i = 0; i < numsFrame; i++)
-            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 45));
+            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 46));
         break;
     case POLICE:
         numsFrame = 9;
         txt = std::vector<Texture2D *>(numsFrame);
         for (int i = 0; i < numsFrame; i++)
-            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 67));
+            txt[i] = &TextureHolder::getHolder().get((Textures::ID)(i + 68));
         break;
     default:
         break;

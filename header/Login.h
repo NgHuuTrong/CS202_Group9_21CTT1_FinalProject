@@ -33,6 +33,8 @@ private:
 	bool isOk;
 	bool backButton;
 	std::string inputName;
+	bool backWhenNameEmpty;
+	bool okButtonWhenNameEmpty;
 
 	// Store state
 	int numsState;

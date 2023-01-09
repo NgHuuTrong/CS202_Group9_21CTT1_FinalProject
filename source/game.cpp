@@ -133,11 +133,6 @@ void Game::draw()
 
 	drawButtons();						// Drawing buttons
 
-	if (GuiLabelButton({ 1150, 550, 100, 50 }, "NEXT"))
-		nextButton = true;
-	if (GuiLabelButton({ 1050, 550, 100, 50 }, "BACK"))
-		backButton = true;
-
 	if (pauseState == true)   drawPauseMenu();  // Drawing paused state
 	
 	if (isWin == true)	drawVictoryMenu();		// Drawing passed menu
@@ -156,7 +151,7 @@ void Game::drawRightMenu() {
 void Game::drawButtons() {
 	Vector2 getMouse = GetMousePosition();
 	int restartX = 1000, restartY = 600, pauseX = 1100, pauseY = 600, musicX = 1200, musicY = 600;
-	if (getMouse.x >= restartX && getMouse.x <= restartX + restart_button->width && getMouse.y >= restartY && getMouse.y <= restartY + restart_button->height)
+	/*if (getMouse.x >= restartX && getMouse.x <= restartX + restart_button->width && getMouse.y >= restartY && getMouse.y <= restartY + restart_button->height)
 	{
 		DrawTexture(*restart_button, restartX, restartY, RED);
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -166,7 +161,7 @@ void Game::drawButtons() {
 	else
 	{
 		DrawTexture(*restart_button, restartX, restartY, BROWN);
-	}
+	}*/
 
 	if (getMouse.x >= pauseX && getMouse.x <= pauseX + pause_button->width && getMouse.y >= pauseY && getMouse.y <= pauseY + pause_button->height)
 	{
@@ -181,12 +176,12 @@ void Game::drawButtons() {
 		DrawTexture(*pause_button, pauseX, pauseY, BROWN);
 	}
 
-	if (getMouse.x >= musicX && getMouse.x <= musicX + music_button->width && getMouse.y >= musicY && getMouse.y <= musicY + music_button->height)
+	/*if (getMouse.x >= musicX && getMouse.x <= musicX + music_button->width && getMouse.y >= musicY && getMouse.y <= musicY + music_button->height)
 	{
 		DrawTexture(*music_button, musicX, musicY, RED);
 	}
 	else
-		DrawTexture(*music_button, musicX, musicY, BROWN);
+		DrawTexture(*music_button, musicX, musicY, BROWN);*/
 }
 
 void Game::drawPauseMenu() {
